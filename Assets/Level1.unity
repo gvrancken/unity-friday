@@ -274,7 +274,7 @@ Transform:
   m_PrefabParentObject: {fileID: 400000, guid: d7f0de0515db4471ca3c7493d5e46b92, type: 2}
   m_PrefabInternal: {fileID: 1399788140}
   m_GameObject: {fileID: 619440164}
-  m_LocalRotation: {x: .148892328, y: .195271894, z: -.0300072171, w: .968916655}
+  m_LocalRotation: {x: .148892343, y: .195271909, z: -.0300072189, w: .968916714}
   m_LocalPosition: {x: -.497133732, y: 3.47230816, z: 1.16565347}
   m_LocalScale: {x: 4, y: 1, z: 1}
   m_Children: []
@@ -563,6 +563,7 @@ GameObject:
   - 33: {fileID: 1735019023}
   - 136: {fileID: 1735019022}
   - 23: {fileID: 1735019021}
+  - 54: {fileID: 1735019025}
   m_Layer: 0
   m_Name: Capsule
   m_TagString: Untagged
@@ -617,8 +618,23 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1735019020}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: 0, y: 0, z: .707106829, w: .707106829}
+  m_LocalPosition: {x: 6.43579912, y: -29.2904892, z: 5.41640759}
   m_LocalScale: {x: 50, y: 50, z: 50}
   m_Children: []
   m_Father: {fileID: 0}
+--- !u!54 &1735019025
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1735019020}
+  serializedVersion: 2
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 110
+  m_CollisionDetection: 0
