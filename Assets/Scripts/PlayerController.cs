@@ -5,11 +5,11 @@ public class PlayerController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Debug.Log("haai merijn!");
+		Debug.Log("haai merijn!!!");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-	
+		// comments zijn belangrijk!
 	}
 }
