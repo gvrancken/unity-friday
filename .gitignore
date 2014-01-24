@@ -1,6 +1,18 @@
-/Temp
-/obj
-/library
+Library/
+Temp/
+*.pidb
 *.csproj
 *.unityproj
 *.sln
+*.userprefs
+[Bb]uilds/
+ 
+#######
+# Git
+######
+*.orig
+*.orig.meta
+*.BASE.*
+*.LOCAL.*
+*.REMOTE.*
+*.MERGED.*
