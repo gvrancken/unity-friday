@@ -436,6 +436,7 @@ GameObject:
   - 23: {fileID: 1446577770}
   - 114: {fileID: 1446577774}
   - 114: {fileID: 1446577775}
+  - 114: {fileID: 1446577776}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -521,6 +522,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHitPoints: 100
+--- !u!114 &1446577776
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1446577769}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a2208437425cee40a13d3f0e759ac8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  shieldPiece: {fileID: 400000, guid: d17310fe57792984884074d42788b508, type: 2}
+  max: 60
+  tetha: 20
+  alpha: 4
 --- !u!1 &1693696283
 GameObject:
   m_ObjectHideFlags: 0
