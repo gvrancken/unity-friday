@@ -2,18 +2,17 @@
 using System.Collections;
 
 public class Shield : MonoBehaviour {
-	public int MaxHitPoints;
-	private int hitPoints;
+	public int damagePoints;
 	// Use this for initialization
 	void Start () {
 	
 	}
 	
-	void OnCollisionEnter (Collision col) {
-		if (col.gameObject.tag == "Enemy")
-		{
-			transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-		//	col.gameObject.GetComponent<destructibleObject>.damage(10);
+	void OnCollisionEnter (Collision col) {	
+		Debug.Log ("hit!");
+		if (col.gameObject.tag != "Enemy") {
+			DamageController dc = col.gameObject.GetComponent<DamageController>();
+			dc.takeDamage(damagePoints);
 		}
 	}
 

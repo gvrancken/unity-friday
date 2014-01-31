@@ -11,6 +11,7 @@ GameObject:
   - 114: {fileID: 11400002}
   - 54: {fileID: 5400000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: ShieldPiece
   m_TagString: Untagged
@@ -125,6 +126,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bde86cf7747ab1b4a93c6fdb412fa7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damagePoints: 10
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -136,6 +138,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bde86cf7747ab1b4a93c6fdb412fa7ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damagePoints: 0
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe46b9d2cf5844f129997aac45fe9003, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  MaxHitPoints: 100
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
