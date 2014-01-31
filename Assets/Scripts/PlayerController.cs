@@ -3,16 +3,18 @@ using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
+	public float moveSpeed = 0.5f;
+
 	// Use this for initialization
 	void Start () {
-		Debug.Log("haai merijn!!!");
-		Debug.Log("haai merijn!");
 
-		Debug.Log("hoi gilberteke!");
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		// comments zijn belangrijk!
+		float moveHorizontal = Input.GetAxis("Horizontal") * moveSpeed;
+		float moveVertical = Input.GetAxis("Vertical") * moveSpeed;
+		transform.Translate(new Vector3(moveHorizontal, 0, moveVertical));
+		
 	}
 }
