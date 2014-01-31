@@ -36,7 +36,8 @@ public class SpawnerScript : MonoBehaviour {
 		Vector2 pointOnCircle = PointOnCircle(spawnCore.transform.localScale.x / 2, randomAngle, new Vector2(spawnCore.transform.position.x, spawnCore.transform.position.z));
 		Vector3 pointInSpace = new Vector3(pointOnCircle.x, 0, pointOnCircle.y);
 
-		Instantiate(prefab, pointInSpace, Quaternion.identity);
+		GameObject instance = Instantiate(prefab, pointInSpace, Quaternion.identity) as GameObject;
+		instance.rigidbody.AddTorque(new Vector3(randomAngle,randomAngle,randomAngle));
 	}
 	
 }
