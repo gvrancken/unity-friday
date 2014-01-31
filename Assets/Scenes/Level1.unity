@@ -534,8 +534,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shieldPiece: {fileID: 400000, guid: d17310fe57792984884074d42788b508, type: 2}
-  max: 60
-  tetha: 20
+  max: 45
+  tetha: 30
   alpha: 4
 --- !u!1 &1693696283
 GameObject:

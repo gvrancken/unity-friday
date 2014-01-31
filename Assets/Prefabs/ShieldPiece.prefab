@@ -44,7 +44,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.89544749, y: 3.85479164, z: 2.65922499}
+  m_LocalPosition: {x: 8.68681335, y: 17.6479454, z: -5.35041046}
   m_LocalScale: {x: 1.39999998, y: 1, z: 1.29999995}
   m_Children:
   - {fileID: 400006}
@@ -127,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagePoints: 10
+  explosion: {fileID: 0}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -139,6 +140,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagePoints: 0
+  explosion: {fileID: 19800000, guid: b6da3c75bba7aae44859fb3886f94c0f, type: 2}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
