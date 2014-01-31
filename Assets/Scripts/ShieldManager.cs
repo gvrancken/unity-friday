@@ -4,9 +4,9 @@ using System.Collections;
 public class ShieldManager : MonoBehaviour {
 
 	public Transform shieldPiece;
-	public int max;
-	public float tetha;
-	public float alpha;
+	public int max = 30;
+	public float tetha = 20;
+	public float alpha = 5;
 
 
 	// Use this for initialization
