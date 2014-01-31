@@ -13,7 +13,7 @@ public class Shield : MonoBehaviour {
 		if (col.gameObject.tag == "Enemy")
 		{
 			transform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-			col.gameObject.GetComponent<destructibleObject>.damage(10);
+		//	col.gameObject.GetComponent<destructibleObject>.damage(10);
 		}
 	}
 

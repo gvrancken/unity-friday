@@ -12,8 +12,8 @@ GameObject:
   - 65: {fileID: 6500000}
   - 23: {fileID: 2300000}
   - 54: {fileID: 5400000}
-  - 114: {fileID: 11400000}
   - 114: {fileID: 11400002}
+  - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: Enemy1
   m_TagString: Enemy
@@ -89,15 +89,16 @@ BoxCollider:
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &11400000
 MonoBehaviour:
-  m_ObjectHideFlags: 0
+  m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9b0e32b50c0e4f20b18ede57b2366d4, type: 3}
+  m_Script: {fileID: 11500000, guid: fe46b9d2cf5844f129997aac45fe9003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  MaxHitPoints: 1
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -109,6 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021d05534d7c143d6ad7c749955565f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  damagePoints: 10
   moveSpeed: 5
 --- !u!1001 &100100000
 Prefab:

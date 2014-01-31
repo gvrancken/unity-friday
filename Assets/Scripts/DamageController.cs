@@ -12,8 +12,13 @@ public class DamageController : MonoBehaviour {
 
 	public void takeDamage(float damagePoints) {
 		_hitpoints -= damagePoints;
-		
-		Debug.Log ("Ouch! Luckily, I have " + _hitpoints + " left!");
+
+		Debug.Log ("I have " + _hitpoints + " left!");
+
+		if (_hitpoints <= 0) {
+			Destroy (gameObject);
+		}
+
 
 	}
 }
