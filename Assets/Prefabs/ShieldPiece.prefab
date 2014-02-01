@@ -127,7 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagePoints: 10
-  explosion: {fileID: 0}
+  explosion: {fileID: 19800000, guid: b6da3c75bba7aae44859fb3886f94c0f, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaxHitPoints: 30
+  dieTime: .00999999978
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

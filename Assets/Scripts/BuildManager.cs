@@ -27,7 +27,7 @@ public class BuildManager : MonoBehaviour {
 			// TODO: show what is going to be build at cursor position
 			if (Input.GetButtonUp("Fire1")) {
 				if (hit.transform.gameObject.tag == "Buildable") {
-					Instantiate (tower, new Vector3(hit.point.x, 0, hit.point.z), Quaternion.identity);
+					Instantiate (tower, new Vector3(hit.point.x, 0, hit.point.z), Quaternion.Euler(0, Random.Range (0,360), 0));
 				}
 			}
 		}

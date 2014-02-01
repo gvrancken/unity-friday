@@ -6,7 +6,7 @@ public class Shield : MonoBehaviour {
 	public ParticleSystem explosion;
 	// Use this for initialization
 	void Start () {
-		explosion.Play();
+
 
 	}
 	
