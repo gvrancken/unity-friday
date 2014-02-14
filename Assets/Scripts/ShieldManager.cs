@@ -12,6 +12,7 @@ public class ShieldManager : MonoBehaviour {
 	private GameObject[] shieldArray; 
 	private int totalShields = 0;
 	private int firstBrokenPos = 0;
+	private float pulseState = 0;
 
 
 	// Use this for initialization
@@ -41,7 +42,7 @@ public class ShieldManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		//Check if the shield 
+		//Check if the shield is continues and de-energize all seperate parts
 		for (int i = 0; i <=shieldArray.Length-1; i++) {
 			if ((shieldArray[i]==null) && (firstBrokenPos > i)) {
 				firstBrokenPos = i;
@@ -49,5 +50,19 @@ public class ShieldManager : MonoBehaviour {
 				shieldArray[i].GetComponent<Shield>().setEnergized(false);
 			}
 		}
+
+		//Pulse the central crystal
+		pulseState = Mathf.Sin (Time.time*5);
+		gameObject.renderer.material.SetFloat("_RimPower", 1f+pulseState/5);
+
+		//Pulse shield pieces with delay
+		for (int i = 0; i <=shieldArray.Length-1; i++) {
+			if (shieldArray[i]!=null){
+				pulseState = Mathf.Sin(((i*10) + Time.time) * 5);
+				foreach (Transform child in shieldArray[i].transform) {
+					child.gameObject.renderer.material.SetFloat ("_RimPower", 1f + pulseState / 2);
+				}
+			}
+			}
 	}
 }

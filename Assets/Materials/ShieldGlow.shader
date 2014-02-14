@@ -4,7 +4,7 @@
 		_MainTex ("Base (RGB)", 2D) = "white" {}
 		_BumpMap("Normal Map", 2D) = "bump" {}
 		_RimColor("Rim Color", Color) = (1, 1, 1, 1)
-		_RimPower("Rim Power", Range (1.00,6.00)) = 3.00
+		_RimPower("Rim Power", Range (0.00,6.00)) = 3.00
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }

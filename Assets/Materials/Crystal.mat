@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Shield
+  m_Name: Crystal
   m_Shader: {fileID: 4800000, guid: 2936bedf76d9b2d4fa414e614d0f1847, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
@@ -27,11 +27,18 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _DecalTex
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
           name: _RimPower
-        second: 1
+        second: .892857134
     m_Colors:
       data:
         first:
@@ -44,4 +51,4 @@ Material:
       data:
         first:
           name: _RimColor
-        second: {r: .339965373, g: .344263762, b: .963235319, a: 1}
+        second: {r: .676470578, g: .678701818, b: 1, a: 1}
