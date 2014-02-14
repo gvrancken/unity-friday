@@ -7,24 +7,25 @@ public class ShieldManager : MonoBehaviour {
 	public int max = 45;
 	public float tetha = 30;
 	public float alpha = 4;
-	private GameObject[] shieldArray; 
 
+	private GameObject[] shieldArray; 
+	private int totalShields = 0;
+	private int firstBrokenPos = 0;
 
 
 	// Use this for initialization
 	void Start () {
 		//float tetha = 6+ (max * 6);
-//		Debug.Log (6+ (max * 6));
-		for (int i = 0; i <= max; i++) {
-
+		shieldArray = new GameObject[max];
+		for (int i = 0; i <= max-1; i++) {
 			GameObject newShield = createShield(i);
-//			Debug.Log(newShield);
-
+			shieldArray[i] = newShield;
+			newShield.GetComponent<Shield>().setEnergized(true);
+			firstBrokenPos = i+1;
 		}
 	}
 
 	public GameObject createShield(int i) {
-//		Debug.Log("ik ben hier");
 		i += 6;
 		float t = (tetha/max)*i;
 		float a = (alpha/max)*i;
@@ -42,6 +43,13 @@ public class ShieldManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-	
+		Debug.Log (firstBrokenPos);
+		for (int i = 0; i <=shieldArray.Length-1; i++) {
+			if ((shieldArray[i]==null) && (firstBrokenPos > i)) {
+				firstBrokenPos = i;
+			} else if ((shieldArray[i]!=null) && (firstBrokenPos < i)) {
+				shieldArray[i].GetComponent<Shield>().setEnergized(false);
+			}
+		}
 	}
 }
