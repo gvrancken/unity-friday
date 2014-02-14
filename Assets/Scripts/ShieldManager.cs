@@ -13,6 +13,9 @@ public class ShieldManager : MonoBehaviour {
 	private int totalShields = 0;
 	private int firstBrokenPos = 0;
 	private float pulseState = 0;
+	private Color defaultColor = new Color(0.8f, 0.8f, 1, 1);
+	private Color damageColor = new Color(1, 0, 0, 1);
+	private float damageEffect = 0;
 
 
 	// Use this for initialization
@@ -54,7 +57,19 @@ public class ShieldManager : MonoBehaviour {
 
 		//Pulse the central crystal
 		pulseState = Mathf.Sin (Time.time*5);
-		gameObject.renderer.material.SetFloat("_RimPower", 1f+pulseState/5);
+		pulseState = 1f + pulseState / 5;
+		gameObject.renderer.material.SetFloat("_RimPower", pulseState);
+
+		if (damageEffect > 0) {
+			damageEffect -= 0.1f * Time.deltaTime;
+			Debug.Log("damage effect = " + damageEffect);
+			Color currentColor = ((1-damageEffect)*defaultColor)+(damageEffect*damageColor);
+			gameObject.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
+			gameObject.renderer.material.SetColor("_RimColor", currentColor);
+
+			
+		}
+
 
 		//Pulse shield pieces with delay
 		for (int i = 0; i <firstBrokenPos; i++) {
