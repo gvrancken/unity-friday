@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class TurretController : MonoBehaviour {
 
 	public float turnSpeed = 3.0f;
@@ -53,13 +54,29 @@ public class TurretController : MonoBehaviour {
 			}
 		} else {
 			_targetsInRange.Remove(null);
-			Debug.Log (_targetsInRange.Count);
-			if (_targetsInRange.Count == 0) {
-				Debug.Log("nothing to do...");
-			} else {
+
+			if (_targetsInRange.Count > 0) {
 				_target = _targetsInRange[0];
 			}
 		}
+
+
+		LineRenderer lineRenderer = transform.GetComponent<LineRenderer>();
+		lineRenderer.useWorldSpace = false;
+		lineRenderer.SetVertexCount(2);
+		//RaycastHit hit = new RaycastHit();
+		float hit = 1000;
+		Physics.Raycast(transform.position, transform.forward, hit);
+//		if(hit.collider){
+//			lineRenderer.SetPosition(1,Vector3(0,0,hit.distance));
+//		}
+//		else{
+//			lineRenderer.SetPosition(1,Vector3(0,0,5000));
+//		}
+
+		
+
+
 	}
 
 	void ShootBullet() {
