@@ -21,7 +21,7 @@ public class ShieldManager : MonoBehaviour {
 		for (int i = 0; i <= startCount-1; i++) {
 			GameObject newShield = createShield(i);
 			shieldArray[i] = newShield;
-			//newShield.GetComponent<Shield>().setEnergized(true);
+			newShield.GetComponent<Shield>().setEnergized(true);
 			firstBrokenPos = i+1;
 		}
 	}
@@ -34,13 +34,14 @@ public class ShieldManager : MonoBehaviour {
 		Transform instance = (Transform)Instantiate(shieldPiece, newPosition, transform.rotation);
 		instance.LookAt(transform);
 		float scaleFactor = (float)0.2*i;
-		instance.localScale += new Vector3(scaleFactor, 0, 0);
+		instance.localScale += new Vector3(scaleFactor, 0, 2f);
 		instance.parent = transform;
 		return instance.gameObject;
 	}
 
 	// Update is called once per frame
 	void Update () {
+		//Check if the shield 
 		for (int i = 0; i <=shieldArray.Length-1; i++) {
 			if ((shieldArray[i]==null) && (firstBrokenPos > i)) {
 				firstBrokenPos = i;

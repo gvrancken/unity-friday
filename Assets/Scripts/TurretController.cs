@@ -15,7 +15,7 @@ public class TurretController : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other) {
 		if (other.gameObject.tag == "Enemy") {
-			Debug.Log(other.gameObject + " enters");
+			//Debug.Log(other.gameObject + " enters");
 
 			_targetsInRange.Add(other.gameObject);
 
@@ -23,19 +23,19 @@ public class TurretController : MonoBehaviour {
 				_target = other.gameObject;
 			}
 
-			Debug.Log (_targetsInRange.Count);
+			//Debug.Log (_targetsInRange.Count);
 		}
 	}
 
 	void OnTriggerExit (Collider other) {
 		if (other.gameObject.tag == "Enemy") {
-			Debug.Log(other);
+			//Debug.Log(other);
 
 			_targetsInRange.Remove(other.gameObject);
 			if (other.gameObject == _target) {
 				_target = null;
 			}
-			Debug.Log (_targetsInRange.Count);
+			//Debug.Log (_targetsInRange.Count);
 		}
 	}
 
@@ -53,9 +53,9 @@ public class TurretController : MonoBehaviour {
 			}
 		} else {
 			_targetsInRange.Remove(null);
-			Debug.Log (_targetsInRange.Count);
+			//Debug.Log (_targetsInRange.Count);
 			if (_targetsInRange.Count == 0) {
-				Debug.Log("nothing to do...");
+				//Debug.Log("nothing to do...");
 			} else {
 				_target = _targetsInRange[0];
 			}
