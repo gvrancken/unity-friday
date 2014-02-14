@@ -60,7 +60,7 @@ public class ShieldManager : MonoBehaviour {
 			if (shieldArray[i]!=null){
 				pulseState = Mathf.Sin(((i*10) + Time.time) * 5);
 				foreach (Transform child in shieldArray[i].transform) {
-					child.gameObject.renderer.material.SetFloat ("_RimPower", 1f + pulseState / 2);
+					child.gameObject.renderer.material.SetFloat ("_RimPower", 0.6f + pulseState / 2);
 				}
 			}
 			}
