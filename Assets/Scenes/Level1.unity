@@ -771,39 +771,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 3
-<<<<<<< HEAD
   shootSpeed: 30
   bullet: {fileID: 100000, guid: cc9858c65466b446d86c8d5270ef43b4, type: 2}
 --- !u!135 &1425427473
 SphereCollider:
-=======
-  shootSpeed: 1
-  bullet: {fileID: 0}
---- !u!23 &1434560332
-Renderer:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 2300002, guid: d4fcf2edc27704f8d812b9fa440b64ad,
-    type: 2}
-  m_PrefabInternal: {fileID: 2026028345}
-  m_GameObject: {fileID: 1434560329}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_LightmapIndex: 255
-  m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
-  m_Materials:
-  - {fileID: 2100000, guid: 15a6c1c34f3624fa7ad9fcd6511fb757, type: 2}
-  m_SubsetIndices: 
-  m_StaticBatchRoot: {fileID: 0}
-  m_UseLightProbes: 0
-  m_LightProbeAnchor: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_SortingLayerID: 0
---- !u!136 &1434560333
-CapsuleCollider:
->>>>>>> 1da94652d5134e10aff543c543ffff590f02f651
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 13500000, guid: db0e92055de67403c9673afc18dc29aa,
     type: 2}
