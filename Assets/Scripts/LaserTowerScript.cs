@@ -69,6 +69,7 @@ public class LaserTowerScript : MonoBehaviour {
 	}
 
 	void InitLaser() {
+
 		_loadTime = 0;
 		lineRenderer.SetPosition(0, Vector3.zero);
 		lineRenderer.SetPosition(1, Vector3.zero);
@@ -77,8 +78,8 @@ public class LaserTowerScript : MonoBehaviour {
 	void FireLaser() {
 		_loadTime += Time.deltaTime;
 
-		Transform pivot = transform.FindChild("Pivot");
-		pivot.position = new Vector3(0,0,0);
+		Transform pivot = transform.FindChild("LaserGun");
+		//pivot.gameObject.renderer.material.color.a = 0;
 
 		if (_loadTime >= shootSpeed) {
 			Transform laserEmitter = transform.FindChild("LaserEmitter");
@@ -87,7 +88,7 @@ public class LaserTowerScript : MonoBehaviour {
 			lineRenderer.SetPosition(1, _target.transform.position);
 			DamageController dc = _target.GetComponent<DamageController>();
 			dc.takeDamage(damagePoints * Time.deltaTime);
-
+			_loadTime = shootSpeed;
 		}
 
 	}

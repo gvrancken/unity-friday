@@ -4,7 +4,7 @@ using System.Collections;
 public class ShieldManager : MonoBehaviour {
 
 	public Transform shieldPiece;
-	public int startCount = 25;
+	public int startCount = 25; 
 	public int max = 45;
 	public float tetha = 30;
 	public float alpha = 4;

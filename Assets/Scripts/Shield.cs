@@ -4,7 +4,7 @@ using System.Collections;
 public class Shield : MonoBehaviour {
 	public int damagePoints = 10;
 	public ParticleSystem explosion;
-	public Color colorEnergized = new Color (0.3f, 0.3f, 1f, 1f);	
+	public Color colorEnergized = new Color (0.3f, 0.3f, 1f, 1f);	 
 	public Color colorEmpty = new Color (0.4f, 0.4f, 0.4f, 0.8f);	
 	public Color colorDamage = new Color (1.0f, 0, 0, 1);
 
