@@ -15,7 +15,7 @@ GameObject:
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: Enemy1
+  m_Name: Enemy2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -28,8 +28,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.08826065, y: -4.32958984, z: -5.52393246}
-  m_LocalScale: {x: .699999988, y: .699999988, z: .699999988}
+  m_LocalPosition: {x: 7.28053379, y: -3.67958999, z: -5.60531998}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!23 &2300000
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe46b9d2cf5844f129997aac45fe9003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHitPoints: 1
+  MaxHitPoints: 10
   dieTime: .00999999978
 --- !u!114 &11400002
 MonoBehaviour:
@@ -111,8 +111,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 021d05534d7c143d6ad7c749955565f4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  damagePoints: 10
-  moveSpeed: 5
+  damagePoints: 30
+  moveSpeed: 1
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

@@ -88,7 +88,7 @@ MonoBehaviour:
   isFired: 0
   bulletSpeed: 30
   direction: {x: 0, y: 0, z: 0}
-  damagePoints: 100
+  damagePoints: 5
 --- !u!135 &13500000
 SphereCollider:
   m_ObjectHideFlags: 1
