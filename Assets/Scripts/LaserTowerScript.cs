@@ -69,7 +69,8 @@ public class LaserTowerScript : MonoBehaviour {
 	}
 
 	void InitLaser() {
-
+		Transform pivot = transform.FindChild("LaserGun");
+		pivot.localPosition = Vector3.Lerp (pivot.localPosition, new Vector3(0, _loadTime/shootSpeed/2, 0), 1f * Time.deltaTime);
 		_loadTime = 0;
 		lineRenderer.SetPosition(0, Vector3.zero);
 		lineRenderer.SetPosition(1, Vector3.zero);
@@ -79,11 +80,11 @@ public class LaserTowerScript : MonoBehaviour {
 		_loadTime += Time.deltaTime;
 
 		Transform pivot = transform.FindChild("LaserGun");
-		//pivot.gameObject.renderer.material.color.a = 0;
-
+		pivot.localPosition = new Vector3(0, _loadTime/shootSpeed/2, 0);
+	
 		if (_loadTime >= shootSpeed) {
 			Transform laserEmitter = transform.FindChild("LaserEmitter");
-
+			
 			lineRenderer.SetPosition(0, laserEmitter.position);
 			lineRenderer.SetPosition(1, _target.transform.position);
 			DamageController dc = _target.GetComponent<DamageController>();
