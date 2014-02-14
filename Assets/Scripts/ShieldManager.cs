@@ -22,7 +22,7 @@ public class ShieldManager : MonoBehaviour {
 		for (int i = 0; i <= startCount-1; i++) {
 			GameObject newShield = createShield(i);
 			shieldArray[i] = newShield;
-			newShield.GetComponent<Shield>().setEnergized(true);
+			newShield.GetComponent<Shield>().setEnergized(false);
 			firstBrokenPos = i+1;
 		}
 	}
@@ -34,6 +34,7 @@ public class ShieldManager : MonoBehaviour {
 		Vector3 newPosition = new Vector3(transform.position.x + a*Mathf.Cos(t), 0, transform.position.y + a*Mathf.Sin(t));
 		Transform instance = (Transform)Instantiate(shieldPiece, newPosition, transform.rotation);
 		instance.LookAt(transform);
+		instance.transform.Rotate (new Vector3 (0, 2.5f, 0));
 		float scaleFactor = (float)0.2*i;
 		instance.localScale += new Vector3(scaleFactor, 0, 2f);
 		instance.parent = transform;
@@ -56,13 +57,12 @@ public class ShieldManager : MonoBehaviour {
 		gameObject.renderer.material.SetFloat("_RimPower", 1f+pulseState/5);
 
 		//Pulse shield pieces with delay
-		for (int i = 0; i <=shieldArray.Length-1; i++) {
+		for (int i = 0; i <firstBrokenPos; i++) {
 			if (shieldArray[i]!=null){
 				pulseState = Mathf.Sin(((i*10) + Time.time) * 5);
-				foreach (Transform child in shieldArray[i].transform) {
-					child.gameObject.renderer.material.SetFloat ("_RimPower", 0.6f + pulseState / 2);
-				}
+				shieldArray[i].GetComponent<Shield>().setPulse(pulseState);
+				shieldArray[i].GetComponent<Shield>().setEnergized(true);
 			}
-			}
+		}
 	}
 }
