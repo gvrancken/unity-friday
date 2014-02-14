@@ -5,12 +5,13 @@ using System.Collections.Generic;
 public class TurretController : MonoBehaviour {
 
 	public float turnSpeed = 3.0f;
-	public float shootSpeed = 30.0f;
+	public float shootSpeed = 1.0f;
 	public GameObject bullet;
 
 	private List<GameObject> _targetsInRange = new List<GameObject>();
 	private GameObject _target;
 	private bool _isShooting = false;
+	private float _reloadTime = 0;
 
 	void OnTriggerEnter (Collider other) {
 		if (other.gameObject.tag == "Enemy") {
@@ -48,12 +49,15 @@ public class TurretController : MonoBehaviour {
 			float angle = Vector3.Angle (transform.forward, targetDir);
 			if (!_isShooting && angle < 5f) {
 				_isShooting = true;
-				InvokeRepeating("ShootBullet", 0, 1);
+				InvokeRepeating("ShootBullet", 0, shootSpeed);
 			}
 		} else {
+			_targetsInRange.Remove(null);
 			Debug.Log (_targetsInRange.Count);
 			if (_targetsInRange.Count == 0) {
 				Debug.Log("nothing to do...");
+			} else {
+				_target = _targetsInRange[0];
 			}
 		}
 	}
