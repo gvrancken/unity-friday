@@ -34,6 +34,7 @@ public class Shield : MonoBehaviour {
 		if (energized) {
 			foreach (Transform child in transform) {
 				child.gameObject.renderer.material.SetFloat("_RimPower", 1);
+				child.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
 			}
 		} else {
 			foreach (Transform child in transform) {
@@ -44,6 +45,8 @@ public class Shield : MonoBehaviour {
 		}
 	}
 	void Update(){
+
+
 		if (damageEffect > 0) {
 			damageEffect -= 0.1f;
 			Debug.Log("damage effect = " + damageEffect);
