@@ -18,6 +18,7 @@ public class LaserTowerScript : MonoBehaviour {
 	void Start() {
 		lineRenderer = transform.GetComponent<LineRenderer>();
 		lineRenderer.SetVertexCount(2);
+		lineRenderer.useWorldSpace = true;
 		InitLaser();
 	}
 	
@@ -76,9 +77,12 @@ public class LaserTowerScript : MonoBehaviour {
 	void FireLaser() {
 		_loadTime += Time.deltaTime;
 
+		Transform pivot = transform.FindChild("Pivot");
+		pivot.position = new Vector3(0,0,0);
+
 		if (_loadTime >= shootSpeed) {
 			Transform laserEmitter = transform.FindChild("LaserEmitter");
-			lineRenderer.useWorldSpace = true;
+
 			lineRenderer.SetPosition(0, laserEmitter.position);
 			lineRenderer.SetPosition(1, _target.transform.position);
 			DamageController dc = _target.GetComponent<DamageController>();
