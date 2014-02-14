@@ -10,6 +10,7 @@ public class Shield : MonoBehaviour {
 
 	private bool energized = false;
 	private float damageEffect = 0;
+	private float pulseState = 0;
 
 	// Use this for initialization
 	void Start () {
@@ -33,25 +34,32 @@ public class Shield : MonoBehaviour {
 		energized = state;
 		if (energized) {
 			foreach (Transform child in transform) {
-				child.gameObject.renderer.material.SetFloat("_RimPower", 1);
+				child.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
 				child.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
 			}
 		} else {
 			foreach (Transform child in transform) {
-				child.gameObject.renderer.material.SetFloat("_RimPower", 1);
 				child.gameObject.renderer.material.SetColor("_ColorTint", colorEmpty);
 				child.gameObject.renderer.material.SetColor("_RimColor", colorEmpty);
 			}
 		}
 	}
-	void Update(){
 
+	public void setPulse(float p){
+		pulseState = 0.6f + p / 2;
+	}
+
+	void Update(){
+		foreach (Transform child in transform) {
+			child.gameObject.renderer.material.SetFloat ("_RimPower", pulseState);
+		}
 
 		if (damageEffect > 0) {
 			damageEffect -= 0.1f;
 			Debug.Log("damage effect = " + damageEffect);
 			Color currentColor = ((1-damageEffect)*colorEnergized)+(damageEffect*colorDamage);
 			foreach (Transform child in transform) {
+				child.gameObject.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
 				child.gameObject.renderer.material.SetColor("_RimColor", currentColor);
 			}
 
