@@ -14,17 +14,17 @@ public class ShieldManager : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		//float tetha = 6+ (max * 6);
-		Debug.Log (6+ (max * 6));
+//		Debug.Log (6+ (max * 6));
 		for (int i = 0; i <= max; i++) {
 
 			GameObject newShield = createShield(i);
-			Debug.Log(newShield);
+//			Debug.Log(newShield);
 
 		}
 	}
 
 	public GameObject createShield(int i) {
-		Debug.Log("ik ben hier");
+//		Debug.Log("ik ben hier");
 		i += 6;
 		float t = (tetha/max)*i;
 		float a = (alpha/max)*i;

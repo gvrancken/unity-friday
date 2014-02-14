@@ -25,8 +25,8 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter (Collision col) {	
-		Debug.Log ("hit!");
-		if (col.gameObject.tag != "Enemy") {
+		if (col.gameObject.tag != "Enemy" &&
+		    col.gameObject.tag != "Bullet") {
 			DamageController dc = col.gameObject.GetComponent<DamageController>();
 			dc.takeDamage(damagePoints);
 		}
