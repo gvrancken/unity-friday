@@ -57,22 +57,6 @@ public class TurretController : MonoBehaviour {
 				_target = _targetsInRange[0];
 			}
 		}
-
-
-		LineRenderer lineRenderer = transform.GetComponent<LineRenderer>();
-		lineRenderer.useWorldSpace = false;
-		lineRenderer.SetVertexCount(2);
-
-		SphereCollider sc = GetComponent<SphereCollider>();
-
-		//Transform tfBulletEmitter = transform.FindChild("BulletEmitter");
-
-		lineRenderer.SetPosition(1, new Vector3(0,0, sc.radius));
-
-
-		
-
-
 	}
 
 	void ShootBullet() {
