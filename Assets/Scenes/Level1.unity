@@ -737,7 +737,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 13500000, guid: cfcaeefcc798a4710ae69bb3f71a843d, type: 2}
       propertyPath: m_Radius
-      value: .5
+      value: .699999988
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: cfcaeefcc798a4710ae69bb3f71a843d, type: 2}
@@ -796,7 +796,7 @@ SphereCollider:
   m_IsTrigger: 0
   m_Enabled: 0
   serializedVersion: 2
-  m_Radius: .5
+  m_Radius: .699999988
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &495192079
 MeshFilter:
@@ -1277,7 +1277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4b4caf01fa7d745fda4424d15b43718f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  prefab: {fileID: 100000, guid: b874b0fb5ee5aa64da68d7023853c4b2, type: 2}
+  prefab: {fileID: 100000, guid: 28202a5cf60a695448a9d57fceacba84, type: 2}
   spawnCore: {fileID: 495192076}
   startSpawnTime: 5
   spawnTime: 5
@@ -1644,7 +1644,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 3
   shootSpeed: 1
-  damagePoints: 1
+  damagePoints: 2
   bullet: {fileID: 0}
 --- !u!135 &1404854202
 SphereCollider:
@@ -1775,6 +1775,21 @@ MonoBehaviour:
   max: 45
   tetha: 35
   alpha: 8
+  shieldArray: []
+  totalShields: 0
+  firstBrokenPos: 0
+  pulseState: 0
+  damageEffect: 0
+  colorDefault:
+    r: .800000012
+    g: .800000012
+    b: 1
+    a: 1
+  colorDamage:
+    r: 1
+    g: 0
+    b: 0
+    a: 1
 --- !u!1 &1507491948
 GameObject:
   m_ObjectHideFlags: 0
@@ -2223,7 +2238,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 3
   shootSpeed: 1
-  damagePoints: 1
+  damagePoints: 2
   bullet: {fileID: 0}
 --- !u!135 &1824779872
 SphereCollider:
@@ -2362,6 +2377,10 @@ Prefab:
       propertyPath: m_Positions.Array.data[1].z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}
+      propertyPath: damagePoints
+      value: 2
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}
   m_RootGameObject: {fileID: 1404854197}
@@ -2417,6 +2436,10 @@ Prefab:
     - target: {fileID: 12000000, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}
       propertyPath: m_Positions.Array.data[1].z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}
+      propertyPath: damagePoints
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}

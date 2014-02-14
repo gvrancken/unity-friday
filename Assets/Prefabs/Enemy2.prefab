@@ -28,8 +28,8 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 7.28053379, y: -3.67958999, z: -5.60531998}
-  m_LocalScale: {x: 2, y: 2, z: 2}
+  m_LocalPosition: {x: 8.08826065, y: -4.32958984, z: -5.52393246}
+  m_LocalScale: {x: .699999988, y: .699999988, z: .699999988}
   m_Children: []
   m_Father: {fileID: 0}
 --- !u!23 &2300000
@@ -44,7 +44,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4a68062317666fd41957453adbba16cc, type: 2}
+  - {fileID: 2100000, guid: 5f5db0d736a4de94dbac52c8af83418a, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe46b9d2cf5844f129997aac45fe9003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHitPoints: 10
+  MaxHitPoints: 5
   dieTime: .00999999978
 --- !u!114 &11400002
 MonoBehaviour:
