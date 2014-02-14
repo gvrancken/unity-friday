@@ -16,7 +16,6 @@ public class TurretController : MonoBehaviour {
 
 	void OnTriggerEnter (Collider other) {
 		if (other.gameObject.tag == "Enemy") {
-			Debug.Log(other.gameObject + " enters");
 
 			_targetsInRange.Add(other.gameObject);
 
@@ -30,7 +29,6 @@ public class TurretController : MonoBehaviour {
 
 	void OnTriggerExit (Collider other) {
 		if (other.gameObject.tag == "Enemy") {
-			Debug.Log(other);
 
 			_targetsInRange.Remove(other.gameObject);
 			if (other.gameObject == _target) {
@@ -64,15 +62,13 @@ public class TurretController : MonoBehaviour {
 		LineRenderer lineRenderer = transform.GetComponent<LineRenderer>();
 		lineRenderer.useWorldSpace = false;
 		lineRenderer.SetVertexCount(2);
-		//RaycastHit hit = new RaycastHit();
-		float hit = 1000;
-		Physics.Raycast(transform.position, transform.forward, hit);
-//		if(hit.collider){
-//			lineRenderer.SetPosition(1,Vector3(0,0,hit.distance));
-//		}
-//		else{
-//			lineRenderer.SetPosition(1,Vector3(0,0,5000));
-//		}
+
+		SphereCollider sc = GetComponent<SphereCollider>();
+
+		//Transform tfBulletEmitter = transform.FindChild("BulletEmitter");
+
+		lineRenderer.SetPosition(1, new Vector3(0,0, sc.radius));
+
 
 		
 
