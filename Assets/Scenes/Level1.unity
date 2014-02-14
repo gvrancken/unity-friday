@@ -575,6 +575,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9290f8813249a45b0a3d9d8f8cdb777e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  turnSpeed: 3
+  shootSpeed: 1
+  bullet: {fileID: 0}
 --- !u!23 &1434560332
 Renderer:
   m_ObjectHideFlags: 0
