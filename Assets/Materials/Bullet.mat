@@ -6,7 +6,7 @@ Material:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_Name: Enemy1
+  m_Name: Bullet
   m_Shader: {fileID: 4800000, guid: 9f7bd7f0011e09045a9cebd22e3c5813, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
@@ -30,12 +30,8 @@ Material:
     m_Floats:
       data:
         first:
-          name: _RimPower
-        second: 1
-      data:
-        first:
           name: _EmPower
-        second: .767857134
+        second: .875
     m_Colors:
       data:
         first:
@@ -44,12 +40,8 @@ Material:
       data:
         first:
           name: _ColorTint
-        second: {r: 0, g: 0, b: 0, a: 1}
-      data:
-        first:
-          name: _RimColor
-        second: {r: .617647052, g: 0, b: .600608647, a: 1}
+        second: {r: 1, g: 1, b: 1, a: 1}
       data:
         first:
           name: _EmColor
-        second: {r: .941176474, g: .152249113, b: .756186604, a: 1}
+        second: {r: 0, g: .793103218, b: 1, a: 1}
