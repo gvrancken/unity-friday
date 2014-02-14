@@ -20,6 +20,7 @@ public class BulletController : MonoBehaviour {
 	}
 
 	void OnCollisionEnter (Collision col) {
+		Debug.Log (col.gameObject.name);
 		if (col.gameObject.tag != "Bullet") {
 			DamageController dc = col.gameObject.GetComponent<DamageController>();
 			dc.takeDamage(damagePoints);

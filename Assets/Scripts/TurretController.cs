@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TurretController : MonoBehaviour {
 
@@ -7,17 +8,36 @@ public class TurretController : MonoBehaviour {
 	public float shootSpeed = 30.0f;
 	public GameObject bullet;
 
+	private List<GameObject> _targetsInRange = new List<GameObject>();
 	private GameObject _target;
 	private bool _isShooting = false;
 
 	void OnTriggerEnter (Collider other) {
 		if (other.gameObject.tag == "Enemy") {
-			if (_isShooting == false) {
+			Debug.Log(other.gameObject + " enters");
+
+			_targetsInRange.Add(other.gameObject);
+
+			if (_target == null) {
 				_target = other.gameObject;
 			}
+
+			Debug.Log (_targetsInRange.Count);
 		}
 	}
-	
+
+	void OnTriggerExit (Collider other) {
+		if (other.gameObject.tag == "Enemy") {
+			Debug.Log(other);
+
+			_targetsInRange.Remove(other.gameObject);
+			if (other.gameObject == _target) {
+				_target = null;
+			}
+			Debug.Log (_targetsInRange.Count);
+		}
+	}
+
 	// Update is called once per frame
 	void Update () {
 		if (_target != null) {
@@ -29,6 +49,11 @@ public class TurretController : MonoBehaviour {
 			if (!_isShooting && angle < 5f) {
 				_isShooting = true;
 				InvokeRepeating("ShootBullet", 0, 1);
+			}
+		} else {
+			Debug.Log (_targetsInRange.Count);
+			if (_targetsInRange.Count == 0) {
+				Debug.Log("nothing to do...");
 			}
 		}
 	}

@@ -20,13 +20,10 @@ public class DamageController : MonoBehaviour {
 
 		if (_isDead == false && _hitpoints <= 0) {
 			_isDead = true;
-			Invoke ("DestroyMe", dieTime);
+			Destroy  (gameObject, dieTime);
 		}
 
 	}
 
-	void DestroyMe() {
-		Destroy (gameObject);
-	}
 
 }

@@ -43,7 +43,6 @@ public class ShieldManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		Debug.Log (firstBrokenPos);
 		for (int i = 0; i <=shieldArray.Length-1; i++) {
 			if ((shieldArray[i]==null) && (firstBrokenPos > i)) {
 				firstBrokenPos = i;
