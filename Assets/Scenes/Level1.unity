@@ -904,7 +904,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 3
-  shootSpeed: 30
+  shootSpeed: 1
   bullet: {fileID: 100000, guid: cc9858c65466b446d86c8d5270ef43b4, type: 2}
 --- !u!135 &1425427473
 SphereCollider:
@@ -1031,6 +1031,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shieldPiece: {fileID: 400000, guid: d17310fe57792984884074d42788b508, type: 2}
+  startCount: 25
   max: 45
   tetha: 35
   alpha: 8
@@ -1353,6 +1354,10 @@ Prefab:
     - target: {fileID: 400004, guid: db0e92055de67403c9673afc18dc29aa, type: 2}
       propertyPath: m_LocalPosition.y
       value: -.00849890709
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400000, guid: db0e92055de67403c9673afc18dc29aa, type: 2}
+      propertyPath: shootSpeed
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: db0e92055de67403c9673afc18dc29aa, type: 2}
