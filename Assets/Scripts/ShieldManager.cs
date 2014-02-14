@@ -4,6 +4,7 @@ using System.Collections;
 public class ShieldManager : MonoBehaviour {
 
 	public Transform shieldPiece;
+	public int startCount = 25;
 	public int max = 45;
 	public float tetha = 30;
 	public float alpha = 4;
@@ -17,7 +18,7 @@ public class ShieldManager : MonoBehaviour {
 	void Start () {
 		//float tetha = 6+ (max * 6);
 		shieldArray = new GameObject[max];
-		for (int i = 0; i <= max-1; i++) {
+		for (int i = 0; i <= startCount-1; i++) {
 			GameObject newShield = createShield(i);
 			shieldArray[i] = newShield;
 			//newShield.GetComponent<Shield>().setEnergized(true);
