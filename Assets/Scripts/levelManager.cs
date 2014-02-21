@@ -5,13 +5,15 @@ public class levelManager : MonoBehaviour {
 
 	public GameObject enemy;
 
-	public int spawnRadius = 20;
+	public int spawnRadius = 40;
 	public float spawnPitRadius = 1.0f;
 
 	private int level=0;
 	private SpawnerScript spawnerScript;
 	private int numEnemies;
-	private int enemyWaveDelay = 3;
+	private int enemyWaveDelay=5;
+	private int enemyWaveMax=10;
+	private int numWaves=0;
 	//private int enemyWaveMax;
 	private Vector2 spawnCenterPoint;
 	private float timeSinceLastSpawn = 0;
@@ -23,22 +25,24 @@ public class levelManager : MonoBehaviour {
 
 	void newLevel() {
 		level++;
+		Debug.Log ("Level up!");
 		//Difficulty Knobs
 		//Knob Variable			Max Condition					Max		Calculation
 		numEnemies 				=(numEnemies > 100) 			? 100 	:level * 4 ;
-		enemyWaveDelay 			=(enemyWaveDelay < 1)			? 1		: 5 - (level-1)*2;	
-		//enemyWaveMax   			=(enemyWaveMax > 8) 			? 8		:1 * level+1;
-		Debug.Log (enemyWaveDelay);
+		enemyWaveDelay 			=(enemyWaveDelay < 1)			? 1		:5 - (level-1)*2;	
+		enemyWaveMax   			=(enemyWaveMax > 100) 			? 100	:10 * level;
 	}
 
 	void Update() {
 		timeSinceLastSpawn += Time.deltaTime;
 		Debug.Log (timeSinceLastSpawn);
 		if (timeSinceLastSpawn >= enemyWaveDelay) {
-			Clone ();
+			newWave();
 			timeSinceLastSpawn = 0;
 		}
-
+		if (numWaves >= enemyWaveMax) {
+			newLevel();
+		}
 	}
 
 	private static Vector2 PointOnCircle(float radius, float angleInDegrees, Vector2 origin)
@@ -50,12 +54,10 @@ public class levelManager : MonoBehaviour {
 		return new Vector2(x, y);
 	}
 	
-	private void Clone () {
+	private void newWave () {
 		float randomAngle;
 		
 		spawnCenterPoint = PointOnCircle(spawnRadius, Random.Range (0,360), Vector2.zero);
-
-
 
 		for (int i=0; i<numEnemies; i++) {
 			randomAngle = Random.Range (0,360);
@@ -64,5 +66,6 @@ public class levelManager : MonoBehaviour {
 			GameObject instance = Instantiate(enemy, spawnPoint, Quaternion.identity) as GameObject;
 			instance.rigidbody.AddTorque(new Vector3(randomAngle,randomAngle,randomAngle));
 		}
+		numWaves++;
 	}
 }
