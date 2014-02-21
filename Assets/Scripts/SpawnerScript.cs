@@ -9,11 +9,9 @@ public class SpawnerScript : MonoBehaviour {
 	public float startSpawnTime = 2f;
 	public float spawnTime = 2f;
 
-
 	// Use this for initialization
 	void Start () {
-		InvokeRepeating ("Clone", startSpawnTime, spawnTime);
-
+		//InvokeRepeating ("Clone", startSpawnTime, spawnTime);
 	}
 	
 	// Update is called once per frame
@@ -30,7 +28,7 @@ public class SpawnerScript : MonoBehaviour {
 		return new Vector2(x, y);
 	}
 
-	void Clone () {
+	public void Clone () {
 		float randomAngle = Random.Range (0,360);
 	
 		Vector2 pointOnCircle = PointOnCircle(spawnCore.transform.localScale.x / 2, randomAngle, new Vector2(spawnCore.transform.position.x, spawnCore.transform.position.z));
