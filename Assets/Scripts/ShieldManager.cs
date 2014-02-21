@@ -63,7 +63,15 @@ public class ShieldManager : MonoBehaviour {
 
 	void initializeSchieldJoints() {
 		for (int i = 0; i<shieldJoints.Length; i++) {
-			float localAlpha = alpha + (alphaScale *(i+6));
+			float localAlpha = alpha;
+			if (i>10) {
+				if (i< 20){
+					Debug.Log(((i-10f)/10f));
+					localAlpha = alpha + (((i-10f)/10f)*(alphaScale *(i-4f)));
+				} else {
+					localAlpha = alpha + ((alphaScale *(i-4)));
+				}
+			}
 			float t = (tetha / max) * (i+6);
 			float a = (localAlpha / max) * (i+6);
 			Vector3 newPosition = new Vector3 (transform.position.x + a * Mathf.Cos (t), 0, transform.position.y + a * Mathf.Sin (t));
@@ -78,7 +86,7 @@ public class ShieldManager : MonoBehaviour {
 		instance.LookAt(transform);
 		instance.transform.Rotate(0, shieldRotate, 0);
 		float scaleFactor = Vector3.Distance (shieldJoints [i], shieldJoints [i+1]);
-		instance.localScale = new Vector3(scaleFactor/2, instance.localScale.y, (float)instance.localScale.z*(1f+(i/10f)) );
+		instance.localScale = new Vector3(scaleFactor/2, instance.localScale.y, (float)instance.localScale.z*(1f+(i/20f)) );
 		instance.parent = transform;
 		return instance.gameObject;
 	}
