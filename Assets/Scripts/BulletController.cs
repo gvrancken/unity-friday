@@ -5,12 +5,21 @@ public class BulletController : MonoBehaviour {
 
 	public bool isFired = false;
 	public float bulletSpeed = 30f;
+	public float bulletLifeTime = 1f;
 	public Vector3 direction; 
 	public float damagePoints = 100f;
+	private float _lifeTimeCounter = 0;
 
 	// Use this for initialization
 	void Start () {
 	
+	}
+
+	void Update() {
+		_lifeTimeCounter += Time.deltaTime;
+		if (_lifeTimeCounter >= bulletLifeTime) {
+			Destroy (gameObject);
+		}
 	}
 	
 	void FixedUpdate() {
