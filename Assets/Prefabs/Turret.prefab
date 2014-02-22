@@ -108,7 +108,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100002}
-  m_LocalRotation: {x: .707106829, y: 0, z: 0, w: .707106709}
+  m_LocalRotation: {x: .707106888, y: 0, z: 0, w: .707106769}
   m_LocalPosition: {x: 0, y: .175291851, z: .741916656}
   m_LocalScale: {x: .5, y: .5, z: .5}
   m_Children: []
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9290f8813249a45b0a3d9d8f8cdb777e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 3
+  turnSpeed: 4
   shootSpeed: 30
   bullet: {fileID: 100000, guid: cc9858c65466b446d86c8d5270ef43b4, type: 2}
 --- !u!114 &11400002
@@ -255,7 +255,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe46b9d2cf5844f129997aac45fe9003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHitPoints: 1000
+  MaxHitPoints: 20
   dieTime: .00999999978
 --- !u!135 &13500000
 SphereCollider:
