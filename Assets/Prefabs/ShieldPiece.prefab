@@ -141,7 +141,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe46b9d2cf5844f129997aac45fe9003, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHitPoints: 5
+  MaxHitPoints: 10
   dieTime: .00999999978
 --- !u!1001 &100100000
 Prefab:

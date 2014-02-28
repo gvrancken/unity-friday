@@ -8,6 +8,7 @@ TagManager:
   - Bullet
   - Shield
   - HUDManager
+  - PathPoint
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

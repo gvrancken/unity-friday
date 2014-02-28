@@ -6,6 +6,7 @@ public class ShieldManager : MonoBehaviour {
 	public Transform shieldPiece;
 	public Transform shieldJoint;
 	public Transform core;
+	public Transform path;
 	[Range(1,500)]
 	public int startCount = 15; 
 	[Range(0,20)]
@@ -34,6 +35,7 @@ public class ShieldManager : MonoBehaviour {
 	private Vector3[] shieldJoints; 
 	private GameObject[] jointArray; 
 	private GameObject[] shieldArray; 
+	private GameObject[] pathPointArray; 
 	private int totalShields = 0;
 	private int firstBrokenPos = 0;
 	private float pulseState = 0;
@@ -48,6 +50,7 @@ public class ShieldManager : MonoBehaviour {
 		shieldJoints = new Vector3[max + 1];
 		jointArray = new GameObject[max];
 		shieldArray = new GameObject[max];
+		pathPointArray = new GameObject[max];
 		initializeSchieldJoints ();
 		totalShields = startCount;
 		rearrangeShields();
@@ -63,12 +66,18 @@ public class ShieldManager : MonoBehaviour {
 
 	}
 
-	//Debug code to render the vector-list used to create the shields.
+
 	void OnDrawGizmosSelected() {
-		for (int i = 0; i<=max; i++) {
-				Gizmos.color = Color.white;
-				Gizmos.DrawWireSphere (shieldJoints[i], 1);
-		}
+		//Debug code to render the vector-list used to create the shields.
+//		for (int i = 0; i<=max; i++) {
+//				Gizmos.color = Color.white;
+//				Gizmos.DrawWireSphere (shieldJoints[i], 1);
+//		}
+
+
+		//Only draw entrancePosition
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(pathPointArray[totalShields].transform.position, 0.1f);
 	}
 
 	//Create all shieds
@@ -80,6 +89,7 @@ public class ShieldManager : MonoBehaviour {
 			newJoint = createJoint(i);
 			newJoint.transform.parent = newShield.transform;
 			shieldArray[i] = newShield;
+			jointArray[i] = newJoint;
 			newShield.GetComponent<Shield>().setEnergized(false);
 			firstBrokenPos = i+1;
 		}
@@ -123,9 +133,26 @@ public class ShieldManager : MonoBehaviour {
 	public GameObject createJoint(int i) {
 		//Take position inbetween 2 shieldJoints
 		Vector3 jointPosition = shieldJoints [i+1];
-		Transform instance = (Transform)Instantiate(shieldJoint, jointPosition, transform.rotation);
-		instance.name = "ShieldJoint" + i;
-		return instance.gameObject;
+		Transform newJoint = (Transform)Instantiate(shieldJoint, jointPosition, transform.rotation);
+		newJoint.name = "ShieldJoint" + i;
+
+		//Create pathPoint
+		if (i >= 10) {
+			float y = i-10;
+			if (y < 0) {y=0;}
+			Vector3 pointPosition = newJoint.position/(1.6f-(y*0.008f));
+			GameObject newPathPoint = new GameObject();
+			newPathPoint.name = "PathPoints" + i;
+			newPathPoint.transform.position = pointPosition;
+			newPathPoint.tag = "PathPoint";
+			newPathPoint.transform.parent = path;
+			pathPointArray[i] = newPathPoint;
+		}
+		return newJoint.gameObject;
+	}
+
+	public Vector3 getEntrancePathPosition() {
+		return pathPointArray[totalShields].transform.position;
 	}
 
 	// Update is called once per frame
