@@ -498,6 +498,9 @@ MonoBehaviour:
   shieldThickness: 2
   shieldLengthScale: .200000003
   shieldLengthFactor: .200000003
+  colorEnergized: {r: .300000012, g: .300000012, b: 1, a: 1}
+  colorEmpty: {r: .400000006, g: .400000006, b: .400000006, a: .800000012}
+  colorDamage: {r: 1, g: 0, b: 0, a: 1}
 --- !u!1 &888468042
 GameObject:
   m_ObjectHideFlags: 0
@@ -526,6 +529,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spawnObject: {fileID: 100000, guid: 1fc6c5bc618db46bd9cba65c63acef76, type: 2}
+  enemyList:
+  - {fileID: 400000, guid: d85dbdbf4d33d46d5a880fdbff6e3afa, type: 2}
 --- !u!4 &888468044
 Transform:
   m_ObjectHideFlags: 0
