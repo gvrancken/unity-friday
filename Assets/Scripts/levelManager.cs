@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class levelManager : MonoBehaviour {
 
 	public GameObject spawnObject;
+	public List<Transform> enemyList = new List<Transform>();
 
 	private Transform spawnSphere;
 	private int level=0;
@@ -59,6 +61,11 @@ public class levelManager : MonoBehaviour {
 		Vector3 spawnPoint = new Vector3(spawnPoint2D.x, 0, spawnPoint2D.y);
 
 		GameObject instance = Instantiate(spawnObject, spawnPoint, Quaternion.identity) as GameObject;
+		PodController pc = instance.GetComponent<PodController>();
+
+		for (int i=0; i<numEnemies; i++) {
+			pc.unitQueue.Enqueue(enemyList[0]);
+		}
 
 		numWaves++;
 	}
