@@ -6,6 +6,7 @@ TagManager:
   - Enemy
   - Buildable
   - Bullet
+  - Shield
   - 
   Builtin Layer 0: Default
   Builtin Layer 1: TransparentFX

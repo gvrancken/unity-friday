@@ -16,7 +16,7 @@ public class DamageController : MonoBehaviour {
 	public void takeDamage(float damagePoints) {
 		_hitpoints -= damagePoints;
 
-//		Debug.Log (gameObject.name + " has " + _hitpoints + " left!");
+		Debug.Log (gameObject.name + " has " + _hitpoints + " left!");
 
 		if (_isDead == false && _hitpoints <= 0) {
 			_isDead = true;

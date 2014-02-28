@@ -25,7 +25,7 @@ public class EnemyController : MonoBehaviour {
 	}
 	
 	void OnCollisionEnter (Collision col) {	
-		if (col.gameObject.tag == "Player") {
+		if (col.gameObject.GetComponent<DamageController>() != null) {
 			DamageController dc = col.gameObject.GetComponent<DamageController>();
 			dc.takeDamage(damagePoints);
 		}

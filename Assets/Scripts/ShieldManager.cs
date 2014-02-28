@@ -85,7 +85,6 @@ public class ShieldManager : MonoBehaviour {
 			//The alpha for the first 20 shields is a bit different to create the perfect spiral
 			if (i>10) {
 				if (i< 20){
-					Debug.Log(((i-10f)/10f));
 					localAlpha = alpha + (((i-10f)/10f)*(alphaScale *(i-(10-startPos))));
 				} else {
 					localAlpha = alpha + ((alphaScale *(i-(10-startPos))));
@@ -149,7 +148,7 @@ public class ShieldManager : MonoBehaviour {
 		}
 
 		//Pulse shield pieces with delay
-		Debug.Log(firstBrokenPos);
+//		Debug.Log(firstBrokenPos);
 		for (int i = 0; i <firstBrokenPos; i++) {
 			if (shieldArray[i]!=null){
 				pulseState = Mathf.Sin(((i*10) + Time.time) * 5);
