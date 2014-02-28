@@ -7,18 +7,21 @@ public class LaserTowerScript : MonoBehaviour {
 	public float turnSpeed = 30.0f;
 	public float shootSpeed = 1.0f;
 	public float damagePoints = 10;
-	public GameObject bullet;
+	public ParticleSystem smoke;
 	
 	private List<GameObject> _targetsInRange = new List<GameObject>();
 	private GameObject _target;
 	private bool _isShooting = false;
 	private float _loadTime = 0;
 	private LineRenderer lineRenderer;
+	private ParticleSystem currentSmoke;
+	private Queue<ParticleSystem> smokeQueue = new Queue<ParticleSystem>();
 
 	void Start() {
 		lineRenderer = transform.GetComponent<LineRenderer>();
 		lineRenderer.SetVertexCount(2);
 		lineRenderer.useWorldSpace = true;
+
 		InitLaser();
 	}
 	
@@ -47,6 +50,7 @@ public class LaserTowerScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+
 		// if there is a target, rotate to it and shoot.
 		if (_target != null) {
 
@@ -58,8 +62,15 @@ public class LaserTowerScript : MonoBehaviour {
 
 		} else {
 
-			_targetsInRange.Remove(null);
+			// This should not be in Update:
+			currentSmoke.Stop ();
+			Destroy(currentSmoke, 2f);
 
+			_isShooting = false;
+			_targetsInRange.Remove(null);
+	
+
+		
 			// if there are still units in sight, just pick the first in the list
 			if (_targetsInRange.Count > 0) {
 				_target = _targetsInRange[0];
@@ -90,14 +101,28 @@ public class LaserTowerScript : MonoBehaviour {
 		// get the laser gun point and shoot from that point
 		Transform pivot = transform.FindChild("LaserGun");
 		pivot.localPosition = new Vector3(0, _loadTime/shootSpeed/2, 0);
-	
+
 		if (_loadTime >= shootSpeed) {
+			if (!_isShooting) {
+				
+				currentSmoke = Instantiate(smoke, transform.position, Quaternion.Euler(-90,0,0)) as ParticleSystem;
+				currentSmoke.loop = true;
+
+				if (!currentSmoke.isPlaying) {
+					currentSmoke.Play();
+					smokeQueue.Enqueue(currentSmoke);
+				}
+			}
+
+			_isShooting = true;
+
 			Transform laserEmitter = transform.FindChild("LaserEmitter");
 			
 			lineRenderer.SetPosition(0, laserEmitter.position);
 			lineRenderer.SetPosition(1, _target.transform.position);
 			DamageController dc = _target.GetComponent<DamageController>();
 			dc.takeDamage(damagePoints * Time.deltaTime);
+			currentSmoke.transform.position = _target.transform.position;
 
 			_loadTime = shootSpeed;
 		}

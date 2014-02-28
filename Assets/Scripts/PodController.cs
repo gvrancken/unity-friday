@@ -6,6 +6,8 @@ public class PodController : MonoBehaviour
 {
 		public Queue<Transform> unitQueue = new Queue<Transform> ();
 		public float timeBeforeUnload = 1f;
+		public ParticleSystem smoke;
+	
 		private bool hasLanded;
 		private bool hasUnloaded;
 		private bool isUnloading;
@@ -21,6 +23,7 @@ public class PodController : MonoBehaviour
 				hasLanded = true;
 				hasUnloaded = false;
 				isUnloading = false;
+				
 		}
 	
 		// Update is called once per frame

@@ -245,7 +245,7 @@ MonoBehaviour:
   turnSpeed: 3
   shootSpeed: 1
   damagePoints: 1
-  bullet: {fileID: 0}
+  smoke: {fileID: 19800000, guid: 122f57641f8674076908f322ac223f4d, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
