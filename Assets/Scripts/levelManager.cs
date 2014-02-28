@@ -64,7 +64,9 @@ public class levelManager : MonoBehaviour {
 		PodController pc = instance.GetComponent<PodController>();
 
 		for (int i=0; i<numEnemies; i++) {
-			pc.unitQueue.Enqueue(enemyList[0]);
+			if (enemyList.Count > 0) {
+				pc.unitQueue.Enqueue(enemyList[0]);
+			}
 		}
 
 		numWaves++;
