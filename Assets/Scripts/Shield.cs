@@ -56,7 +56,7 @@ public class Shield : MonoBehaviour {
 
 		if (damageEffect > 0) {
 			damageEffect -= 0.1f;
-			Debug.Log("damage effect = " + damageEffect);
+			//Debug.Log("damage effect = " + damageEffect);
 			Color currentColor = ((1-damageEffect)*colorEnergized)+(damageEffect*colorDamage);
 			foreach (Transform child in transform) {
 				child.gameObject.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
