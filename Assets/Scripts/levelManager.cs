@@ -4,21 +4,19 @@ using System.Collections;
 public class levelManager : MonoBehaviour {
 
 	public GameObject enemy;
-
-	public int spawnRadius = 40;
-	public float spawnPitRadius = 1.0f;
-
+	
 	private int level=0;
 	private SpawnerScript spawnerScript;
+
 	private int numEnemies;
-	private int enemyWaveDelay=5;
+	private int enemyWaveDelay=1;
 	private int enemyWaveMax=10;
 	private int numWaves=0;
-	//private int enemyWaveMax;
-	private Vector2 spawnCenterPoint;
+
 	private float timeSinceLastSpawn = 0;
 	
 	void Start () {
+
 		spawnerScript = GetComponent<SpawnerScript>();
 		newLevel ();
 	}
@@ -35,7 +33,8 @@ public class levelManager : MonoBehaviour {
 
 	void Update() {
 		timeSinceLastSpawn += Time.deltaTime;
-		Debug.Log (timeSinceLastSpawn);
+		float timeUntilNextSpawn = enemyWaveDelay - timeSinceLastSpawn;
+		Debug.Log ("Time until next spawn: " + timeUntilNextSpawn);
 		if (timeSinceLastSpawn >= enemyWaveDelay) {
 			newWave();
 			timeSinceLastSpawn = 0;
@@ -50,21 +49,21 @@ public class levelManager : MonoBehaviour {
 		// Convert from degrees to radians via multiplication by PI/180        
 		float x = (radius * Mathf.Cos(angleInDegrees * Mathf.PI / 180f)) + origin.x;
 		float y = (radius * Mathf.Sin(angleInDegrees * Mathf.PI / 180f)) + origin.y;
-		
+
 		return new Vector2(x, y);
 	}
 	
 	private void newWave () {
-		float randomAngle;
-		
-		spawnCenterPoint = PointOnCircle(spawnRadius, Random.Range (0,360), Vector2.zero);
-
+		float randomAngle = Random.Range(0,360);
+		Transform spawnSphere = transform.FindChild("SpawnSphere");
+		float spawnRadius = spawnSphere.GetComponent<SphereCollider>().radius;
+		Vector2 spawnPoint2D = PointOnCircle(spawnRadius, randomAngle, Vector2.zero);
+		float enemyScale = enemy.transform.localScale.sqrMagnitude;
 		for (int i=0; i<numEnemies; i++) {
-			randomAngle = Random.Range (0,360);
-			Vector2 spawnPoint2D = PointOnCircle(spawnPitRadius, randomAngle, spawnCenterPoint);
 			Vector3 spawnPoint = new Vector3(spawnPoint2D.x, 0, spawnPoint2D.y);
-			GameObject instance = Instantiate(enemy, spawnPoint, Quaternion.identity) as GameObject;
-			instance.rigidbody.AddTorque(new Vector3(randomAngle,randomAngle,randomAngle));
+			Vector3 heading = spawnPoint - spawnSphere.transform.position;
+			Vector3 direction = heading / (heading.magnitude);
+			GameObject instance = Instantiate(enemy, spawnPoint+(direction*i*enemyScale), Quaternion.identity) as GameObject;
 		}
 		numWaves++;
 	}
