@@ -41,15 +41,17 @@ public class LaserTowerScript : MonoBehaviour {
 			if (other.gameObject == _target) {
 				_target = null;
 			}
-			Debug.Log (_targetsInRange.Count);
+
 		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
+		// if there is a target, rotate to it and shoot.
 		if (_target != null) {
 
 			Quaternion rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
+			// laserTower immediately rotates to desired point
 			transform.rotation = rotation;
 
 			FireLaser();
@@ -57,12 +59,14 @@ public class LaserTowerScript : MonoBehaviour {
 		} else {
 
 			_targetsInRange.Remove(null);
-			
+
+			// if there are still units in sight, just pick the first in the list
 			if (_targetsInRange.Count > 0) {
 				_target = _targetsInRange[0];
+			} else {
+				// otherwise return to init mode
+				InitLaser();
 			}
-
-			InitLaser();
 		} 
 
 	}
@@ -71,6 +75,8 @@ public class LaserTowerScript : MonoBehaviour {
 		Transform pivot = transform.FindChild("LaserGun");
 		pivot.localPosition = Vector3.Lerp (pivot.localPosition, new Vector3(0, _loadTime/shootSpeed/2, 0), 1f * Time.deltaTime);
 		_loadTime = 0;
+
+		// set begin and end vertex of line to laser zero.
 		lineRenderer.SetPosition(0, Vector3.zero);
 		lineRenderer.SetPosition(1, Vector3.zero);
 	}
@@ -78,6 +84,7 @@ public class LaserTowerScript : MonoBehaviour {
 	void FireLaser() {
 		_loadTime += Time.deltaTime;
 
+		// get the laser gun point and shoot from that point
 		Transform pivot = transform.FindChild("LaserGun");
 		pivot.localPosition = new Vector3(0, _loadTime/shootSpeed/2, 0);
 	
@@ -88,6 +95,7 @@ public class LaserTowerScript : MonoBehaviour {
 			lineRenderer.SetPosition(1, _target.transform.position);
 			DamageController dc = _target.GetComponent<DamageController>();
 			dc.takeDamage(damagePoints * Time.deltaTime);
+
 			_loadTime = shootSpeed;
 		}
 
