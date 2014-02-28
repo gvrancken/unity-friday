@@ -3,7 +3,7 @@ using System.Collections;
 
 public class levelManager : MonoBehaviour {
 
-	public GameObject enemy;
+	public GameObject spawnObject;
 
 	private Transform spawnSphere;
 	private int level=0;
@@ -56,13 +56,10 @@ public class levelManager : MonoBehaviour {
 
 		float spawnRadius = spawnSphere.GetComponent<SphereCollider>().radius;
 		Vector2 spawnPoint2D = PointOnCircle(spawnRadius, randomAngle, Vector2.zero);
-		float enemyScale = enemy.transform.localScale.sqrMagnitude;
-		for (int i=0; i<numEnemies; i++) {
-			Vector3 spawnPoint = new Vector3(spawnPoint2D.x, 0, spawnPoint2D.y);
-			Vector3 heading = spawnPoint - spawnSphere.transform.position;
-			Vector3 direction = heading / (heading.magnitude);
-			GameObject instance = Instantiate(enemy, spawnPoint+(direction*i*enemyScale), Quaternion.identity) as GameObject;
-		}
+		Vector3 spawnPoint = new Vector3(spawnPoint2D.x, 0, spawnPoint2D.y);
+
+		GameObject instance = Instantiate(spawnObject, spawnPoint, Quaternion.identity) as GameObject;
+
 		numWaves++;
 	}
 }
