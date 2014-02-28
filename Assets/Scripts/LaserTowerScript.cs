@@ -80,6 +80,9 @@ public class LaserTowerScript : MonoBehaviour {
 		lineRenderer.SetPosition(0, Vector3.zero);
 		lineRenderer.SetPosition(1, Vector3.zero);
 	}
+
+
+
 	
 	void FireLaser() {
 		_loadTime += Time.deltaTime;

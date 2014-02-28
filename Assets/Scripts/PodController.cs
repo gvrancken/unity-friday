@@ -40,6 +40,15 @@ public class PodController : MonoBehaviour
 				}
 		}
 
+	private static Vector2 PointOnCircle(float radius, float angleInDegrees, Vector2 origin)
+	{
+		// Convert from degrees to radians via multiplication by PI/180        
+		float x = (radius * Mathf.Cos(angleInDegrees * Mathf.PI / 180f)) + origin.x;
+		float y = (radius * Mathf.Sin(angleInDegrees * Mathf.PI / 180f)) + origin.y;
+		
+		return new Vector2(x, y);
+	}
+
 		void UnloadPod ()
 		{
 				isUnloading = true;
@@ -48,20 +57,20 @@ public class PodController : MonoBehaviour
 
 		void UnloadUnit ()
 		{
-;
+
+		float randomAngle = Random.Range(0,360);
+
+		Vector2 spawnPoint2D = PointOnCircle(podSize, randomAngle, Vector2.zero);
+		Vector3 spawnPoint = new Vector3(spawnPoint2D.x, 0, spawnPoint2D.y);
+
 				if (unitQueue.Count > 0) {
 						timeSinceLastUnload += Time.deltaTime;
 						if (timeSinceLastUnload >= unitUnloadDelay) {
 
 								Transform unit = unitQueue.Dequeue ();
-
 								float unitSize = unit.localScale.sqrMagnitude;
-								Vector3 heading = Vector3.zero - transform.position;
-								Vector3 direction = heading / (heading.magnitude);
 		
-								Vector3 spawnPoint = transform.position + (direction * (podSize + unitSize));
-		
-								GameObject instance = Instantiate (unit, spawnPoint, Quaternion.identity) as GameObject;
+								GameObject instance = Instantiate (unit, spawnPoint+transform.position, Quaternion.identity) as GameObject;
 								timeSinceLastUnload = 0;
 						}
 				} else {
