@@ -882,11 +882,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   shieldPiece: {fileID: 400000, guid: d17310fe57792984884074d42788b508, type: 2}
   core: {fileID: 1446577773}
-  startCount: 35
+  startCount: 15
   max: 1000
-  tetha: 525
-  alpha: 307
-  alphaScale: 20
+  tetha: 715
+  alpha: 220
+  alphaScale: 30
   shieldRotate: 15
   shieldThickness: 2
   shieldLengthScale: .200000003

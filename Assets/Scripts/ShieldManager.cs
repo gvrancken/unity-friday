@@ -72,8 +72,8 @@ public class ShieldManager : MonoBehaviour {
 					localAlpha = alpha + ((alphaScale *(i-4)));
 				}
 			}
-			float t = (tetha / max) * (i+6);
-			float a = (localAlpha / max) * (i+6);
+			float t = (tetha / max) * (i+12);
+			float a = (localAlpha / max) * (i+12);
 			Vector3 newPosition = new Vector3 (transform.position.x + a * Mathf.Cos (t), 0, transform.position.y + a * Mathf.Sin (t));
 			shieldJoints[i] = newPosition;
 		}
