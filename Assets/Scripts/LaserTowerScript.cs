@@ -30,8 +30,7 @@ public class LaserTowerScript : MonoBehaviour {
 			if (_target == null) {
 				_target = other.gameObject;
 			}
-			
-			Debug.Log (_targetsInRange.Count);
+
 		}
 	}
 	
