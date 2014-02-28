@@ -62,9 +62,11 @@ public class LaserTowerScript : MonoBehaviour {
 
 		} else {
 
-			// This should not be in Update:
-			currentSmoke.Stop ();
-			Destroy(currentSmoke, 2f);
+			if (currentSmoke != null && currentSmoke.isPlaying) {
+				currentSmoke.Stop ();
+				Destroy(currentSmoke.transform.gameObject, 2f);
+			}
+
 
 			_isShooting = false;
 			_targetsInRange.Remove(null);
