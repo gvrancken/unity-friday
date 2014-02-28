@@ -27,7 +27,10 @@ public class ShieldManager : MonoBehaviour {
 	[Range(0f,15f)]
 	public float shieldLengthFactor = 0.2f;
 
-
+	public Color colorEnergized = new Color (0.3f, 0.3f, 1f, 1f);	 
+	public Color colorEmpty = new Color (0.4f, 0.4f, 0.4f, 0.8f);	
+	public Color colorDamage = new Color (1.0f, 0, 0, 1);
+	
 	private Vector3[] shieldJoints; 
 	private GameObject[] jointArray; 
 	private GameObject[] shieldArray; 
@@ -47,6 +50,10 @@ public class ShieldManager : MonoBehaviour {
 		initializeSchieldJoints ();
 		totalShields = startCount;
 		rearrangeShields();
+
+		//Set core material
+		core.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
+		core.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
 	}
 
 	//Debug code to render the vector-list used to create the shields.
@@ -59,9 +66,12 @@ public class ShieldManager : MonoBehaviour {
 
 	//Create all shieds
 	void rearrangeShields() {
+		GameObject newJoint = createJoint(-1);
+		newJoint.transform.parent = core;
 		for (int i = 0; i <= totalShields; i++) {
 			GameObject newShield = createShield(i);
-			GameObject newJoint = createJoint(i);
+			newJoint = createJoint(i);
+			newJoint.transform.parent = newShield.transform;
 			shieldArray[i] = newShield;
 			newShield.GetComponent<Shield>().setEnergized(false);
 			firstBrokenPos = i+1;
@@ -96,7 +106,9 @@ public class ShieldManager : MonoBehaviour {
 		instance.LookAt(shieldJoints [i]);
 		instance.transform.Rotate(0, 90, 0);
 		float scaleFactor = Vector3.Distance (shieldJoints [i], shieldJoints [i+1]);
-		instance.localScale = new Vector3(scaleFactor/2, instance.localScale.y, 0.3f );
+		foreach(Transform child in instance) {
+			child.localScale = new Vector3(child.localScale.y, scaleFactor/2, 0.3f );
+		}
 		instance.parent = transform;
 		return instance.gameObject;
 	}
@@ -104,9 +116,8 @@ public class ShieldManager : MonoBehaviour {
 	//Generates a shield at the given position
 	public GameObject createJoint(int i) {
 		//Take position inbetween 2 shieldJoints
-		Vector3 jointPosition = shieldJoints [i];
+		Vector3 jointPosition = shieldJoints [i+1];
 		Transform instance = (Transform)Instantiate(shieldJoint, jointPosition, transform.rotation);
-		instance.parent = transform;
 		return instance.gameObject;
 	}
 
