@@ -6,17 +6,17 @@ public class ShieldManager : MonoBehaviour {
 	public Transform shieldPiece;
 	public Transform core;
 	[Range(1,500)]
-	public int startCount = 25; 
+	public int startCount = 15; 
 	[Range(1,1000)]
 	public int max = 1000;
 	[Range(1f,2000f)]
-	public float tetha = 900;
+	public float tetha = 715;
 	[Range(-500f,1000f)]
-	public float alpha = 4;
+	public float alpha = 220;
 	[Range(0.1f,100f)]
-	public float alphaScale = 2;
+	public float alphaScale = 30;
 	[Range(0f,90f)]
-	public float shieldRotate = 2.5f;
+	public float shieldRotate = 15f;
 	[Range(0f,25f)]
 	public float shieldThickness = 2f;
 	[Range(0f,2f)]
