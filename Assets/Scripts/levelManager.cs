@@ -4,10 +4,9 @@ using System.Collections;
 public class levelManager : MonoBehaviour {
 
 	public GameObject enemy;
-	
-	private int level=0;
-	private SpawnerScript spawnerScript;
 
+	private Transform spawnSphere;
+	private int level=0;
 	private int numEnemies;
 	private int enemyWaveDelay=1;
 	private int enemyWaveMax=10;
@@ -16,14 +15,13 @@ public class levelManager : MonoBehaviour {
 	private float timeSinceLastSpawn = 0;
 	
 	void Start () {
-
-		spawnerScript = GetComponent<SpawnerScript>();
+		spawnSphere = transform.FindChild("SpawnSphere");
 		newLevel ();
 	}
 
 	void newLevel() {
 		level++;
-		Debug.Log ("Level up!");
+
 		//Difficulty Knobs
 		//Knob Variable			Max Condition					Max		Calculation
 		numEnemies 				=(numEnemies > 100) 			? 100 	:level * 4 ;
@@ -34,7 +32,7 @@ public class levelManager : MonoBehaviour {
 	void Update() {
 		timeSinceLastSpawn += Time.deltaTime;
 		float timeUntilNextSpawn = enemyWaveDelay - timeSinceLastSpawn;
-		Debug.Log ("Time until next spawn: " + timeUntilNextSpawn);
+
 		if (timeSinceLastSpawn >= enemyWaveDelay) {
 			newWave();
 			timeSinceLastSpawn = 0;
@@ -55,7 +53,7 @@ public class levelManager : MonoBehaviour {
 	
 	private void newWave () {
 		float randomAngle = Random.Range(0,360);
-		Transform spawnSphere = transform.FindChild("SpawnSphere");
+
 		float spawnRadius = spawnSphere.GetComponent<SphereCollider>().radius;
 		Vector2 spawnPoint2D = PointOnCircle(spawnRadius, randomAngle, Vector2.zero);
 		float enemyScale = enemy.transform.localScale.sqrMagnitude;
