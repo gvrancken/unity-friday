@@ -14,7 +14,7 @@ public class PodController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		podSize = transform.localScale.sqrMagnitude;
+		podSize = transform.localScale.magnitude;
 		hasLanded = true;
 		hasUnloaded = false;
 	}
@@ -40,12 +40,13 @@ public class PodController : MonoBehaviour {
 
 		Transform unit = unitList[0];
 
+		float unitSize = unit.localScale.sqrMagnitude;
 		Vector3 heading = Vector3.zero - transform.position;
 		Vector3 direction = heading / (heading.magnitude);
 
 		Debug.Log (direction);
 
-		Vector3 spawnPoint = transform.position + (direction * podSize);
+		Vector3 spawnPoint = transform.position + (direction * (podSize+unitSize));
 
 		GameObject instance = Instantiate(unit, spawnPoint, Quaternion.identity) as GameObject;
 
