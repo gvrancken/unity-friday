@@ -96,10 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 981050ccaa33e440aa48e3ab51ab51e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitList:
-  - {fileID: 400000, guid: d85dbdbf4d33d46d5a880fdbff6e3afa, type: 2}
-  - {fileID: 400000, guid: d85dbdbf4d33d46d5a880fdbff6e3afa, type: 2}
-  timeToUnload: 2
+  timeBeforeUnload: 1
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
