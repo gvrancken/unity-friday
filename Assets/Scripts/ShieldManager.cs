@@ -40,6 +40,7 @@ public class ShieldManager : MonoBehaviour {
 	private Color defaultColor = new Color(0.8f, 0.8f, 1, 1);
 	private Color damageColor = new Color(1, 0, 0, 1);
 	private float damageEffect = 0;
+	private GameObject hudManager;
 
 
 	// Use this for initialization
@@ -54,6 +55,12 @@ public class ShieldManager : MonoBehaviour {
 		//Set core material
 		core.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
 		core.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
+
+		//Get HUDManager
+		GameObject[] x = GameObject.FindGameObjectsWithTag("HUDManager");
+		hudManager = x [0];
+
+
 	}
 
 	//Debug code to render the vector-list used to create the shields.
@@ -117,6 +124,7 @@ public class ShieldManager : MonoBehaviour {
 		//Take position inbetween 2 shieldJoints
 		Vector3 jointPosition = shieldJoints [i+1];
 		Transform instance = (Transform)Instantiate(shieldJoint, jointPosition, transform.rotation);
+		instance.name = "ShieldJoint" + i;
 		return instance.gameObject;
 	}
 
@@ -132,6 +140,7 @@ public class ShieldManager : MonoBehaviour {
 				shieldArray[i].GetComponent<Shield>().setEnergized(false);
 			}
 		}
+		hudManager.GetComponent<HUDManager>().updateEnergy (firstBrokenPos);
 //			
 		//Pulse the central crystal
 		pulseState = Mathf.Sin (Time.time*5);

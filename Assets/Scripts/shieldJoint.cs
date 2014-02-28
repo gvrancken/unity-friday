@@ -3,6 +3,8 @@ using System.Collections;
 
 public class shieldJoint : MonoBehaviour {
 
+	private bool mouseDown = false;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -10,8 +12,10 @@ public class shieldJoint : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetMouseButton (0)) {
-			Debug.Log("CLICK");
+		var hit : RaycastHit;
+		var ray : Ray = Camera.main.ScreenPointToRay (Input.mousePosition);
+		if (Physics.Raycast (ray, hit, 100.0)){
+
 		}
 	}
 }
