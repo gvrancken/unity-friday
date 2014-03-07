@@ -18,6 +18,10 @@ public class Shield : MonoBehaviour {
 	private float growLength;
 	private float growStartTime;
 	private Vector3 anchorPostition;
+	private Vector3 nextAnchorPostition;
+	private Transform shieldJoint;
+	private int shieldIndex;
+
 
 
 	// Use this for initialization
@@ -62,11 +66,24 @@ public class Shield : MonoBehaviour {
 		pulseState = 0.6f + p / 2;
 	}
 
+	public void SetJoint(Transform joint) {
+		shieldJoint = joint;
+	}
+
+	public void SetShieldIndex(int i) {
+		shieldIndex = i;
+	}
+
+	public void CreateNewShield(){
+		transform.parent.GetComponent<ShieldManager> ().CreateNewShield (shieldIndex + 1);
+	}
+
 	void Growing() {
 		float distCovered = (Time.time - growStartTime) * 1;
 		float fracJourney = distCovered / growLength;
 		shieldWall.localScale = Vector3.Lerp (growScaleStart, growScaleEnd, fracJourney);
 		shieldWall.position = Vector3.Lerp (anchorPostition,transform.position,fracJourney);
+		shieldJoint.position = Vector3.Lerp(anchorPostition,nextAnchorPostition,fracJourney);
 	}
 
 	public void SetDesitnationTransform(float length, Vector3 position) {
@@ -76,6 +93,7 @@ public class Shield : MonoBehaviour {
 	}
 	public void StartGrowing() {
 		growStartTime = Time.time;
+		nextAnchorPostition = transform.parent.GetComponent<ShieldManager> ().GetJointPosition (shieldIndex+1);
 		isGrowing = true;
 	}
 

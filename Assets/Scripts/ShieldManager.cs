@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class ShieldManager : MonoBehaviour {
 
@@ -43,6 +44,8 @@ public class ShieldManager : MonoBehaviour {
 	private Color damageColor = new Color(1, 0, 0, 1);
 	private float damageEffect = 0;
 	private GameObject hudManager;
+	private GameObject newJoint;
+	private List<Vector3> EntrancePath = new List<Vector3>();
 
 
 	// Use this for initialization
@@ -95,6 +98,7 @@ public class ShieldManager : MonoBehaviour {
 		newEntrancePoint1.tag = "PathPoint";
 		newEntrancePoint1.transform.parent = path;
 		pathPointArray[1] = newEntrancePoint1;
+		EntrancePath.Add(newPos);
 
 		GameObject newEntrancePoint2 = new GameObject();
 		newEntrancePoint2.name = "EntrancePoint" + 2;
@@ -103,6 +107,7 @@ public class ShieldManager : MonoBehaviour {
 		newEntrancePoint2.tag = "PathPoint";
 		newEntrancePoint2.transform.parent = path;
 		pathPointArray[2] = newEntrancePoint2;
+		EntrancePath.Add (newPos);
 
 		GameObject newEntrancePoint3 = new GameObject();
 		newEntrancePoint3.name = "EntrancePoint" + 2;
@@ -111,6 +116,7 @@ public class ShieldManager : MonoBehaviour {
 		newEntrancePoint3.tag = "PathPoint";
 		newEntrancePoint3.transform.parent = path;
 		pathPointArray[3] = newEntrancePoint3;
+		EntrancePath.Add (newPos);
 	}
 
 	private Vector3 RotateY(Vector3 v, float angle )
@@ -129,17 +135,23 @@ public class ShieldManager : MonoBehaviour {
 
 	//Create all shieds
 	void rearrangeShields() {
-		GameObject newJoint = createJoint(-1);
+		newJoint = createJoint(-1);
 		newJoint.transform.parent = core;
 		for (int i = 0; i <= totalShields; i++) {
-			GameObject newShield = createShield(i);
-			newJoint = createJoint(i);
-			newJoint.transform.parent = newShield.transform;
-			shieldArray[i] = newShield;
-			jointArray[i] = newJoint;
-			newShield.GetComponent<Shield>().setEnergized(false);
+			CreateNewShield(i);
 			firstBrokenPos = i+1;
 		}
+	}
+
+	public void CreateNewShield(int i) {
+		GameObject newShield = createShield(i);
+		newJoint = createJoint(i);
+		newJoint.transform.parent = newShield.transform;
+		shieldArray[i] = newShield;
+		jointArray[i] = newJoint;
+		newShield.GetComponent<Shield>().SetJoint(newJoint.transform);
+		newShield.gameObject.GetComponent<Shield> ().StartGrowing ();
+		newShield.GetComponent<Shield>().setEnergized(false);
 	}
 
 	//Initialize all position for the shields.
@@ -163,6 +175,10 @@ public class ShieldManager : MonoBehaviour {
 		}
 	}
 
+	public Vector3 GetJointPosition(int jointIndex) {
+		return shieldJoints [jointIndex];
+	}
+
 	//Generates a shield at the given position
 	public GameObject createShield(int i) {
 		//Take position inbetween 2 shieldJoints
@@ -172,12 +188,12 @@ public class ShieldManager : MonoBehaviour {
 		instance.transform.Rotate(0, 90, 0);
 		float scaleFactor = Vector3.Distance (shieldJoints [i], shieldJoints [i+1])/2;
 		instance.gameObject.GetComponent<Shield>().SetDesitnationTransform(scaleFactor, shieldJoints[i]);
+		instance.gameObject.GetComponent<Shield>().SetShieldIndex(i);
 		foreach(Transform child in instance) {
 			instance.gameObject.GetComponent<Shield>().setShieldWall(child);
 			child.localScale = new Vector3(1, 0.01f, 0.3f );
 		}
 		instance.parent = transform;
-		instance.gameObject.GetComponent<Shield> ().StartGrowing ();
 		return instance.gameObject;
 	}
 
@@ -204,8 +220,8 @@ public class ShieldManager : MonoBehaviour {
 		return newJoint.gameObject;
 	}
 
-	public Vector3 getEntrancePathPosition() {
-		return pathPointArray[totalShields].transform.position;
+	public List<Vector3> getEntrancePathArray() {
+		return EntrancePath;
 	}
 
 	// Update is called once per frame
