@@ -109,8 +109,8 @@ public class LaserTowerScript : MonoBehaviour {
 		_loadTime += Time.deltaTime;
 
 		// get the laser gun point and shoot from that point
-		Transform pivot = transform.FindChild("LaserGun");
-		pivot.localPosition = new Vector3(0, _loadTime/shootSpeed/2, 0);
+		Transform laserGun = transform.FindChild("LaserGun");
+		laserGun.localPosition = new Vector3(0, _loadTime/shootSpeed/2, 0);
 
 		if (_loadTime >= shootSpeed) {
 			if (!_isShooting) {

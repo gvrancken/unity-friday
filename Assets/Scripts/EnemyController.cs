@@ -20,6 +20,7 @@ public class EnemyController : MonoBehaviour {
 		ShieldManager sm = _chosenPlayer.GetComponent<ShieldManager>();
 
 		endPosition = sm.getEntrancePathPosition();
+	
 	}
 
 	void Update () {

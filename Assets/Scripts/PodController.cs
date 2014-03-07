@@ -74,6 +74,7 @@ public class PodController : MonoBehaviour
 								float unitSize = unit.localScale.sqrMagnitude;
 		
 								GameObject instance = Instantiate (unit, spawnPoint+transform.position, Quaternion.identity) as GameObject;
+								
 								timeSinceLastUnload = 0;
 						}
 				} else {
