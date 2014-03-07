@@ -56,7 +56,7 @@ public class ShieldManager : MonoBehaviour {
 		pathPointArray = new GameObject[max];
 		initializeSchieldJoints ();
 		totalShields = startCount;
-		rearrangeShields();
+		InitializeShields();
 		SetEntrancePoints ();
 
 		//Set core material
@@ -73,21 +73,21 @@ public class ShieldManager : MonoBehaviour {
 
 	void OnDrawGizmosSelected() {
 		//Debug code to render the vector-list used to create the shields.
-//		for (int i = 0; i<=max; i++) {
-//				Gizmos.color = Color.white;
-//				Gizmos.DrawWireSphere (shieldJoints[i], 1);
-//		}
+		for (int i = 0; i<=max; i++) {
+				Gizmos.color = Color.white;
+				Gizmos.DrawWireSphere (shieldJoints[i], 1);
+		}
 
 
 		//Only draw entrancePosition
-		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(pathPointArray[totalShields].transform.position, 0.1f);
-		Gizmos.color = Color.yellow;
-		Gizmos.DrawWireSphere(pathPointArray[1].transform.position, 0.1f);
-		Gizmos.color = Color.white;
-		Gizmos.DrawWireSphere(pathPointArray[2].transform.position, 0.1f);
-		Gizmos.color = Color.white;
-		Gizmos.DrawWireSphere(pathPointArray[3].transform.position, 0.1f);
+//		Gizmos.color = Color.red;
+//		Gizmos.DrawWireSphere(pathPointArray[totalShields].transform.position, 0.1f);
+//		Gizmos.color = Color.yellow;
+//		Gizmos.DrawWireSphere(pathPointArray[1].transform.position, 0.1f);
+//		Gizmos.color = Color.white;
+//		Gizmos.DrawWireSphere(pathPointArray[2].transform.position, 0.1f);
+//		Gizmos.color = Color.white;
+//		Gizmos.DrawWireSphere(pathPointArray[3].transform.position, 0.1f);
 	}
 
 	void SetEntrancePoints() {
@@ -134,24 +134,31 @@ public class ShieldManager : MonoBehaviour {
 	}
 
 	//Create all shieds
-	void rearrangeShields() {
+	void InitializeShields() {
 		newJoint = createJoint(-1);
 		newJoint.transform.parent = core;
-		for (int i = 0; i <= totalShields; i++) {
-			CreateNewShield(i);
-			firstBrokenPos = i+1;
+		for (int i = 0; i <= startCount; i++) {
+			if (CreateNewShield(i)) {
+				firstBrokenPos = i+1;
+			}
 		}
 	}
 
-	public void CreateNewShield(int i) {
-		GameObject newShield = createShield(i);
-		newJoint = createJoint(i);
-		newJoint.transform.parent = newShield.transform;
-		shieldArray[i] = newShield;
-		jointArray[i] = newJoint;
-		newShield.GetComponent<Shield>().SetJoint(newJoint.transform);
-		newShield.gameObject.GetComponent<Shield> ().StartGrowing ();
-		newShield.GetComponent<Shield>().setEnergized(false);
+	public bool CreateNewShield(int i) {
+		if (shieldArray [i] == null) {
+			GameObject newShield = createShield (i);
+			newJoint = createJoint (i);
+			newJoint.transform.parent = newShield.transform;
+			shieldArray [i] = newShield;
+			jointArray [i] = newJoint;
+			newShield.GetComponent<Shield> ().SetJoint (newJoint.transform);
+			newShield.gameObject.GetComponent<Shield> ().StartGrowing ();
+			newShield.GetComponent<Shield> ().setEnergized (false);
+			//totalShields++;
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	//Initialize all position for the shields.
@@ -226,7 +233,7 @@ public class ShieldManager : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
-		initializeSchieldJoints ();
+		//initializeSchieldJoints ();
 		//rearrangeShields ();
 		//Check if the shield is continues and de-energize all seperate parts
 		for (int i = 0; i <=shieldArray.Length-1; i++) {
@@ -236,6 +243,7 @@ public class ShieldManager : MonoBehaviour {
 				shieldArray[i].GetComponent<Shield>().setEnergized(false);
 			}
 		}
+
 		hudManager.GetComponent<HUDManager>().updateEnergy (firstBrokenPos);
 //			
 		//Pulse the central crystal

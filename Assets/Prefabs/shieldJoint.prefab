@@ -13,7 +13,7 @@ GameObject:
   - 23: {fileID: 2300000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: shieldJoint
+  m_Name: ShieldJoint
   m_TagString: ShieldJoint
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -69,7 +69,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd5754f89a23f414eb106d7a43154f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mouseDown: 0
 --- !u!136 &13600000
 CapsuleCollider:
   m_ObjectHideFlags: 1
