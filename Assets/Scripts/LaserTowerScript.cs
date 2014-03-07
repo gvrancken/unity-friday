@@ -8,6 +8,8 @@ public class LaserTowerScript : MonoBehaviour {
 	public float shootSpeed = 1.0f;
 	public float damagePoints = 10;
 	public ParticleSystem smoke;
+
+	public bool isSelected = false;
 	
 	private List<GameObject> _targetsInRange = new List<GameObject>();
 	private GameObject _target;
@@ -64,7 +66,7 @@ public class LaserTowerScript : MonoBehaviour {
 
 			if (currentSmoke != null && currentSmoke.isPlaying) {
 				currentSmoke.Stop ();
-				Destroy(currentSmoke.transform.gameObject, 2f);
+				Destroy(currentSmoke.transform.gameObject, 1f);
 			}
 
 
@@ -81,6 +83,12 @@ public class LaserTowerScript : MonoBehaviour {
 				InitLaser();
 			}
 		} 
+
+		// is selected? 
+		if (isSelected) {
+
+			Debug.Log(gameObject + " is selected");
+		}
 
 	}
 
