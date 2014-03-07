@@ -19,7 +19,7 @@ public class EnemyController : MonoBehaviour {
 		_chosenPlayer = _players[Random.Range(0, _players.Length-1)];
 		ShieldManager sm = _chosenPlayer.GetComponent<ShieldManager>();
 
-		endPosition = sm.getEntrancePathPosition();
+		//endPosition = sm.getEntrancePathPosition();
 	}
 
 	void Update () {

@@ -27,6 +27,8 @@ public class ClickController : MonoBehaviour {
 				Debug.Log ("clicked: " + hit.transform.gameObject);
 				if (hit.transform.tag == "Tower") {
 					hit.transform.GetComponent<LaserTowerScript>().isSelected = true;
+				} else if (hit.transform.tag == "ShieldJoint") {
+					hit.transform.GetComponent<ShieldJoint>().OnClick(); 
 				}
 
 			}
