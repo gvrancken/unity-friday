@@ -26,8 +26,7 @@ public class ClickController : MonoBehaviour {
 				// a collision occured. Check it.
 				Debug.Log ("clicked: " + hit.transform.gameObject);
 				if (hit.transform.tag == "Tower") {
-
-
+					hit.transform.GetComponent<LaserTowerScript>().isSelected = true;
 				}
 
 			}

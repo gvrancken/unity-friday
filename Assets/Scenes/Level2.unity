@@ -86,6 +86,7 @@ GameObject:
   - 114: {fileID: 2338403}
   - 114: {fileID: 2338402}
   - 120: {fileID: 2338401}
+  - 136: {fileID: 2338405}
   m_Layer: 0
   m_Name: LaserTower
   m_TagString: Tower
@@ -173,6 +174,7 @@ MonoBehaviour:
   shootSpeed: 1
   damagePoints: 1
   smoke: {fileID: 19800000, guid: 122f57641f8674076908f322ac223f4d, type: 2}
+  isSelected: 0
 --- !u!135 &2338404
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -186,6 +188,19 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 10
   m_Center: {x: 5.96046448e-08, y: 0, z: -8.94069672e-08}
+--- !u!136 &2338405
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 2338399}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 1.29999995
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &259525432
 GameObject:
   m_ObjectHideFlags: 0
@@ -669,7 +684,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 901947999}
   - 33: {fileID: 901948002}
-  - 136: {fileID: 901948001}
   - 23: {fileID: 901948000}
   m_Layer: 0
   m_Name: Capsule
@@ -711,20 +725,6 @@ Renderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
---- !u!136 &901948001
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 13600004, guid: 9c31ba4f762824502ae5bd7244680ad9,
-    type: 2}
-  m_PrefabInternal: {fileID: 1042198392}
-  m_GameObject: {fileID: 901947998}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: .5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &901948002
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -782,7 +782,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 975613062}
   - 33: {fileID: 975613065}
-  - 136: {fileID: 975613064}
   - 23: {fileID: 975613063}
   m_Layer: 0
   m_Name: LaserGun
@@ -824,20 +823,6 @@ Renderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
---- !u!136 &975613064
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 13600002, guid: 9c31ba4f762824502ae5bd7244680ad9,
-    type: 2}
-  m_PrefabInternal: {fileID: 1042198392}
-  m_GameObject: {fileID: 975613061}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: .5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &975613065
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -873,18 +858,18 @@ GUIText:
   m_Text: 'Energy:'
   m_Anchor: 0
   m_Alignment: 0
-  m_PixelOffset: {x: 2, y: 220}
+  m_PixelOffset: {x: 0, y: 220}
   m_LineSpacing: 1
   m_TabSize: 4
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_Material: {fileID: 0}
-  m_FontSize: 30
+  m_FontSize: 12
   m_FontStyle: 0
   m_Color:
     serializedVersion: 2
-    rgba: 4294958848
+    rgba: 4294948096
   m_PixelCorrect: 1
-  m_RichText: 1
+  m_RichText: 0
 --- !u!4 &982449314
 Transform:
   m_ObjectHideFlags: 0
@@ -935,7 +920,14 @@ Prefab:
       propertyPath: m_TagString
       value: Untagged
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    - target: {fileID: 11400000, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}
+      propertyPath: isSelected
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 13600004, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}
+    - {fileID: 13600000, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}
+    - {fileID: 13600002, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}
   m_RootGameObject: {fileID: 2338399}
   m_IsPrefabParent: 0
@@ -1203,7 +1195,6 @@ GameObject:
   m_Component:
   - 4: {fileID: 1969234888}
   - 33: {fileID: 1969234891}
-  - 136: {fileID: 1969234890}
   - 23: {fileID: 1969234889}
   m_Layer: 0
   m_Name: Pivot
@@ -1245,20 +1236,6 @@ Renderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_SortingLayerID: 0
---- !u!136 &1969234890
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 13600000, guid: 9c31ba4f762824502ae5bd7244680ad9,
-    type: 2}
-  m_PrefabInternal: {fileID: 1042198392}
-  m_GameObject: {fileID: 1969234887}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: .5
-  m_Height: 2
-  m_Direction: 1
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!33 &1969234891
 MeshFilter:
   m_ObjectHideFlags: 0
