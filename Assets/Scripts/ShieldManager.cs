@@ -54,6 +54,7 @@ public class ShieldManager : MonoBehaviour {
 		initializeSchieldJoints ();
 		totalShields = startCount;
 		rearrangeShields();
+		SetEntrancePoints ();
 
 		//Set core material
 		core.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
@@ -78,6 +79,52 @@ public class ShieldManager : MonoBehaviour {
 		//Only draw entrancePosition
 		Gizmos.color = Color.red;
 		Gizmos.DrawWireSphere(pathPointArray[totalShields].transform.position, 0.1f);
+		Gizmos.color = Color.yellow;
+		Gizmos.DrawWireSphere(pathPointArray[1].transform.position, 0.1f);
+		Gizmos.color = Color.white;
+		Gizmos.DrawWireSphere(pathPointArray[2].transform.position, 0.1f);
+		Gizmos.color = Color.white;
+		Gizmos.DrawWireSphere(pathPointArray[3].transform.position, 0.1f);
+	}
+
+	void SetEntrancePoints() {
+		GameObject newEntrancePoint1 = new GameObject();
+		newEntrancePoint1.name = "EntrancePoint" + 1;
+		Vector3 newPos =  pathPointArray [totalShields].transform.position+RotateY(pathPointArray [totalShields].transform.position, -Mathf.PI/2);
+		newEntrancePoint1.transform.position = newPos;
+		newEntrancePoint1.tag = "PathPoint";
+		newEntrancePoint1.transform.parent = path;
+		pathPointArray[1] = newEntrancePoint1;
+
+		GameObject newEntrancePoint2 = new GameObject();
+		newEntrancePoint2.name = "EntrancePoint" + 2;
+		newPos =  (newEntrancePoint1.transform.position)+RotateY(newEntrancePoint1.transform.position, -Mathf.PI/1.6f);
+		newEntrancePoint2.transform.position = newPos;
+		newEntrancePoint2.tag = "PathPoint";
+		newEntrancePoint2.transform.parent = path;
+		pathPointArray[2] = newEntrancePoint2;
+
+		GameObject newEntrancePoint3 = new GameObject();
+		newEntrancePoint3.name = "EntrancePoint" + 2;
+		newPos =  jointArray[totalShields].transform.position*1.3f;
+		newEntrancePoint3.transform.position = newPos;
+		newEntrancePoint3.tag = "PathPoint";
+		newEntrancePoint3.transform.parent = path;
+		pathPointArray[3] = newEntrancePoint3;
+	}
+
+	private Vector3 RotateY(Vector3 v, float angle )
+		
+	{
+		float sin = Mathf.Sin( angle );
+		float cos = Mathf.Cos( angle );
+
+		float tx = v.x;
+		float tz = v.z;
+		
+		v.x = (cos * tx) + (sin * tz);
+		v.z = (cos * tz) - (sin * tx);
+		return v;
 	}
 
 	//Create all shieds
@@ -110,6 +157,8 @@ public class ShieldManager : MonoBehaviour {
 			float t = (tetha / max) * (i+startPos);
 			float a = (localAlpha / max) * (i+startPos);
 			Vector3 newPosition = new Vector3 (transform.position.x + a * Mathf.Cos (t), 0, transform.position.y + a * Mathf.Sin (t));
+			float noiseFactor = 0.01f * i;
+			newPosition += new Vector3(Random.Range(-noiseFactor, noiseFactor),0,Random.Range(-noiseFactor, noiseFactor));
 			shieldJoints[i] = newPosition;
 		}
 	}
@@ -121,11 +170,14 @@ public class ShieldManager : MonoBehaviour {
 		Transform instance = (Transform)Instantiate(shieldPiece, shieldPosition, transform.rotation);
 		instance.LookAt(shieldJoints [i]);
 		instance.transform.Rotate(0, 90, 0);
-		float scaleFactor = Vector3.Distance (shieldJoints [i], shieldJoints [i+1]);
+		float scaleFactor = Vector3.Distance (shieldJoints [i], shieldJoints [i+1])/2;
+		instance.gameObject.GetComponent<Shield>().SetDesitnationTransform(scaleFactor, shieldJoints[i]);
 		foreach(Transform child in instance) {
-			child.localScale = new Vector3(child.localScale.y, scaleFactor/2, 0.3f );
+			instance.gameObject.GetComponent<Shield>().setShieldWall(child);
+			child.localScale = new Vector3(1, 0.01f, 0.3f );
 		}
 		instance.parent = transform;
+		instance.gameObject.GetComponent<Shield> ().StartGrowing ();
 		return instance.gameObject;
 	}
 
@@ -146,6 +198,7 @@ public class ShieldManager : MonoBehaviour {
 			newPathPoint.transform.position = pointPosition;
 			newPathPoint.tag = "PathPoint";
 			newPathPoint.transform.parent = path;
+			newPathPoint.transform.LookAt(core);
 			pathPointArray[i] = newPathPoint;
 		}
 		return newJoint.gameObject;

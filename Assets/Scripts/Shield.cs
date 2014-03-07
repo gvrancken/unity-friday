@@ -11,10 +11,23 @@ public class Shield : MonoBehaviour {
 	private bool energized = false;
 	private float damageEffect = 0;
 	private float pulseState = 0;
+	private bool isGrowing;
+	private Vector3 growScaleStart;
+	private Vector3 growScaleEnd;
+	private Transform shieldWall;
+	private float growLength;
+	private float growStartTime;
+	private Vector3 anchorPostition;
+
 
 	// Use this for initialization
 	void Start () {
 
+	}
+
+	public void setShieldWall(Transform t) {
+		shieldWall = t;
+		growScaleStart = new Vector3(1f, 0.01f, 0.1f);
 	}
 	
 	void OnCollisionEnter (Collision col) {	
@@ -49,7 +62,29 @@ public class Shield : MonoBehaviour {
 		pulseState = 0.6f + p / 2;
 	}
 
+	void Growing() {
+		float distCovered = (Time.time - growStartTime) * 1;
+		float fracJourney = distCovered / growLength;
+		shieldWall.localScale = Vector3.Lerp (growScaleStart, growScaleEnd, fracJourney);
+		shieldWall.position = Vector3.Lerp (anchorPostition,transform.position,fracJourney);
+	}
+
+	public void SetDesitnationTransform(float length, Vector3 position) {
+		growScaleEnd = new Vector3 (1f, length, 0.3f); 
+		growLength = Vector3.Distance(growScaleEnd, growScaleStart);
+		anchorPostition = position;
+	}
+	public void StartGrowing() {
+		growStartTime = Time.time;
+		isGrowing = true;
+	}
+
 	void Update(){
+		//Is this shield just created and still growing?
+		if (isGrowing) {
+			Growing();
+		}
+
 		foreach (Transform child in transform) {
 			child.gameObject.renderer.material.SetFloat ("_RimPower", pulseState);
 		}

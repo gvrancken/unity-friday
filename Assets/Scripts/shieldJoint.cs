@@ -18,4 +18,9 @@ public class shieldJoint : MonoBehaviour {
 //
 //		}
 	}
+
+	void OnMouseDown() {
+		print("Mousdown");
+
+	}
 }
