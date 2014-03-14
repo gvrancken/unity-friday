@@ -12,6 +12,7 @@ public class ClickController : MonoBehaviour {
 	void Update () {
 
 		if (Input.GetMouseButtonUp(0)) {
+
 			// create a ray going into the scene from the screen location the user clicked at
 			Ray ray = Camera.main.ScreenPointToRay( Input.mousePosition );
 			
@@ -24,8 +25,6 @@ public class ClickController : MonoBehaviour {
 			if( Physics.Raycast( ray, out hit ) )
 			{
 				// a collision occured. Check it.
-				// Debug.Log ("clicked: " + hit.transform.gameObject);
-
 				switch (hit.transform.tag) {
 				case "Tower":
 					hit.transform.GetComponent<LaserTowerScript>().isSelected = true;
@@ -34,7 +33,11 @@ public class ClickController : MonoBehaviour {
 					hit.transform.GetComponent<ShieldJoint>().OnClick(); 
 					break;
 				case "Buildable":
-					Debug.Log("build here:  " + hit.point);
+					Transform unit = GetComponent<LevelManager>().selectedBuildConstruct;
+					if (unit != null) {
+						Vector3 buildPoint = new Vector3(hit.point.x, 0, hit.point.z);
+						Instantiate(unit, buildPoint, Quaternion.identity);
+					}
 					break;
 				default:
 					break;

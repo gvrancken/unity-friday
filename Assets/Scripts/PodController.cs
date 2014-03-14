@@ -71,7 +71,6 @@ public class PodController : MonoBehaviour
 						if (timeSinceLastUnload >= unitUnloadDelay) {
 
 								Transform unit = unitQueue.Dequeue ();
-								float unitSize = unit.localScale.sqrMagnitude;
 		
 								GameObject instance = Instantiate (unit, spawnPoint+transform.position, Quaternion.identity) as GameObject;
 								
