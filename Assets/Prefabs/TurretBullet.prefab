@@ -87,6 +87,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFired: 0
   bulletSpeed: 30
+  bulletLifeTime: .5
   direction: {x: 0, y: 0, z: 0}
   damagePoints: 5
 --- !u!135 &13500000

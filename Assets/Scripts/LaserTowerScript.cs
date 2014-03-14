@@ -72,9 +72,11 @@ public class LaserTowerScript : MonoBehaviour {
 				// raycast
 				for (int i=0; i<_targetsInRange.Count; i++) {
 					GameObject tempTarget = _targetsInRange[i];
-					if (IsTargetInSight(tempTarget)) {
-						_target = tempTarget;
-					} 
+					if (tempTarget != null) {
+						if (IsTargetInSight(tempTarget)) {
+							_target = tempTarget;
+						} 
+					}
 				}
 			} 
 			if (_target == null) {
