@@ -95,19 +95,13 @@ public class ShieldManager : MonoBehaviour {
 	}
 
 	void UpdateEntrancePoints() {
-//		GameObject newEntrancePoint1 = new GameObject();
-//		newEntrancePoint1.name = "EntrancePoint" + 1;
-//		Vector3 newPos =  pathPointArray [lastShieldID].transform.position + RotateY(pathPointArray [lastShieldID].transform.position, -Mathf.PI/2);
-//		newEntrancePoint1.transform.position = newPos;
-//		newEntrancePoint1.tag = "PathPoint";
-//		newEntrancePoint1.transform.parent = path;
-//		pathPointArray[0] = newEntrancePoint1;
-//		EntrancePath.Add(newPos);
 
 		if (pathPointArray [lastShieldID] != null) {
 			entrancePath.position = pathPointArray [lastShieldID].transform.position;
 			entrancePath.LookAt (core);
 			entrancePath.Rotate(new Vector3(0,90,0));
+			float scale = (playerRadius/8f);
+			entrancePath.localScale = new Vector3(scale,scale,scale);
 		}
 
 
