@@ -29,24 +29,16 @@ public class LaserTowerScript : MonoBehaviour {
 	
 	void OnTriggerEnter (Collider other) {
 		if (other.gameObject.tag == "Enemy") {
-			
 			_targetsInRange.Add(other.gameObject);
-			
-			if (_target == null) {
-				_target = other.gameObject;
-			}
-
 		}
 	}
 	
 	void OnTriggerExit (Collider other) {
 		if (other.gameObject.tag == "Enemy") {
-			
 			_targetsInRange.Remove(other.gameObject);
 			if (other.gameObject == _target) {
 				_target = null;
 			}
-
 		}
 	}
 	
@@ -55,13 +47,15 @@ public class LaserTowerScript : MonoBehaviour {
 
 		// if there is a target, rotate to it and shoot.
 		if (_target != null) {
+			if (IsTargetInSight(_target)) {
+				Quaternion rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
+				// laserTower immediately rotates to desired point
+				transform.rotation = rotation;
 
-			Quaternion rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
-			// laserTower immediately rotates to desired point
-			transform.rotation = rotation;
-
-			FireLaser();
-
+				FireLaser();
+			} else {
+				_target = null;
+			}
 		} else {
 
 			if (currentSmoke != null && currentSmoke.isPlaying) {
@@ -69,27 +63,46 @@ public class LaserTowerScript : MonoBehaviour {
 				Destroy(currentSmoke.transform.gameObject, 1f);
 			}
 
-
 			_isShooting = false;
 			_targetsInRange.Remove(null);
-	
 
-		
-			// if there are still units in sight, just pick the first in the list
+			// if there are units in sight, pick the first in line.
 			if (_targetsInRange.Count > 0) {
-				_target = _targetsInRange[0];
-			} else {
-				// otherwise return to init mode
+
+				// raycast
+				for (int i=0; i<_targetsInRange.Count; i++) {
+					GameObject tempTarget = _targetsInRange[i];
+					if (IsTargetInSight(tempTarget)) {
+						_target = tempTarget;
+					} 
+				}
+			} 
+			if (_target == null) {
 				InitLaser();
 			}
 		} 
 
-		// is selected? 
-		if (isSelected) {
+	}
 
-			Debug.Log(gameObject + " is selected");
+	bool IsTargetInSight(GameObject tempTarget) {
+		Ray ray = new Ray(transform.position, (tempTarget.transform.position - transform.position));
+		
+		// the raycast hit info will be filled by the Physics.Raycast() call further
+		RaycastHit hit;
+
+		// perform a raycast using our new ray. 
+		// If the ray collides with something solid in the scene, the "hit" structure will
+		// be filled with collision information
+		if( Physics.Raycast( ray, out hit ) )
+		{
+			// a collision occured. Check it.
+			if (hit.transform.gameObject == tempTarget) {
+				_target = tempTarget;
+				return true;
+			}
 		}
 
+		return false;
 	}
 
 	void InitLaser() {

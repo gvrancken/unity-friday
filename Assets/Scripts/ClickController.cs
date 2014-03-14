@@ -24,12 +24,22 @@ public class ClickController : MonoBehaviour {
 			if( Physics.Raycast( ray, out hit ) )
 			{
 				// a collision occured. Check it.
-				Debug.Log ("clicked: " + hit.transform.gameObject);
-				if (hit.transform.tag == "Tower") {
+				// Debug.Log ("clicked: " + hit.transform.gameObject);
+
+				switch (hit.transform.tag) {
+				case "Tower":
 					hit.transform.GetComponent<LaserTowerScript>().isSelected = true;
-				} else if (hit.transform.tag == "ShieldJoint") {
+					break;
+				case "ShieldJoint" :
 					hit.transform.GetComponent<ShieldJoint>().OnClick(); 
+					break;
+				case "Buildable":
+					Debug.Log("build here:  " + hit.point);
+					break;
+				default:
+					break;
 				}
+
 
 			}
 
