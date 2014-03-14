@@ -12,7 +12,6 @@ public class TurretController : MonoBehaviour {
 	private List<GameObject> targetsInRange = new List<GameObject>();
 	private GameObject target;
 	private bool canShoot = false;
-	private bool isShooting = false;
 	private float reloadTime = 0;
 
 	void OnTriggerEnter (Collider other) {
@@ -81,8 +80,6 @@ public class TurretController : MonoBehaviour {
 		bc.isFired = true;
 
 		// TODO Add recoil to gun
-		// TODO Better way in stead of hardcoded 
-		Transform gun = transform.FindChild ("Gun");
 
 	}
 
