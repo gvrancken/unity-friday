@@ -38,6 +38,7 @@ public class ShieldManager : MonoBehaviour {
 	private GameObject[] shieldArray; 
 	private GameObject[] pathPointArray; 
 	private int totalShields = 0;
+	private int lastShieldID = 0;
 	private int firstBrokenPos = 0;
 	private float pulseState = 0;
 	private Color defaultColor = new Color(0.8f, 0.8f, 1, 1);
@@ -58,6 +59,7 @@ public class ShieldManager : MonoBehaviour {
 		totalShields = startCount;
 		InitializeShields();
 		SetEntrancePoints ();
+		shieldArray [0].GetComponent<Shield> ().InvokeRepeating ("EnergyPulse", .01f, 1f);
 
 		//Set core material
 		core.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
@@ -93,7 +95,7 @@ public class ShieldManager : MonoBehaviour {
 	void SetEntrancePoints() {
 		GameObject newEntrancePoint1 = new GameObject();
 		newEntrancePoint1.name = "EntrancePoint" + 1;
-		Vector3 newPos =  pathPointArray [totalShields].transform.position+RotateY(pathPointArray [totalShields].transform.position, -Mathf.PI/2);
+		Vector3 newPos =  pathPointArray [lastShieldID].transform.position+RotateY(pathPointArray [lastShieldID].transform.position, -Mathf.PI/2);
 		newEntrancePoint1.transform.position = newPos;
 		newEntrancePoint1.tag = "PathPoint";
 		newEntrancePoint1.transform.parent = path;
@@ -111,7 +113,7 @@ public class ShieldManager : MonoBehaviour {
 
 		GameObject newEntrancePoint3 = new GameObject();
 		newEntrancePoint3.name = "EntrancePoint" + 2;
-		newPos =  jointArray[totalShields].transform.position*1.3f;
+		newPos =  jointArray[lastShieldID].transform.position*1.3f;
 		newEntrancePoint3.transform.position = newPos;
 		newEntrancePoint3.tag = "PathPoint";
 		newEntrancePoint3.transform.parent = path;
@@ -153,12 +155,16 @@ public class ShieldManager : MonoBehaviour {
 			jointArray [i] = newJoint;
 			newShield.GetComponent<Shield> ().SetJoint (newJoint.transform);
 			newShield.gameObject.GetComponent<Shield> ().StartGrowing ();
-			newShield.GetComponent<Shield> ().setEnergized (false);
-			//totalShields++;
+			newShield.GetComponent<Shield> ().SetEnergized (false);
+			totalShields++;
+			if (i > lastShieldID) {
+				lastShieldID = i;
+			}
 			return true;
 		} else {
 			return false;
 		}
+
 	}
 
 	//Initialize all position for the shields.
@@ -231,21 +237,23 @@ public class ShieldManager : MonoBehaviour {
 		return EntrancePath;
 	}
 
-	// Update is called once per frame
-	void Update () {
-		//initializeSchieldJoints ();
-		//rearrangeShields ();
+	void updateEnergy(){
 		//Check if the shield is continues and de-energize all seperate parts
 		for (int i = 0; i <=shieldArray.Length-1; i++) {
-			if ((shieldArray[i]==null) && (firstBrokenPos > i)) {
+			if ((shieldArray[i]==null)) {
 				firstBrokenPos = i;
-			} else if ((shieldArray[i]!=null) && (firstBrokenPos < i)) {
-				shieldArray[i].GetComponent<Shield>().setEnergized(false);
+				break;
 			}
 		}
-
+		//Update Energy in HUD
 		hudManager.GetComponent<HUDManager>().updateEnergy (firstBrokenPos);
-//			
+
+	}
+
+	// Update is called once per frame
+	void Update () {
+		updateEnergy ();
+
 		//Pulse the central crystal
 		pulseState = Mathf.Sin (Time.time*5);
 		pulseState = 1f + pulseState / 5;
@@ -256,18 +264,12 @@ public class ShieldManager : MonoBehaviour {
 			Color currentColor = ((1-damageEffect)*defaultColor)+(damageEffect*damageColor);
 			core.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
 			core.renderer.material.SetColor("_RimColor", currentColor);
-
-			
 		}
-
-		//Pulse shield pieces with delay
-//		Debug.Log(firstBrokenPos);
-		for (int i = 0; i <firstBrokenPos; i++) {
-			if (shieldArray[i]!=null){
-				pulseState = Mathf.Sin(((i*10) + Time.time) * 5);
-				shieldArray[i].GetComponent<Shield>().setPulse(pulseState);
-				shieldArray[i].GetComponent<Shield>().setEnergized(true);
-			}
+	}
+	//Pulse shield pieces with delay
+	public void ShieldPulse(int shieldIndex) {
+		if (shieldArray[shieldIndex]!=null){
+			shieldArray[shieldIndex].GetComponent<Shield>().EnergyPulse();
 		}
 	}
 }
