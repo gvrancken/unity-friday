@@ -119,7 +119,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 4
-  shootSpeed: 2
+  shootSpeed: .5
   bullet: {fileID: 100000, guid: cc9858c65466b446d86c8d5270ef43b4, type: 2}
 --- !u!135 &166058876
 SphereCollider:
@@ -402,7 +402,7 @@ GameObject:
   - 23: {fileID: 477286342}
   m_Layer: 0
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: Buildable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -660,7 +660,7 @@ GameObject:
   - 23: {fileID: 661087864}
   m_Layer: 0
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: Buildable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -829,8 +829,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   turnSpeed: 3
-  shootSpeed: 1
-  damagePoints: 1
+  shootSpeed: .200000003
+  damagePoints: 5
   smoke: {fileID: 19800000, guid: 122f57641f8674076908f322ac223f4d, type: 2}
   isSelected: 0
 --- !u!135 &682778828
@@ -968,7 +968,7 @@ GameObject:
   - 23: {fileID: 731039063}
   m_Layer: 0
   m_Name: Background
-  m_TagString: Untagged
+  m_TagString: Buildable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1838,6 +1838,10 @@ MonoBehaviour:
   enemyList:
   - {fileID: 400000, guid: d85dbdbf4d33d46d5a880fdbff6e3afa, type: 2}
   - {fileID: 400000, guid: 28202a5cf60a695448a9d57fceacba84, type: 2}
+  constructionsList:
+  - {fileID: 400000, guid: 9c31ba4f762824502ae5bd7244680ad9, type: 2}
+  - {fileID: 400000, guid: db0e92055de67403c9673afc18dc29aa, type: 2}
+  selectedBuildConstruct: {fileID: 0}
 --- !u!4 &2008026183
 Transform:
   m_ObjectHideFlags: 0
