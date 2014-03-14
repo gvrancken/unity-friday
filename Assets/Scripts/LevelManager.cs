@@ -2,12 +2,12 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class levelManager : MonoBehaviour
+public class LevelManager : MonoBehaviour
 {
 
 		public GameObject spawnObject;
 		public List<Transform> enemyList = new List<Transform> ();
-		public List<Transform> constructionsList = new List<><Transform> ();
+		public List<Transform> constructionsList = new List<Transform> ();
 		public Transform selectedBuildConstruct;
 
 		private Transform spawnSphere;
