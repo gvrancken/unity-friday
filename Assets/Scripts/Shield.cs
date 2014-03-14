@@ -127,6 +127,9 @@ public class Shield : MonoBehaviour {
 			}
 			puslePassedThrough = true;
 		}
+		if (timeSincePulse>1.4){
+			SetEnergized(false);
+		}
 
 		foreach (Transform child in transform) {
 			child.gameObject.renderer.material.SetFloat ("_RimPower", pulseState);
