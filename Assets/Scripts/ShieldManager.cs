@@ -147,7 +147,7 @@ public class ShieldManager : MonoBehaviour {
 			if (i > lastShieldID) {
 				lastShieldID = i;
 				playerRadius = Vector3.Distance (core.position, newJoint.transform.position)*1.01f;
-				mainCamera.orthographicSize = playerRadius*1.1f;
+				Camera.main.orthographicSize = playerRadius*1.1f;
 			}
 			UpdateEntrancePoints();
 			return true;
