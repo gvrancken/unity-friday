@@ -100,7 +100,7 @@ public class ShieldManager : MonoBehaviour {
 			entrancePath.position = pathPointArray [lastShieldID].transform.position;
 			entrancePath.LookAt (core);
 			entrancePath.Rotate(new Vector3(0,90,0));
-			float scale = (playerRadius/8f);
+			float scale = (playerRadius/7f);
 			entrancePath.localScale = new Vector3(scale,scale,scale);
 		}
 
