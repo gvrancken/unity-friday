@@ -8,6 +8,8 @@ public class ShieldManager : MonoBehaviour {
 	public Transform shieldJoint;
 	public Transform core;
 	public Transform path;
+	public Transform entrancePath;
+	public Camera mainCamera;
 	[Range(1,500)]
 	public int startCount = 15; 
 	[Range(0,20)]
@@ -47,6 +49,7 @@ public class ShieldManager : MonoBehaviour {
 	private GameObject hudManager;
 	private GameObject newJoint;
 	private List<Vector3> EntrancePath = new List<Vector3>();
+	private float playerRadius;
 
 
 	// Use this for initialization
@@ -58,7 +61,7 @@ public class ShieldManager : MonoBehaviour {
 		initializeSchieldJoints ();
 		totalShields = startCount;
 		InitializeShields();
-		SetEntrancePoints ();
+		UpdateEntrancePoints ();
 		shieldArray [0].GetComponent<Shield> ().InvokeRepeating ("EnergyPulse", .01f, 1f);
 
 		//Set core material
@@ -75,50 +78,39 @@ public class ShieldManager : MonoBehaviour {
 
 	void OnDrawGizmosSelected() {
 		//Debug code to render the vector-list used to create the shields.
-		for (int i = 0; i<=max; i++) {
-				Gizmos.color = Color.white;
-				Gizmos.DrawWireSphere (shieldJoints[i], 1);
-		}
+//		for (int i = 0; i<=max; i++) {
+//				Gizmos.color = Color.white;
+//				Gizmos.DrawWireSphere (shieldJoints[i], 1);
+//		}
+		Gizmos.color = Color.red;
+		Gizmos.DrawWireSphere(core.position, playerRadius);
 
 
 		//Only draw entrancePosition
-//		Gizmos.color = Color.red;
-//		Gizmos.DrawWireSphere(pathPointArray[totalShields].transform.position, 0.1f);
-//		Gizmos.color = Color.yellow;
-//		Gizmos.DrawWireSphere(pathPointArray[1].transform.position, 0.1f);
-//		Gizmos.color = Color.white;
-//		Gizmos.DrawWireSphere(pathPointArray[2].transform.position, 0.1f);
-//		Gizmos.color = Color.white;
-//		Gizmos.DrawWireSphere(pathPointArray[3].transform.position, 0.1f);
+		Gizmos.color = Color.red;
+		foreach (Transform child in entrancePath) {
+			Gizmos.DrawWireSphere(child.position, 0.1f);
+		}
+
 	}
 
-	void SetEntrancePoints() {
-		GameObject newEntrancePoint1 = new GameObject();
-		newEntrancePoint1.name = "EntrancePoint" + 1;
-		Vector3 newPos =  pathPointArray [lastShieldID].transform.position+RotateY(pathPointArray [lastShieldID].transform.position, -Mathf.PI/2);
-		newEntrancePoint1.transform.position = newPos;
-		newEntrancePoint1.tag = "PathPoint";
-		newEntrancePoint1.transform.parent = path;
-		pathPointArray[1] = newEntrancePoint1;
-		EntrancePath.Add(newPos);
+	void UpdateEntrancePoints() {
+//		GameObject newEntrancePoint1 = new GameObject();
+//		newEntrancePoint1.name = "EntrancePoint" + 1;
+//		Vector3 newPos =  pathPointArray [lastShieldID].transform.position + RotateY(pathPointArray [lastShieldID].transform.position, -Mathf.PI/2);
+//		newEntrancePoint1.transform.position = newPos;
+//		newEntrancePoint1.tag = "PathPoint";
+//		newEntrancePoint1.transform.parent = path;
+//		pathPointArray[0] = newEntrancePoint1;
+//		EntrancePath.Add(newPos);
 
-		GameObject newEntrancePoint2 = new GameObject();
-		newEntrancePoint2.name = "EntrancePoint" + 2;
-		newPos =  (newEntrancePoint1.transform.position)+RotateY(newEntrancePoint1.transform.position, -Mathf.PI/1.6f);
-		newEntrancePoint2.transform.position = newPos;
-		newEntrancePoint2.tag = "PathPoint";
-		newEntrancePoint2.transform.parent = path;
-		pathPointArray[2] = newEntrancePoint2;
-		EntrancePath.Add (newPos);
+		if (pathPointArray [lastShieldID] != null) {
+			entrancePath.position = pathPointArray [lastShieldID].transform.position;
+			entrancePath.LookAt (core);
+			entrancePath.Rotate(new Vector3(0,90,0));
+		}
 
-		GameObject newEntrancePoint3 = new GameObject();
-		newEntrancePoint3.name = "EntrancePoint" + 2;
-		newPos =  jointArray[lastShieldID].transform.position*1.3f;
-		newEntrancePoint3.transform.position = newPos;
-		newEntrancePoint3.tag = "PathPoint";
-		newEntrancePoint3.transform.parent = path;
-		pathPointArray[3] = newEntrancePoint3;
-		EntrancePath.Add (newPos);
+
 	}
 
 	private Vector3 RotateY(Vector3 v, float angle )
@@ -156,10 +148,14 @@ public class ShieldManager : MonoBehaviour {
 			newShield.GetComponent<Shield> ().SetJoint (newJoint.transform);
 			newShield.gameObject.GetComponent<Shield> ().StartGrowing ();
 			newShield.GetComponent<Shield> ().SetEnergized (false);
+			newShield.name = "Shield" + i;
 			totalShields++;
 			if (i > lastShieldID) {
 				lastShieldID = i;
+				playerRadius = Vector3.Distance (core.position, newJoint.transform.position)*1.01f;
+				mainCamera.orthographicSize = playerRadius*1.1f;
 			}
+			UpdateEntrancePoints();
 			return true;
 		} else {
 			return false;
@@ -185,6 +181,7 @@ public class ShieldManager : MonoBehaviour {
 			float noiseFactor = 0.01f * i;
 			newPosition += new Vector3(Random.Range(-noiseFactor, noiseFactor),0,Random.Range(-noiseFactor, noiseFactor));
 			shieldJoints[i] = newPosition;
+			shieldJoints[0] = new Vector3(0,0,0);
 		}
 	}
 
@@ -219,7 +216,7 @@ public class ShieldManager : MonoBehaviour {
 
 		//Create pathPoint
 		if (i >= 10) {
-			float y = i-10;
+			int y = i-10;
 			if (y < 0) {y=0;}
 			Vector3 pointPosition = newJoint.position/(1.6f-(y*0.008f));
 			GameObject newPathPoint = new GameObject();
@@ -229,6 +226,7 @@ public class ShieldManager : MonoBehaviour {
 			newPathPoint.transform.parent = path;
 			newPathPoint.transform.LookAt(core);
 			pathPointArray[i] = newPathPoint;
+			print ("PathPoint " + i + " created: " + pathPointArray[i].name);
 		}
 		return newJoint.gameObject;
 	}
@@ -265,6 +263,17 @@ public class ShieldManager : MonoBehaviour {
 			core.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
 			core.renderer.material.SetColor("_RimColor", currentColor);
 		}
+
+		//temp mouse scroll camera zoom
+		if (Input.GetAxis("Mouse ScrollWheel") > 0) // back
+		{
+			Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize-1, 3);
+			
+		}
+		if (Input.GetAxis("Mouse ScrollWheel") < 0) // forward
+		{
+			Camera.main.orthographicSize = Mathf.Min(Camera.main.orthographicSize+1, 10);
+		}
 	}
 	//Pulse shield pieces with delay
 	public void ShieldPulse(int shieldIndex) {
@@ -272,4 +281,6 @@ public class ShieldManager : MonoBehaviour {
 			shieldArray[shieldIndex].GetComponent<Shield>().EnergyPulse();
 		}
 	}
+
+
 }

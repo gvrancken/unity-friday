@@ -4,6 +4,7 @@ using System.Collections;
 public class Shield : MonoBehaviour {
 	public int damagePoints = 10;
 	public ParticleSystem explosion;
+	public Transform healthBar;
 	public Color colorEnergized = new Color (0.3f, 0.3f, 1f, 1f);	 
 	public Color colorEmpty = new Color (0.4f, 0.4f, 0.4f, 0.8f);	
 	public Color colorDamage = new Color (1.0f, 0, 0, 1);
@@ -52,6 +53,7 @@ public class Shield : MonoBehaviour {
 	public void SetEnergized(bool state){
 		isEnergized = state;
 		if (isEnergized) {
+			GetComponent<DamageController>().Heal(3);
 			foreach (Transform child in transform) {
 				child.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
 				child.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
@@ -118,6 +120,12 @@ public class Shield : MonoBehaviour {
 		if (isGrowing) {
 			Growing();
 		}
+
+		//update healthbar
+		float hp = GetComponent<DamageController> ().GetHitPoints ();
+		float scale = hp / 40;
+		healthBar.localScale = new Vector3 (1, scale, 0.3f); 
+		
 
 		float timeSincePulse = Time.time - pulseStartTime;
 		pulseState = timeSincePulse;

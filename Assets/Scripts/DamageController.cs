@@ -26,5 +26,16 @@ public class DamageController : MonoBehaviour {
 
 	}
 
+	public void Heal(float healingPoints) {
+		if (_hitpoints + healingPoints < MaxHitPoints){
+			_hitpoints += healingPoints;
+		} else {
+			_hitpoints = MaxHitPoints;
+		}
+	}
 
+	public float GetHitPoints() {
+		return _hitpoints;
+		
+	}
 }
