@@ -19,7 +19,6 @@ public class DamageController : MonoBehaviour {
 
 	public void takeDamage(float damagePoints) {
 		_hitpoints -= damagePoints;
-
 		if (_isDead == false && _hitpoints <= 0) {
 			_isDead = true;
 			Destroy  (gameObject, dieTime);

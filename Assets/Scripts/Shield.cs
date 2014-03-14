@@ -8,7 +8,7 @@ public class Shield : MonoBehaviour {
 	public Color colorEmpty = new Color (0.4f, 0.4f, 0.4f, 0.8f);	
 	public Color colorDamage = new Color (1.0f, 0, 0, 1);
 
-	private bool energized = false;
+	private bool isEnergized = false;
 	private float damageEffect = 0;
 	private float pulseState = 0;
 	private bool isGrowing;
@@ -21,6 +21,8 @@ public class Shield : MonoBehaviour {
 	private Vector3 nextAnchorPostition;
 	private Transform shieldJoint;
 	private int shieldIndex;
+	private float pulseStartTime;
+	private bool puslePassedThrough;
 
 
 
@@ -47,9 +49,9 @@ public class Shield : MonoBehaviour {
 		Destroy(explosionInst.gameObject,1);
 	}
 
-	public void setEnergized(bool state){
-		energized = state;
-		if (energized) {
+	public void SetEnergized(bool state){
+		isEnergized = state;
+		if (isEnergized) {
 			foreach (Transform child in transform) {
 				child.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
 				child.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
@@ -62,8 +64,14 @@ public class Shield : MonoBehaviour {
 		}
 	}
 
-	public void setPulse(float p){
-		pulseState = 0.6f + p / 2;
+
+	public void EnergyPulse(){
+		pulseStartTime = Time.time;
+		SetEnergized (true);
+		puslePassedThrough = false;
+
+	
+
 	}
 
 	public void SetJoint(Transform joint) {
@@ -75,15 +83,23 @@ public class Shield : MonoBehaviour {
 	}
 
 	public void CreateNewShield(){
-		transform.parent.GetComponent<ShieldManager> ().CreateNewShield (shieldIndex + 1);
+		if (isEnergized) {
+			transform.parent.GetComponent<ShieldManager> ().CreateNewShield (shieldIndex + 1);
+		}
 	}
 
 	void Growing() {
 		float distCovered = (Time.time - growStartTime) * 1;
 		float fracJourney = distCovered / growLength;
 		shieldWall.localScale = Vector3.Lerp (growScaleStart, growScaleEnd, fracJourney);
+		transform.GetComponent<BoxCollider> ().size = new Vector3(shieldWall.localScale.y*2, 1f, 0.5f);
+		
 		shieldWall.position = Vector3.Lerp (anchorPostition,transform.position,fracJourney);
 		shieldJoint.position = Vector3.Lerp(anchorPostition,nextAnchorPostition,fracJourney);
+
+		if (fracJourney>=1){
+			isGrowing = false;
+		}
 	}
 
 	public void SetDesitnationTransform(float length, Vector3 position) {
@@ -103,6 +119,18 @@ public class Shield : MonoBehaviour {
 			Growing();
 		}
 
+		float timeSincePulse = Time.time - pulseStartTime;
+		pulseState = timeSincePulse;
+		if ((timeSincePulse>0.05)&&!puslePassedThrough) {
+			if (!isGrowing){
+				transform.parent.GetComponent<ShieldManager> ().ShieldPulse (shieldIndex+1);
+			}
+			puslePassedThrough = true;
+		}
+		if (timeSincePulse>1.4){
+			SetEnergized(false);
+		}
+
 		foreach (Transform child in transform) {
 			child.gameObject.renderer.material.SetFloat ("_RimPower", pulseState);
 		}
@@ -115,7 +143,6 @@ public class Shield : MonoBehaviour {
 				child.gameObject.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
 				child.gameObject.renderer.material.SetColor("_RimColor", currentColor);
 			}
-
 		}
 	}
 
