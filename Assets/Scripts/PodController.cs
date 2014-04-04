@@ -77,7 +77,7 @@ public class PodController : MonoBehaviour
 								timeSinceLastUnload = 0;
 						}
 				} else {
-					Debug.Log (timeSinceLastUnload);
+					
 						isUnloading = false;
 						CancelInvoke ();
 						hasUnloaded = true;
