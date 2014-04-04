@@ -8,6 +8,7 @@ public class Shield : MonoBehaviour {
 	public Color colorEnergized = new Color (0.3f, 0.3f, 1f, 1f);	 
 	public Color colorEmpty = new Color (0.4f, 0.4f, 0.4f, 0.8f);	
 	public Color colorDamage = new Color (1.0f, 0, 0, 1);
+	public int NewShieldCosts = 100;
 
 	private bool isEnergized = false;
 	private float damageEffect = 0;
@@ -86,7 +87,11 @@ public class Shield : MonoBehaviour {
 
 	public void CreateNewShield(){
 		if (isEnergized) {
-			transform.parent.GetComponent<ShieldManager> ().CreateNewShield (shieldIndex + 1);
+			int _energy = transform.parent.GetComponent<ShieldManager>().GetEnergy();
+			if (_energy >= NewShieldCosts) {
+				transform.parent.GetComponent<ShieldManager> ().CreateNewShield (shieldIndex + 1);
+				transform.parent.GetComponent<ShieldManager> ().AddEnergy(-NewShieldCosts);
+			}
 		}
 	}
 

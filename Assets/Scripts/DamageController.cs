@@ -5,6 +5,9 @@ public class DamageController : MonoBehaviour {
 
 	public float MaxHitPoints = 1;
 	public float dieTime = 0.01f;
+	public int energySpawnOnDeath = 0;
+	public Transform energyNode;
+	public float SpawnRange = 0.5f;
 
 	private float _hitpoints;
 	private bool _isDead = false;
@@ -21,6 +24,7 @@ public class DamageController : MonoBehaviour {
 		_hitpoints -= damagePoints;
 		if (_isDead == false && _hitpoints <= 0) {
 			_isDead = true;
+			SpawnEnergy();
 			Destroy  (gameObject, dieTime);
 		}
 
@@ -37,5 +41,16 @@ public class DamageController : MonoBehaviour {
 	public float GetHitPoints() {
 		return _hitpoints;
 		
+	}
+
+	private void SpawnEnergy(){
+		if (energySpawnOnDeath > 0) {
+			for (int i = 1; i<=energySpawnOnDeath; i++) {
+				float spawnX = transform.position.x + (SpawnRange - (Random.value*2*SpawnRange));
+				float spawnZ = transform.position.z + (SpawnRange - (Random.value*2*SpawnRange));
+				Vector3 spawnPosition = new Vector3(spawnX, 0, spawnZ);
+				Transform instance = (Transform)Instantiate(energyNode, spawnPosition, transform.rotation);
+			}
+		}
 	}
 }

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -46,10 +46,11 @@ public class ShieldManager : MonoBehaviour {
 	private Color defaultColor = new Color(0.8f, 0.8f, 1, 1);
 	private Color damageColor = new Color(1, 0, 0, 1);
 	private float damageEffect = 0;
-	private GameObject hudManager;
+	private GameObject _hudManager;
 	private GameObject newJoint;
 	private List<Vector3> EntrancePath = new List<Vector3>();
 	private float playerRadius;
+	private int _energy;
 
 
 	// Use this for initialization
@@ -70,7 +71,7 @@ public class ShieldManager : MonoBehaviour {
 
 		//Get HUDManager
 		GameObject[] x = GameObject.FindGameObjectsWithTag("HUDManager");
-		hudManager = x [0];
+		_hudManager = x [0];
 
 
 	}
@@ -229,7 +230,7 @@ public class ShieldManager : MonoBehaviour {
 		return EntrancePath;
 	}
 
-	void updateEnergy(){
+	void updateLevel(){
 		//Check if the shield is continues and de-energize all seperate parts
 		for (int i = 0; i <=shieldArray.Length-1; i++) {
 			if ((shieldArray[i]==null)) {
@@ -237,14 +238,23 @@ public class ShieldManager : MonoBehaviour {
 				break;
 			}
 		}
-		//Update Energy in HUD
-		hudManager.GetComponent<HUDManager>().updateEnergy (firstBrokenPos);
+		//Update Level in HUD
+		_hudManager.GetComponent<HUDManager>().updateLevel (firstBrokenPos);
+	}
 
+	public int AddEnergy(int amount){
+		_energy += amount;
+		_hudManager.GetComponent<HUDManager>().updateEnergy(_energy);
+		return _energy;
+	}
+
+	public int GetEnergy(){
+		return _energy;
 	}
 
 	// Update is called once per frame
 	void Update () {
-		updateEnergy ();
+		updateLevel ();
 
 		//Pulse the central crystal
 		pulseState = Mathf.Sin (Time.time*5);
