@@ -15,7 +15,7 @@ public class LaserTowerController : TowerController
 
 	public LaserTowerController()
 	{
-		Debug.Log("LaserTowerController Constructor Called");
+		//Debug.Log("LaserTowerController Constructor Called");
 	}
 
 	void Start() {
@@ -29,14 +29,9 @@ public class LaserTowerController : TowerController
 		InitLaser();
 	}
 
-
-	void RemoveSmoke() {
-
-	}
-
 	public override void Shoot()
 	{
-		Debug.Log("The LaserController handles shooting."); 
+		Debug.Log("Laser shoots."); 
 
 		_loadTime += Time.deltaTime;
 		
@@ -82,7 +77,6 @@ public class LaserTowerController : TowerController
 			Destroy(currentSmoke.transform.gameObject, 1.0f);
 		}
 	}
-
 
 	void InitLaser() {
 		Transform pivot = transform.FindChild("LaserGun");

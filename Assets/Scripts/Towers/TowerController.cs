@@ -11,7 +11,7 @@ public class TowerController : MonoBehaviour
 	public float shootSpeed = 1.0f;
 	public float damagePoints = 1.0f;
 
-
+	protected float timeSinceLastShot = 0;
 	protected float _loadTime = 0;
 	protected bool _isShooting = false;
 	protected GameObject _target;
@@ -21,7 +21,7 @@ public class TowerController : MonoBehaviour
 	// and is not inherited by any derived classes.
 	public TowerController()
 	{
-		Debug.Log("TowerController Constructor Called");
+		//Debug.Log("TowerController Constructor Called");
 	}
 
 	void OnTriggerEnter (Collider other) {
@@ -41,6 +41,7 @@ public class TowerController : MonoBehaviour
 
 	// Update is called once per frame
 	void Update () {
+		timeSinceLastShot += Time.deltaTime;
 		// if there is a target, rotate to it and shoot.
 		if (_target != null) {
 			if (IsTargetInSight(_target)) {
