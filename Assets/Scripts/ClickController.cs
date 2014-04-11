@@ -6,12 +6,16 @@ public class ClickController : MonoBehaviour {
 
 	private GameObject _player;
 	private ShieldManager _shieldManager;
+	private GameObject _lm;
+	private LevelManager _lmscript;
 
 
 	// Use this for initialization
 	void Start () {
 		_player = GameObject.Find ("Player");
 		_shieldManager = _player.GetComponent<ShieldManager> ();
+		_lm = GameObject.Find ("LevelManager");
+		_lmscript = _lm.GetComponent<LevelManager>();
 	}
 
 
@@ -56,16 +60,25 @@ public class ClickController : MonoBehaviour {
 				default:
 					break;
 				}
+			} else if (Input.GetMouseButtonUp(1)) {
+				//right-click = cancel build-mode, deselect construction unit, disable construction ghost
+				_lmscript.selectedBuildConstruct = null;
+				_constructionGhost.GetComponent<ConstructionGhost>().SetConstructionType(ConstructionType.Empty);
+
 			} else {
-				//MouseOver
+				//MouseOver, checks every frame if a construction can be build and updates the construction ghost accordingly.
 				switch (hit.transform.tag) {
 				case "Buildable":
-					if (GetComponent<LevelManager>().selectedBuildConstruct != null){
-						_constructionGhost.position = hit.point;
-					}
+					_constructionGhost.GetComponent<ConstructionGhost>().setGhostBuildableEnabled(true);
 					break;
 				default:
+					_constructionGhost.GetComponent<ConstructionGhost>().setGhostBuildableEnabled(false);
 					break;
+				}
+
+				//Update position of the construction ghost to where the mousepointer hits the 'floor'.
+				if (GetComponent<LevelManager>().selectedBuildConstruct != null){
+					_constructionGhost.position = new Vector3(hit.point.x, 0, hit.point.z);
 				}
 			}
 

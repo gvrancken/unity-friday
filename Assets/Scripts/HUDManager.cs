@@ -39,6 +39,10 @@ public class HUDManager : MonoBehaviour {
 			int constructionCost = 50;
 			int y = 22 * i;
 			bool canBuy = false;
+			string selectedText = "";
+			if (lmscript.selectedBuildConstruct == unit){
+				selectedText = ">> ";
+			}
 			string canBuyText = " (costs: " + constructionCost + ")";
 			GUI.color = Color.red;
 			if (_shieldManager.GetEnergy() >= constructionCost) {
@@ -46,12 +50,13 @@ public class HUDManager : MonoBehaviour {
 				canBuyText = " (costs: 50)";
 				GUI.color = Color.green;
 			}
+			ConstructionGhost.GetComponent<ConstructionGhost>().setGhostCostsEnabled(canBuy);
+			if (GUI.Button(new Rect(Screen.width-220,20+y,200,20), selectedText + unit.name + canBuyText)) {
+				//if (canBuy) {
+				lmscript.selectedBuildConstruct = unit;
 
-			if (GUI.Button(new Rect(Screen.width-220,20+y,200,20), unit.name + canBuyText)) {
-				if (canBuy) {
-					lmscript.selectedBuildConstruct = unit;
-					ConstructionGhost.GetComponent<ConstructionGhost>().SetConstructionType((ConstructionType)i);
-				}
+				ConstructionGhost.GetComponent<ConstructionGhost>().SetConstructionType((ConstructionType)i);
+				//}
 			}
 		}
 	}
