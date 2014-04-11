@@ -221,7 +221,7 @@ public class ShieldManager : MonoBehaviour {
 			newPathPoint.transform.parent = path;
 			newPathPoint.transform.LookAt(core);
 			pathPointArray[i] = newPathPoint;
-			print ("PathPoint " + i + " created: " + pathPointArray[i].name);
+//			print ("PathPoint " + i + " created: " + pathPointArray[i].name);
 		}
 		return newJoint.gameObject;
 	}
