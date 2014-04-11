@@ -50,8 +50,7 @@ public class HUDManager : MonoBehaviour {
 			if (GUI.Button(new Rect(Screen.width-220,20+y,200,20), unit.name + canBuyText)) {
 				if (canBuy) {
 					lmscript.selectedBuildConstruct = unit;
-					Transform instance = (Transform)Instantiate(ConstructionGhost, transform.position, transform.rotation);
-					lm.GetComponent<ClickController>().SetConstructionGhost(instance);
+					ConstructionGhost.GetComponent<ConstructionGhost>().SetConstructionType((ConstructionType)i);
 				}
 			}
 		}

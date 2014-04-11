@@ -2,9 +2,11 @@
 using System.Collections;
 
 public class ClickController : MonoBehaviour {
+	public Transform _constructionGhost; 
+
 	private GameObject _player;
 	private ShieldManager _shieldManager;
-	private Transform 	_constructionGhost; 
+
 
 	// Use this for initialization
 	void Start () {
@@ -12,9 +14,7 @@ public class ClickController : MonoBehaviour {
 		_shieldManager = _player.GetComponent<ShieldManager> ();
 	}
 
-	public void SetConstructionGhost(Transform ghost){
-		_constructionGhost = ghost;
-	}
+
 	
 	// Update is called once per frame
 	void Update () {
