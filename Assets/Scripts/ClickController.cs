@@ -35,7 +35,6 @@ public class ClickController : MonoBehaviour {
 
 				switch (hit.transform.tag) {
 				case "Tower":
-					hit.transform.GetComponent<LaserTowerScript>().isSelected = true;
 					break;
 				case "ShieldJoint" :
 					hit.transform.GetComponent<ShieldJoint>().OnClick(); 

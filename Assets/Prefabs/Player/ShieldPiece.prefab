@@ -172,6 +172,7 @@ MonoBehaviour:
   colorEnergized: {r: .00735294819, g: .383874267, b: 1, a: 1}
   colorEmpty: {r: .213235319, g: .213235319, b: .213235319, a: .352941185}
   colorDamage: {r: 1, g: 0, b: 0, a: 1}
+  NewShieldCosts: 100
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -185,6 +186,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHitPoints: 40
   dieTime: .00999999978
+  energySpawnOnDeath: 0
+  energyNode: {fileID: 0}
+  SpawnRange: .5
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
