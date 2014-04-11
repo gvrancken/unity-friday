@@ -49,8 +49,10 @@ public class ConstructionGhost : MonoBehaviour {
 		if (!_constructionEnabled) {
 			ghostColor = Color.red;
 		}
-		foreach (Transform child in constructionTypeList [(int)_selectedConstructionType]){
-			child.gameObject.renderer.material.color = ghostColor;
+		if (_selectedConstructionType>=0){
+			foreach (Transform child in constructionTypeList [(int)_selectedConstructionType]){
+				child.gameObject.renderer.material.color = ghostColor;
+			}
 		}
 	}
 

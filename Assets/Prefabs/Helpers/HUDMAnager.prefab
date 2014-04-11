@@ -477,7 +477,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   constructionTypeList:
   - {fileID: 400020}
-  - {fileID: 400014}
+  - {fileID: 0}
 --- !u!132 &13200000
 GUIText:
   m_ObjectHideFlags: 1

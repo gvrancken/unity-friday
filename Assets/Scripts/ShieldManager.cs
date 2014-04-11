@@ -148,7 +148,7 @@ public class ShieldManager : MonoBehaviour {
 			if (i > lastShieldID) {
 				lastShieldID = i;
 				playerRadius = Vector3.Distance (core.position, newJoint.transform.position)*1.01f;
-				Camera.main.orthographicSize = playerRadius*1.1f;
+				Camera.main.GetComponent<CameraController>().setMaxViewSize(playerRadius*1.1f);
 			}
 			UpdateEntrancePoints();
 			return true;
@@ -268,16 +268,7 @@ public class ShieldManager : MonoBehaviour {
 			core.renderer.material.SetColor("_RimColor", currentColor);
 		}
 
-		//temp mouse scroll camera zoom
-		if (Input.GetAxis("Mouse ScrollWheel") > 0) // back
-		{
-			Camera.main.orthographicSize = Mathf.Max(Camera.main.orthographicSize-1, 3);
-			
-		}
-		if (Input.GetAxis("Mouse ScrollWheel") < 0) // forward
-		{
-			Camera.main.orthographicSize = Mathf.Min(Camera.main.orthographicSize+1, 10);
-		}
+
 	}
 	//Pulse shield pieces with delay
 	public void ShieldPulse(int shieldIndex) {

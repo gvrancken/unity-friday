@@ -12,6 +12,7 @@ public class DamageController : MonoBehaviour {
 	private float _hitpoints;
 	private bool _isDead = false;
 
+
 	void Start () {
 		_hitpoints = MaxHitPoints;
 	}
@@ -22,10 +23,17 @@ public class DamageController : MonoBehaviour {
 
 	public void takeDamage(float damagePoints) {
 		_hitpoints -= damagePoints;
+		if (gameObject.name == "Core") {
+			gameObject.GetComponent<PlayerController>().GetDamage();
+		}
+		
 		if (_isDead == false && _hitpoints <= 0) {
 			_isDead = true;
 			SpawnEnergy();
 			Destroy  (gameObject, dieTime);
+			if (gameObject.name == "Core") {
+				gameObject.GetComponent<PlayerController>().Die();
+			}
 		}
 
 	}

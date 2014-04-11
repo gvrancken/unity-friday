@@ -7,6 +7,7 @@ public class HUDManager : MonoBehaviour {
 	public GUIText textLevel;
 	public GUIText textEnergy;
 	public Transform ConstructionGhost;
+	public GUISkin ConstructionPanelSkin;
 
 	private GameObject lm;
 	private LevelManager lmscript;
@@ -37,13 +38,14 @@ public class HUDManager : MonoBehaviour {
 		{
 			Transform unit = lmscript.constructionsList[i];
 			int constructionCost = 50;
-			int y = 22 * i;
+			int y = 30 * i;
 			bool canBuy = false;
 			string selectedText = "";
 			if (lmscript.selectedBuildConstruct == unit){
 				selectedText = ">> ";
 			}
 			string canBuyText = " (costs: " + constructionCost + ")";
+			GUI.skin = ConstructionPanelSkin;
 			GUI.color = Color.red;
 			if (_shieldManager.GetEnergy() >= constructionCost) {
 				canBuy = true;
@@ -51,7 +53,7 @@ public class HUDManager : MonoBehaviour {
 				GUI.color = Color.green;
 			}
 			ConstructionGhost.GetComponent<ConstructionGhost>().setGhostCostsEnabled(canBuy);
-			if (GUI.Button(new Rect(Screen.width-220,20+y,200,20), selectedText + unit.name + canBuyText)) {
+			if (GUI.Button(new Rect(Screen.width-250,30+y,230,30), selectedText + unit.name + canBuyText)) {
 				//if (canBuy) {
 				lmscript.selectedBuildConstruct = unit;
 
