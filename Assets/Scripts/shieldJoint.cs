@@ -10,4 +10,8 @@ public class ShieldJoint : MonoBehaviour {
 		transform.parent.GetComponent<Shield> ().CreateNewShield ();
 
 	}
+
+	public void OnMouseOver(){
+		this.gameObject.renderer.material.color = Color.red;
+	}
 }

@@ -51,10 +51,12 @@ public class ShieldManager : MonoBehaviour {
 	private List<Vector3> EntrancePath = new List<Vector3>();
 	private float playerRadius;
 	private int _energy;
+	private GameObject _levelManager;
 
 
 	// Use this for initialization
 	void Start () {
+		_levelManager = GameObject.Find ("LevelManager");
 		shieldJoints = new Vector3[max + 1];
 		jointArray = new GameObject[max];
 		shieldArray = new GameObject[max];
@@ -73,7 +75,6 @@ public class ShieldManager : MonoBehaviour {
 		GameObject[] x = GameObject.FindGameObjectsWithTag("HUDManager");
 		_hudManager = x [0];
 
-
 	}
 
 
@@ -84,14 +85,15 @@ public class ShieldManager : MonoBehaviour {
 //				Gizmos.DrawWireSphere (shieldJoints[i], 1);
 //		}
 		Gizmos.color = Color.red;
-		Gizmos.DrawWireSphere(core.position, playerRadius);
+		//Gizmos.DrawWireSphere(core.position, playerRadius);
 
 
 		//Only draw entrancePosition
-		Gizmos.color = Color.red;
-		foreach (Transform child in entrancePath) {
-			Gizmos.DrawWireSphere(child.position, 0.1f);
-		}
+		//Gizmos.color = Color.red;
+		//foreach (Transform child in entrancePath) {
+		//	Gizmos.DrawWireSphere(child.position, 0.1f);
+		//}
+
 
 	}
 
@@ -148,7 +150,8 @@ public class ShieldManager : MonoBehaviour {
 			if (i > lastShieldID) {
 				lastShieldID = i;
 				playerRadius = Vector3.Distance (core.position, newJoint.transform.position)*1.01f;
-				Camera.main.GetComponent<CameraController>().setMaxViewSize(playerRadius*1.1f);
+				_levelManager.GetComponent<LevelManager>().setSpawnSphereRadius(playerRadius+5);
+				Camera.main.GetComponent<CameraController>().setMaxViewSize(playerRadius*1.5f);
 			}
 			UpdateEntrancePoints();
 			return true;
@@ -156,6 +159,14 @@ public class ShieldManager : MonoBehaviour {
 			return false;
 		}
 
+	}
+
+	public bool NewShieldPossible(int i){
+		if (shieldArray [i] == null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	//Initialize all position for the shields.
@@ -207,7 +218,7 @@ public class ShieldManager : MonoBehaviour {
 		//Take position inbetween 2 shieldJoints
 		Vector3 jointPosition = shieldJoints [i+1];
 		Transform newJoint = (Transform)Instantiate(shieldJoint, jointPosition, transform.rotation);
-		newJoint.name = "ShieldJoint" + i;
+		newJoint.name = "ShieldJoint";
 
 		//Create pathPoint
 		if (i >= 10) {

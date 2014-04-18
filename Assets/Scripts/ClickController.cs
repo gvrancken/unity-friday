@@ -8,6 +8,7 @@ public class ClickController : MonoBehaviour {
 	private ShieldManager _shieldManager;
 	private GameObject _lm;
 	private LevelManager _lmscript;
+	private bool ghostBuildableState;
 
 
 	// Use this for initialization
@@ -68,12 +69,19 @@ public class ClickController : MonoBehaviour {
 
 				} else {
 					//MouseOver, checks every frame if a construction can be build and updates the construction ghost accordingly.
-					switch (hit.transform.tag) {
-					case "Buildable":
+					if ((hit.transform.tag == "Buildable") && (!ghostBuildableState)) {
 						_constructionGhost.GetComponent<ConstructionGhost>().setGhostBuildableEnabled(true);
+						ghostBuildableState = true;
+					} else if ((hit.transform.tag != "Buildable") && (ghostBuildableState)){
+						_constructionGhost.GetComponent<ConstructionGhost>().setGhostBuildableEnabled(false);
+						ghostBuildableState = false;
+					}
+
+					switch (hit.transform.tag) {
+					case "ShieldJoint":
+						hit.transform.gameObject.GetComponent<ShieldJoint>().OnMouseOver();
 						break;
 					default:
-						_constructionGhost.GetComponent<ConstructionGhost>().setGhostBuildableEnabled(false);
 						break;
 					}
 

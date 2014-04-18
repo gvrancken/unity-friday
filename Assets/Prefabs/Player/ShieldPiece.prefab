@@ -170,9 +170,10 @@ MonoBehaviour:
   explosion: {fileID: 19800000, guid: b6da3c75bba7aae44859fb3886f94c0f, type: 2}
   healthBar: {fileID: 400002}
   colorEnergized: {r: .00735294819, g: .383874267, b: 1, a: 1}
+  colorEnergizedBuild: {r: .135583371, g: .801470578, b: .0471453257, a: 1}
   colorEmpty: {r: .213235319, g: .213235319, b: .213235319, a: .352941185}
   colorDamage: {r: 1, g: 0, b: 0, a: 1}
-  NewShieldCosts: 100
+  NewShieldCostsPerUnit: 25
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

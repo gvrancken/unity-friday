@@ -6,6 +6,7 @@ public class HUDManager : MonoBehaviour {
 
 	public GUIText textLevel;
 	public GUIText textEnergy;
+	public GUIText textWave;
 	public Transform ConstructionGhost;
 	public GUISkin ConstructionPanelSkin;
 
@@ -30,6 +31,10 @@ public class HUDManager : MonoBehaviour {
 
 	public void updateEnergy (int amount) {
 		textEnergy.text = ("Energy: " + amount);
+	}
+
+	public void updateWave (string text) {
+		textWave.text = text;
 	}
 	
 	

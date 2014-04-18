@@ -38,6 +38,9 @@ public class CameraController : MonoBehaviour {
 	}
 
 	public void setMaxViewSize(float viewSize){
+		if (viewSize<10) {
+			return;
+		}
 		_viewSizeMax = viewSize;
 		if (_viewSizeMax-_viewSizeCurrent < 3f) {
 			_viewSizeTarget = _viewSizeMax;

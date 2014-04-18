@@ -20,9 +20,13 @@ public class LevelManager : MonoBehaviour
 
 		private static Texture2D _staticRectTexture;
 		private static GUIStyle _staticRectStyle;
+
+		private GameObject _hudManager;
 	
 		void Start ()
 		{
+				_hudManager = GameObject.Find ("HUDManager");
+				
 				spawnSphere = transform.FindChild ("SpawnSphere");
 				newLevel ();
 		}
@@ -33,9 +37,9 @@ public class LevelManager : MonoBehaviour
 
 				//Difficulty Knobs
 				//Knob Variable			Max Condition					Max		Calculation
-				numEnemies = (numEnemies > 100) ? 100 : level * 4;
-				enemyWaveDelay = (enemyWaveDelay < 1) ? 1 : 5 - (level - 1) * 2;	
-				enemyWaveMax = (enemyWaveMax > 100) ? 100 : 10 * level;
+				numEnemies = 			(numEnemies > 100) ? 			100 : 	level * 4;
+				enemyWaveDelay =		Mathf.RoundToInt(10f + (0.4f * numEnemies));
+				enemyWaveMax = 			(enemyWaveMax > 100) ? 			100 : 	3 * level;
 		}
 
 		void Update ()
@@ -49,6 +53,8 @@ public class LevelManager : MonoBehaviour
 				if (numWaves >= enemyWaveMax) {
 						newLevel ();
 				}
+
+		_hudManager.GetComponent<HUDManager>().updateWave("Wave: " + numWaves + " (time to next wave: " + Mathf.Round(enemyWaveDelay-timeSinceLastSpawn)+")");
 		}
 
 		private static Vector2 PointOnCircle (float radius, float angleInDegrees, Vector2 origin)
@@ -78,10 +84,17 @@ public class LevelManager : MonoBehaviour
 								pc.unitQueue.Enqueue (enemyList [0]);
 						}
 				}
-
+				
 				numWaves++;
+				
 		}
 
-
+		public void setSpawnSphereRadius(float radius){
+			spawnSphere = transform.FindChild ("SpawnSphere");
+			spawnSphere.GetComponent<SphereCollider> ().radius = radius;
+		}
+	void OnDrawGizmosSelected() {
+		Gizmos.DrawWireSphere(transform.position,spawnSphere.GetComponent<SphereCollider> ().radius);
+	}
 
 }
