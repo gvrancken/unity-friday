@@ -6,7 +6,6 @@ public class PodController : MonoBehaviour
 {
 		public Queue<Transform> unitQueue = new Queue<Transform> ();
 		public float timeBeforeUnload = 1f;
-		public ParticleSystem smoke;
 	
 		private bool hasLanded;
 		private bool hasUnloaded;
@@ -23,6 +22,9 @@ public class PodController : MonoBehaviour
 				hasLanded = true;
 				hasUnloaded = false;
 				isUnloading = false;
+
+				//transform.Translate(Vector3.up * 1);
+
 				
 		}
 	

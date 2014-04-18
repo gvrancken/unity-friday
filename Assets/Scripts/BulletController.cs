@@ -12,8 +12,10 @@ public class BulletController : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+		Debug.Log(gameObject + " fired");
 	}
+
+
 
 	void Update() {
 		_lifeTimeCounter += Time.deltaTime;
