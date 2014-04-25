@@ -51,6 +51,14 @@ public class DamageController : MonoBehaviour {
 		
 	}
 
+	public float GetMaxHitPoints(){
+		return MaxHitPoints;
+	}
+
+	public void SetMaxHitPoints(float maxHP){
+		MaxHitPoints = maxHP;
+	}
+
 	private void SpawnEnergy(){
 		if (energySpawnOnDeath > 0) {
 			for (int i = 1; i<=energySpawnOnDeath; i++) {
@@ -58,6 +66,7 @@ public class DamageController : MonoBehaviour {
 				float spawnZ = transform.position.z + (SpawnRange - (Random.value*2*SpawnRange));
 				Vector3 spawnPosition = new Vector3(spawnX, 0, spawnZ);
 				Transform instance = (Transform)Instantiate(energyNode, spawnPosition, transform.rotation);
+				instance.GetComponent<EnergyNode>().setOriginPoint(transform.position);
 			}
 		}
 	}

@@ -7,6 +7,10 @@ public class EnergyNode : MonoBehaviour {
 	private GameObject _hudManager;
 	private Transform _absorbTarget;
 	private GameObject _player;
+	private float _spawnForce;
+	private Vector3 _forceDirection;
+	private float _initializationTime;
+	private float _lifeTime;
 
 	private void SetAbsorbTarget(Transform target){
 		_absorbTarget = target;
@@ -17,6 +21,8 @@ public class EnergyNode : MonoBehaviour {
 		GameObject[] x = GameObject.FindGameObjectsWithTag("Player");
 		SetAbsorbTarget(x[0].transform);
 		_player = x [0];
+		_spawnForce = 10;
+		_initializationTime = Time.timeSinceLevelLoad;
 	}
 	
 	// Update is called once per frame
@@ -26,7 +32,11 @@ public class EnergyNode : MonoBehaviour {
 		float step = _moveSpeed * speedModifier * Time.deltaTime;
 		Vector3 randomPosition = new Vector3(0,0,0);
 		if (distance > 5) {
-			 randomPosition = new Vector3 (2-Random.value*4, 0, 2-Random.value*4);
+			 randomPosition = new Vector3 (3-Random.value*6, 0, 3-Random.value*6);
+		}
+		_lifeTime = Time.timeSinceLevelLoad - _initializationTime;
+		if (_lifeTime<0.6f){
+			transform.position += (_forceDirection * Random.value* 2 * (0.6f-_lifeTime)*(0.6f-_lifeTime));
 		}
 		transform.position = Vector3.MoveTowards(transform.position, _endPosition+randomPosition, step);
 
@@ -36,7 +46,14 @@ public class EnergyNode : MonoBehaviour {
 	}
 
 	private void absorbEnergy(){
-		_player.GetComponent<ShieldManager>().AddEnergy(1);
-		Destroy(this.gameObject);
+		if (_player.GetComponent<ShieldManager>().isCoreAlive()){
+			_player.GetComponent<ShieldManager>().AddEnergy(1);
+			Destroy(this.gameObject);
+		}
+	}
+
+	public void setOriginPoint(Vector3 origin){
+		_forceDirection = transform.position - origin;
+		_forceDirection.Normalize();
 	}
 }

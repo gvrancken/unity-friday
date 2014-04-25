@@ -4,7 +4,9 @@ using System.Collections;
 public class Shield : MonoBehaviour {
 	public int damagePoints = 10;
 	public ParticleSystem explosion;
+	public Transform shieldMesh;
 	public Transform healthBar;
+	public Transform buildArea;
 	public Color colorEnergized = new Color (0.3f, 0.3f, 1f, 1f);	 
 	public Color colorEnergizedBuild = new Color (0.3f, 0.8f, 0.6f, 1f);
 	public Color colorEmpty = new Color (0.4f, 0.4f, 0.4f, 0.8f);	
@@ -33,20 +35,21 @@ public class Shield : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-
+		shieldMesh.localScale = new Vector3(1, 0.01f, 0.3f );
+		growScaleStart = new Vector3(1f, 0.01f, 0.1f);
+		shieldWall = shieldMesh;
 	}
 
 	public void setShieldWall(Transform t) {
 		shieldWall = t;
-		growScaleStart = new Vector3(1f, 0.01f, 0.1f);
+
 	}
 	
 	void OnCollisionEnter (Collision col) {	
 		DamageController dc = col.gameObject.GetComponent<DamageController>();
 		dc.takeDamage(damagePoints);
-			foreach (Transform child in transform) {
-				child.gameObject.renderer.material.SetColor("_RimColor", colorDamage);
-			}
+		shieldMesh.gameObject.renderer.material.SetColor("_RimColor", colorDamage);
+
 		damageEffect = 1;
 
 		ParticleSystem explosionInst = (ParticleSystem)Instantiate(explosion, transform.position, transform.rotation);
@@ -58,26 +61,27 @@ public class Shield : MonoBehaviour {
 		isEnergized = state;
 		if (isEnergized) {
 			GetComponent<DamageController>().Heal(3);
-			foreach (Transform child in transform) {
-				child.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
-				child.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
-			}
+			shieldJoint.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
+			shieldJoint.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
+			shieldMesh.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
+			shieldMesh.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
+
 		} else {
-			foreach (Transform child in transform) {
-				child.gameObject.renderer.material.SetColor("_ColorTint", colorEmpty);
-				child.gameObject.renderer.material.SetColor("_RimColor", colorEmpty);
-			}
+			shieldJoint.gameObject.renderer.material.SetColor("_ColorTint", colorEmpty);
+			shieldJoint.gameObject.renderer.material.SetColor("_RimColor", colorEmpty);
+			shieldMesh.gameObject.renderer.material.SetColor("_ColorTint", colorEmpty);
+			shieldMesh.gameObject.renderer.material.SetColor("_RimColor", colorEmpty);
+
 		}
 	}
 
 
 	public void EnergyPulse(){
-		pulseStartTime = Time.time;
-		SetEnergized (true);
-		puslePassedThrough = false;
-
-	
-
+		if (!isGrowing){
+			pulseStartTime = Time.time;
+			SetEnergized (true);
+			puslePassedThrough = false;
+		}
 	}
 
 	public void SetJoint(Transform joint) {
@@ -102,22 +106,24 @@ public class Shield : MonoBehaviour {
 		float distCovered = (Time.time - growStartTime) * 1;
 		float fracJourney = distCovered / growLength;
 		shieldWall.localScale = Vector3.Lerp (growScaleStart, growScaleEnd, fracJourney);
-		transform.GetComponent<BoxCollider> ().size = new Vector3(shieldWall.localScale.y*2, 1f, 0.5f);
+		shieldJoint.localScale = new Vector3 (shieldWall.localScale.z*1.2f, 1f, shieldWall.localScale.z*1.2f);
+		transform.GetComponent<BoxCollider> ().size = new Vector3(shieldWall.localScale.y*2, 1f, shieldWall.localScale.z);
 		
 		shieldWall.position = Vector3.Lerp (anchorPostition,transform.position,fracJourney);
 		shieldJoint.position = Vector3.Lerp(anchorPostition,nextAnchorPostition,fracJourney);
 
 		if (fracJourney>=1){
 			isGrowing = false;
+			enableBuildArea();
 		}
 	}
 
 	public void SetDesitnationTransform(float length, Vector3 position) {
-		growScaleEnd = new Vector3 (1f, length, 0.3f); 
+		print("index: " + shieldIndex);
+		growScaleEnd = new Vector3 (1f, length, 0.3f+(shieldIndex*0.03f)); 
 		growLength = Vector3.Distance(growScaleEnd, growScaleStart);
 		anchorPostition = position;
 		NewShieldCost = Mathf.RoundToInt(NewShieldCostsPerUnit * length);
-		print (transform.name + " - costs: " + NewShieldCost);
 	}
 
 	public int GetNextShieldCosts(){
@@ -153,12 +159,12 @@ public class Shield : MonoBehaviour {
 		if (CanBuildNewShield()) {
 			if (_colorEnergizedJoint!=colorEnergizedBuild){
 				_colorEnergizedJoint = colorEnergizedBuild;
-				transform.FindChild("ShieldJoint").gameObject.renderer.material.SetColor("_RimColor", _colorEnergizedJoint);
+				shieldJoint.gameObject.renderer.material.SetColor("_RimColor", _colorEnergizedJoint);
 			}
 		} else {
 			if (_colorEnergizedJoint!=colorEnergized){
 				_colorEnergizedJoint = colorEnergized;
-				transform.FindChild("ShieldJoint").gameObject.renderer.material.SetColor("_RimColor", _colorEnergizedJoint);
+				shieldJoint.gameObject.renderer.material.SetColor("_RimColor", _colorEnergizedJoint);
 			}
 		}
 
@@ -180,26 +186,32 @@ public class Shield : MonoBehaviour {
 			SetEnergized(false);
 		}
 
-		foreach (Transform child in transform) {
-			child.gameObject.renderer.material.SetFloat ("_RimPower", pulseState);
-		}
+
+			shieldMesh.gameObject.renderer.material.SetFloat ("_RimPower", pulseState);
+
 
 
 		if (damageEffect > 0) {
 			damageEffect -= 0.1f;
 			Color currentColor;
 			//Debug.Log("damage effect = " + damageEffect);
-			foreach (Transform child in transform) {
-				if (child.name == "ShieldJoint"){
-					print ("feuifwuiegfw");
-					currentColor = ((1-damageEffect)*_colorEnergizedJoint)+(damageEffect*colorDamage);
-				} else {
-					currentColor = ((1-damageEffect)*colorEnergized)+(damageEffect*colorDamage);
-				}
-				child.gameObject.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
-				child.gameObject.renderer.material.SetColor("_RimColor", currentColor);
-			}
+
+				shieldJoint.gameObject.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
+				currentColor = ((1-damageEffect)*_colorEnergizedJoint)+(damageEffect*colorDamage);
+				shieldJoint.gameObject.renderer.material.SetColor("_RimColor", currentColor);
+
+				shieldMesh.gameObject.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
+				currentColor = ((1-damageEffect)*colorEnergized)+(damageEffect*colorDamage);
+				shieldMesh.gameObject.renderer.material.SetColor("_RimColor", currentColor);
+
 		}
+	}
+
+	void enableBuildArea() {
+		float buildAreaScale = 0.7f * Vector3.Distance (Vector3.zero, shieldJoint.position);
+		buildArea.localScale = new Vector3 (shieldMesh.localScale.y*2.9f,  buildAreaScale,1);
+		buildArea.position += buildArea.TransformDirection (buildArea.forward) * 0.1f * buildAreaScale;
+		buildArea.gameObject.SetActive (true);
 	}
 
 
