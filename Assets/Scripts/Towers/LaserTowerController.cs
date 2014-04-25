@@ -15,7 +15,7 @@ public class LaserTowerController : TowerController
 
 	public LaserTowerController()
 	{
-		//Debug.Log("LaserTowerController Constructor Called");
+		// Debug.Log("LaserTowerController Constructor Called");
 	}
 
 	void Start() {
@@ -31,7 +31,7 @@ public class LaserTowerController : TowerController
 
 	public override void Shoot()
 	{
-		Debug.Log("Laser shoots."); 
+		//Debug.Log("Laser shoots."); 
 
 		_loadTime += Time.deltaTime;
 		
@@ -71,7 +71,7 @@ public class LaserTowerController : TowerController
 	}
 
 	public override void CleanUp() {
-		Debug.Log ("cleanup smoke");
+		//Debug.Log ("cleanup smoke");
 		if (currentSmoke != null && currentSmoke.isPlaying) {
 			currentSmoke.Stop ();
 			Destroy(currentSmoke.transform.gameObject, 1.0f);
@@ -88,6 +88,12 @@ public class LaserTowerController : TowerController
 		lineRenderer.SetPosition(1, Vector3.zero);
 	}
 
+	public override void RotateTowards(Quaternion rotation)
+	{
+		// laser immediately looks at target position and shoots
+		transform.rotation = rotation; 
+		Shoot ();
+	}
 
 
 }

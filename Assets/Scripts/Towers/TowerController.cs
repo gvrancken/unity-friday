@@ -44,13 +44,12 @@ public class TowerController : MonoBehaviour
 		timeSinceLastShot += Time.deltaTime;
 		// if there is a target, rotate to it and shoot.
 		if (_target != null) {
+
 			if (IsTargetInSight(_target)) {
 				Quaternion rotation = Quaternion.LookRotation(_target.transform.position - transform.position);
-				// laserTower immediately rotates to desired point
-				transform.rotation = rotation;
-				Shoot ();
+				RotateTowards(rotation);
 			} else {
-				_target = null;
+				//_target = null;
 			}
 		} else {
 			_isShooting = false;
@@ -77,12 +76,14 @@ public class TowerController : MonoBehaviour
 	}
 
 	public virtual void CleanUp() {
-		Debug.Log ("base: cleanup");
+		//Debug.Log ("base: cleanup");
 	}
 	
 	bool IsTargetInSight(GameObject tempTarget) {
+
+		//Vector3 lookPos = transform.position * Vector3.forward * 2;
 		Ray ray = new Ray(transform.position, (tempTarget.transform.position - transform.position));
-		
+
 		// the raycast hit info will be filled by the Physics.Raycast() call further
 		RaycastHit hit;
 		
@@ -103,17 +104,17 @@ public class TowerController : MonoBehaviour
 
 	public virtual void Shoot()
 	{
-		Debug.Log("Base: Shoot.");     
+		//Debug.Log("Base: Shoot.");     
 	}
 
 	public virtual void CoolDown() 
 	{
-		Debug.Log("Base: Cooling Down.");  
+		//Debug.Log("Base: Cooling Down.");  
 	}
 	
-	public void Rotate()
+	public virtual void RotateTowards(Quaternion rotation)
 	{
-		Debug.Log("Hello, I am a fruit.");
+		//Debug.Log("Base: RotateTowards.");
 	}
 
 

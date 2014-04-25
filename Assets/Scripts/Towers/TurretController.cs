@@ -16,12 +16,15 @@ public class TurretController : TowerController {
 
 	override public void Shoot() 
 	{
+
+//		Debug.Log("Turret wants to shoot.");
+//		Debug.Log(timeSinceLastShot);
+//		Debug.Log (shootSpeed);
 		if (timeSinceLastShot >= shootSpeed) canShoot = true;
 		if (!canShoot) return;
-
+		Debug.Log("Turret shoots.");
 		canShoot = false;
 		timeSinceLastShot = 0;
-
 
 		Transform spawnPoint = transform.FindChild("BulletEmitter");
 		
@@ -32,6 +35,14 @@ public class TurretController : TowerController {
 
 		bc.rigidbody.velocity = transform.forward * bc.bulletSpeed;
 		bc.isFired = true;
+	}
+
+	override public void RotateTowards(Quaternion rotation)
+	{
+	
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 1f);
+		Shoot ();
+
 	}
 
 }
