@@ -12,6 +12,8 @@ public class TurretController : TowerController {
 	public TurretController()
 	{
 		//Debug.Log("TurretController Constructor Called");
+		rotationSpeed = 1.0f;
+		accuracyAngle = 5f;
 	}
 
 	override public void Shoot() 
@@ -26,7 +28,7 @@ public class TurretController : TowerController {
 		canShoot = false;
 		timeSinceLastShot = 0;
 
-		Transform spawnPoint = transform.FindChild("BulletEmitter");
+		Transform spawnPoint = transform.FindChild("ShootPoint");
 		
 		GameObject bulletInstance = Instantiate(bullet, spawnPoint.position, Quaternion.LookRotation (_target.transform.position)) as GameObject;
 
@@ -37,12 +39,6 @@ public class TurretController : TowerController {
 		bc.isFired = true;
 	}
 
-	override public void RotateTowards(Quaternion rotation)
-	{
-	
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, rotation, 1f);
-		Shoot ();
 
-	}
 
 }

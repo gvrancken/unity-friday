@@ -19,6 +19,8 @@ public class LaserTowerController : TowerController
 	}
 
 	void Start() {
+		rotationSpeed = 100;
+
 		if (gameObject.GetComponent<LineRenderer>() == null) {
 			lineRenderer = gameObject.AddComponent<LineRenderer>() as LineRenderer;
 		}
@@ -53,7 +55,7 @@ public class LaserTowerController : TowerController
 			
 			_isShooting = true;
 			
-			Transform laserEmitter = transform.FindChild("LaserEmitter");
+			Transform laserEmitter = transform.FindChild("ShootPoint");
 			
 		    lineRenderer.SetPosition(0, laserEmitter.position);
 			lineRenderer.SetPosition(1, _target.transform.position);
@@ -88,12 +90,7 @@ public class LaserTowerController : TowerController
 		lineRenderer.SetPosition(1, Vector3.zero);
 	}
 
-	public override void RotateTowards(Quaternion rotation)
-	{
-		// laser immediately looks at target position and shoots
-		transform.rotation = rotation; 
-		Shoot ();
-	}
+
 
 
 }
