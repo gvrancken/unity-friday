@@ -119,7 +119,6 @@ public class Shield : MonoBehaviour {
 	}
 
 	public void SetDesitnationTransform(float length, Vector3 position) {
-		print("index: " + shieldIndex);
 		growScaleEnd = new Vector3 (1f, length, 0.3f+(shieldIndex*0.03f)); 
 		growLength = Vector3.Distance(growScaleEnd, growScaleStart);
 		anchorPostition = position;

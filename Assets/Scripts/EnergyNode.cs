@@ -7,7 +7,7 @@ public class EnergyNode : MonoBehaviour {
 	private GameObject _hudManager;
 	private Transform _absorbTarget;
 	private GameObject _player;
-	private float _spawnForce;
+
 	private Vector3 _forceDirection;
 	private float _initializationTime;
 	private float _lifeTime;
@@ -21,7 +21,7 @@ public class EnergyNode : MonoBehaviour {
 		GameObject[] x = GameObject.FindGameObjectsWithTag("Player");
 		SetAbsorbTarget(x[0].transform);
 		_player = x [0];
-		_spawnForce = 10;
+
 		_initializationTime = Time.timeSinceLevelLoad;
 	}
 	

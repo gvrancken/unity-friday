@@ -209,10 +209,7 @@ public class ShieldManager : MonoBehaviour {
 		instance.gameObject.GetComponent<Shield>().SetShieldIndex(i);
 		instance.gameObject.GetComponent<Shield>().SetDesitnationTransform(scaleFactor, shieldJoints[i]);
 
-		foreach(Transform child in instance) {
-			instance.gameObject.GetComponent<Shield>().setShieldWall(child);
-			child.localScale = new Vector3(1, 0.01f, 0.3f );
-		}
+
 		instance.parent = transform;
 		return instance.gameObject;
 	}
@@ -222,7 +219,7 @@ public class ShieldManager : MonoBehaviour {
 		//Take position inbetween 2 shieldJoints
 		Vector3 jointPosition = shieldJoints [i+1];
 		Transform newJoint = (Transform)Instantiate(shieldJoint, jointPosition, transform.rotation);
-		newJoint.name = "ShieldJoint";
+		newJoint.name = "ShieldJoint" + i;
 
 		//Create pathPoint
 		if (i >= 10) {
@@ -305,7 +302,6 @@ public class ShieldManager : MonoBehaviour {
 
 	void HealCore(){
 		core.GetComponent<DamageController> ().Heal (4);
-		print ("core healed, new hp = " + core.GetComponent<DamageController> ().GetHitPoints ());
 	}
 
 	public bool isCoreAlive(){
@@ -314,6 +310,52 @@ public class ShieldManager : MonoBehaviour {
 		} else {
 			return false;
 		}
+	}
+
+	public Vector3 isInProximityOfShield(Vector3 p){
+		int closestShieldIndex=0;
+		float closestDistance=0;
+
+		for (int i=0; i<totalShields-1; i++){
+			float d = Vector3.Distance (shieldArray[i].transform.position, p);
+			if (closestDistance==0) {
+				closestDistance=d;
+				closestShieldIndex = i;
+			} else if (d < closestDistance){
+				closestDistance = d;
+				closestShieldIndex = i;
+			}
+		}
+
+		if (closestShieldIndex == 0) {
+						return new Vector3 ();
+				}
+
+		Vector3 v = jointArray[closestShieldIndex].transform.position;
+		Vector3 w = jointArray[closestShieldIndex-1].transform.position;
+
+		Vector2 v2 = new Vector2 (v.x, v.z);
+		Vector2 w2 = new Vector2 (w.x, w.z);
+		Vector2 p2 = new Vector2 (p.x, p.z);
+
+
+		Vector2 pointOnShield = pointOnSegmentClosestBy (p2, v2, w2);
+		return new Vector3(pointOnShield.x, 0, pointOnShield.y);
+
+	}
+
+	float sqr(float x) {
+		return x * x;
+	}
+	
+
+	Vector2 pointOnSegmentClosestBy(Vector2 p, Vector2 v, Vector2 w) {
+		float l2 = Vector2.Distance(v, w);
+		if (l2 == 0) return v;
+		float t = ((((p.x - v.x) * (w.x - v.x)) + ((p.y - v.y) * (w.y - v.y)))/l2) / l2;
+		if (t < 0) return v;
+		if (t > 1) return w;
+		return new Vector2(v.x + t * (w.x - v.x), v.y + t * (w.y - v.y));
 	}
 
 

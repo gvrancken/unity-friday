@@ -9,6 +9,7 @@ public class ClickController : MonoBehaviour {
 	private GameObject _lm;
 	private LevelManager _lmscript;
 	private bool ghostBuildableState;
+	private Vector3 _v = new Vector3();
 
 
 	// Use this for initialization
@@ -19,7 +20,11 @@ public class ClickController : MonoBehaviour {
 		_lmscript = _lm.GetComponent<LevelManager>();
 	}
 
-
+	void OnDrawGizmosSelected() {
+		Gizmos.color = Color.white;
+		Gizmos.DrawWireSphere (_v, 2);
+		//print (_v);
+	}
 	
 	// Update is called once per frame
 	void Update () {
@@ -68,10 +73,13 @@ public class ClickController : MonoBehaviour {
 					_constructionGhost.GetComponent<ConstructionGhost>().SetConstructionType(ConstructionType.Empty);
 
 				} else {
+
 					//MouseOver, checks every frame if a construction can be build and updates the construction ghost accordingly.
 					if ((hit.transform.tag == "Buildable") && (!ghostBuildableState)) {
 						_constructionGhost.GetComponent<ConstructionGhost>().setGhostBuildableEnabled(true);
 						ghostBuildableState = true;
+						print ("canbuild");
+
 					} else if ((hit.transform.tag != "Buildable") && (ghostBuildableState)){
 						_constructionGhost.GetComponent<ConstructionGhost>().setGhostBuildableEnabled(false);
 						ghostBuildableState = false;

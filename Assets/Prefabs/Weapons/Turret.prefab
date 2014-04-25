@@ -243,7 +243,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   turnSpeed: 4
   shootSpeed: 1
-  damagePoints: 1
+  damagePoints: 2
+  rotationSpeed: 1
+  accuracyAngle: 5
   bullet: {fileID: 100000, guid: cc9858c65466b446d86c8d5270ef43b4, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:

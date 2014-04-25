@@ -2,8 +2,7 @@
 using System.Collections;
 
 public class ShieldJoint : MonoBehaviour {
-
-	private bool mouseDown = false;
+	
 
 
 	public void OnClick() {

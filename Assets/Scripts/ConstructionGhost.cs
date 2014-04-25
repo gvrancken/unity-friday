@@ -8,10 +8,22 @@ public class ConstructionGhost : MonoBehaviour {
 	private bool _constructionBuildableEnabled;
 	private bool _constructionCostsEnabled;
 	private bool _constructionEnabled;
+	private GameObject _player;
+	private ShieldManager _shieldManager;
 
 	// Use this for initialization
 	void Start () {
+		_player = GameObject.Find ("Player");
+		_shieldManager = _player.GetComponent<ShieldManager> ();
 		ClearGhost ();
+	}
+
+	void Update(){
+		if (_constructionBuildableEnabled) {
+			Vector3 _v = _shieldManager.isInProximityOfShield(transform.position);
+			transform.GetComponent<LineRenderer>().SetPosition(0, transform.position);
+			transform.GetComponent<LineRenderer>().SetPosition(1, _v);
+		}
 	}
 	
 	public void SetConstructionType(ConstructionType newType){
@@ -26,7 +38,9 @@ public class ConstructionGhost : MonoBehaviour {
 		if (_constructionBuildableEnabled != enabled){
 			_constructionBuildableEnabled = enabled;
 			updateConstructionEnabled();
+			transform.GetComponent<LineRenderer>().enabled = enabled;
 		}
+
 	}
 
 	//Set whether the construction can be build or not.
@@ -52,6 +66,7 @@ public class ConstructionGhost : MonoBehaviour {
 		if (_selectedConstructionType>=0){
 			foreach (Transform child in constructionTypeList [(int)_selectedConstructionType]){
 				child.gameObject.renderer.material.color = ghostColor;
+				print ("wordt groen!");
 			}
 		}
 	}
