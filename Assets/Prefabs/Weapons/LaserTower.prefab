@@ -80,7 +80,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400008}
   m_Layer: 0
-  m_Name: LaserEmitter
+  m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -243,6 +243,8 @@ MonoBehaviour:
   turnSpeed: 30
   shootSpeed: 1
   damagePoints: 1
+  rotationSpeed: 100
+  accuracyAngle: 5
   smoke: {fileID: 19800000, guid: 122f57641f8674076908f322ac223f4d, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:

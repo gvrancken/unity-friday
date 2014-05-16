@@ -15,12 +15,10 @@ public class BulletController : MonoBehaviour {
 		Debug.Log(gameObject + " fired");
 	}
 
-
-
 	void Update() {
 		_lifeTimeCounter += Time.deltaTime;
 		if (_lifeTimeCounter >= bulletLifeTime) {
-			Destroy (gameObject);
+			Explode ();
 		}
 	}
 	
@@ -39,6 +37,10 @@ public class BulletController : MonoBehaviour {
 			Destroy (gameObject);
 		}
 
+	}
+
+	void Explode () {
+		Destroy (gameObject);
 	}
 
 }

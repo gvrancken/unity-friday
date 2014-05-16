@@ -24,7 +24,6 @@ public class TurretController : TowerController {
 //		Debug.Log (shootSpeed);
 		if (timeSinceLastShot >= shootSpeed) canShoot = true;
 		if (!canShoot) return;
-		Debug.Log("Turret shoots.");
 		canShoot = false;
 		timeSinceLastShot = 0;
 
