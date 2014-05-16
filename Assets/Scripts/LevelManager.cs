@@ -93,8 +93,6 @@ public class LevelManager : MonoBehaviour
 			spawnSphere = transform.FindChild ("SpawnSphere");
 			spawnSphere.GetComponent<SphereCollider> ().radius = radius;
 		}
-	void OnDrawGizmosSelected() {
-		Gizmos.DrawWireSphere(transform.position,spawnSphere.GetComponent<SphereCollider> ().radius);
-	}
+
 
 }

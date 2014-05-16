@@ -50,6 +50,7 @@ public class ShieldManager : MonoBehaviour {
 	private GameObject newJoint;
 	private List<Vector3> EntrancePath = new List<Vector3>();
 	private float playerRadius;
+	private float outOfViewRadius;
 	private int _energy;
 	private GameObject _levelManager;
 
@@ -65,7 +66,7 @@ public class ShieldManager : MonoBehaviour {
 		totalShields = startCount;
 		InitializeShields();
 		UpdateEntrancePoints ();
-		shieldArray [0].GetComponent<Shield> ().InvokeRepeating ("EnergyPulse", .01f, 1f);
+		InvokeRepeating ("CorePulse", .01f, 1f);
 
 		//Set core material
 		core.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
@@ -150,8 +151,10 @@ public class ShieldManager : MonoBehaviour {
 			if (i > lastShieldID) {
 				lastShieldID = i;
 				playerRadius = Vector3.Distance (core.position, newJoint.transform.position)*1.01f;
+				outOfViewRadius = playerRadius*2;
 				_levelManager.GetComponent<LevelManager>().setSpawnSphereRadius(playerRadius+5);
 				Camera.main.GetComponent<CameraController>().setMaxViewSize(playerRadius*1.5f);
+				core.GetComponent<DamageController>().SetMaxHitPoints(100+(6*i));
 			}
 			UpdateEntrancePoints();
 			return true;
@@ -203,12 +206,10 @@ public class ShieldManager : MonoBehaviour {
 		instance.LookAt(shieldJoints [i]);
 		instance.transform.Rotate(0, 90, 0);
 		float scaleFactor = Vector3.Distance (shieldJoints [i], shieldJoints [i+1])/2;
-		instance.gameObject.GetComponent<Shield>().SetDesitnationTransform(scaleFactor, shieldJoints[i]);
 		instance.gameObject.GetComponent<Shield>().SetShieldIndex(i);
-		foreach(Transform child in instance) {
-			instance.gameObject.GetComponent<Shield>().setShieldWall(child);
-			child.localScale = new Vector3(1, 0.01f, 0.3f );
-		}
+		instance.gameObject.GetComponent<Shield>().SetDesitnationTransform(scaleFactor, shieldJoints[i]);
+
+
 		instance.parent = transform;
 		return instance.gameObject;
 	}
@@ -218,7 +219,7 @@ public class ShieldManager : MonoBehaviour {
 		//Take position inbetween 2 shieldJoints
 		Vector3 jointPosition = shieldJoints [i+1];
 		Transform newJoint = (Transform)Instantiate(shieldJoint, jointPosition, transform.rotation);
-		newJoint.name = "ShieldJoint";
+		newJoint.name = "ShieldJoint" + i;
 
 		//Create pathPoint
 		if (i >= 10) {
@@ -267,25 +268,94 @@ public class ShieldManager : MonoBehaviour {
 	void Update () {
 		updateLevel ();
 
-		//Pulse the central crystal
-		pulseState = Mathf.Sin (Time.time*5);
-		pulseState = 1f + pulseState / 5;
-		core.renderer.material.SetFloat("_RimPower", pulseState);
+		if (isCoreAlive()){
 
-		if (damageEffect > 0) {
-			damageEffect -= 0.1f * Time.deltaTime;
-			Color currentColor = ((1-damageEffect)*defaultColor)+(damageEffect*damageColor);
-			core.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
-			core.renderer.material.SetColor("_RimColor", currentColor);
+			//Pulse the central crystal
+			pulseState = Mathf.Sin (Time.time*5);
+			pulseState = 1f + pulseState / 5;
+			core.renderer.material.SetFloat("_RimPower", pulseState);
+
+
+			if (damageEffect > 0) {
+				damageEffect -= 0.1f * Time.deltaTime;
+				Color currentColor = ((1-damageEffect)*defaultColor)+(damageEffect*damageColor);
+				core.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
+				core.renderer.material.SetColor("_RimColor", currentColor);
+			}
 		}
 
 
 	}
+
+	void CorePulse(){
+		ShieldPulse (0);
+		core.GetComponent<PlayerController> ().corePulse ();
+		HealCore ();
+	}
+
 	//Pulse shield pieces with delay
 	public void ShieldPulse(int shieldIndex) {
 		if (shieldArray[shieldIndex]!=null){
 			shieldArray[shieldIndex].GetComponent<Shield>().EnergyPulse();
 		}
+	}
+
+	void HealCore(){
+		core.GetComponent<DamageController> ().Heal (4);
+	}
+
+	public bool isCoreAlive(){
+		if (core != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public Vector3 isInProximityOfShield(Vector3 p){
+		int closestShieldIndex=0;
+		float closestDistance=0;
+
+		for (int i=0; i<totalShields-1; i++){
+			float d = Vector3.Distance (shieldArray[i].transform.position, p);
+			if (closestDistance==0) {
+				closestDistance=d;
+				closestShieldIndex = i;
+			} else if (d < closestDistance){
+				closestDistance = d;
+				closestShieldIndex = i;
+			}
+		}
+
+		if (closestShieldIndex == 0) {
+						return new Vector3 ();
+				}
+
+		Vector3 v = jointArray[closestShieldIndex].transform.position;
+		Vector3 w = jointArray[closestShieldIndex-1].transform.position;
+
+		Vector2 v2 = new Vector2 (v.x, v.z);
+		Vector2 w2 = new Vector2 (w.x, w.z);
+		Vector2 p2 = new Vector2 (p.x, p.z);
+
+
+		Vector2 pointOnShield = pointOnSegmentClosestBy (p2, v2, w2);
+		return new Vector3(pointOnShield.x, 0, pointOnShield.y);
+
+	}
+
+	float sqr(float x) {
+		return x * x;
+	}
+	
+
+	Vector2 pointOnSegmentClosestBy(Vector2 p, Vector2 v, Vector2 w) {
+		float l2 = Vector2.Distance(v, w);
+		if (l2 == 0) return v;
+		float t = ((((p.x - v.x) * (w.x - v.x)) + ((p.y - v.y) * (w.y - v.y)))/l2) / l2;
+		if (t < 0) return v;
+		if (t > 1) return w;
+		return new Vector2(v.x + t * (w.x - v.x), v.y + t * (w.y - v.y));
 	}
 
 
