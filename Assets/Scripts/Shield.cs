@@ -22,11 +22,12 @@ public class Shield : MonoBehaviour {
 	private Vector3 growScaleStart;
 	private Vector3 growScaleEnd;
 	private Transform shieldWall;
-	private float growLength;
+	private float growDistance;
 	private float growStartTime;
 	private Vector3 anchorPostition;
 	private Vector3 nextAnchorPostition;
-	private Transform shieldJoint;
+	private Transform shieldJointStart;
+	private Transform shieldJointEnd;
 	private int shieldIndex;
 	private float pulseStartTime;
 	private bool puslePassedThrough;
@@ -35,8 +36,8 @@ public class Shield : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		shieldMesh.localScale = new Vector3(1, 0.01f, 0.3f );
-		growScaleStart = new Vector3(1f, 0.01f, 0.1f);
+		shieldMesh.localScale = new Vector3(0.01f, 0.01f, 0.3f );
+		growScaleStart = new Vector3(0.01f, 0.01f, 0.1f);
 		shieldWall = shieldMesh;
 	}
 
@@ -61,14 +62,14 @@ public class Shield : MonoBehaviour {
 		isEnergized = state;
 		if (isEnergized) {
 			GetComponent<DamageController>().Heal(3);
-			shieldJoint.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
-			shieldJoint.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
+			shieldJointEnd.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
+			shieldJointEnd.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
 			shieldMesh.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
 			shieldMesh.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
 
 		} else {
-			shieldJoint.gameObject.renderer.material.SetColor("_ColorTint", colorEmpty);
-			shieldJoint.gameObject.renderer.material.SetColor("_RimColor", colorEmpty);
+			shieldJointEnd.gameObject.renderer.material.SetColor("_ColorTint", colorEmpty);
+			shieldJointEnd.gameObject.renderer.material.SetColor("_RimColor", colorEmpty);
 			shieldMesh.gameObject.renderer.material.SetColor("_ColorTint", colorEmpty);
 			shieldMesh.gameObject.renderer.material.SetColor("_RimColor", colorEmpty);
 
@@ -77,6 +78,7 @@ public class Shield : MonoBehaviour {
 
 
 	public void EnergyPulse(){
+		shieldJointEnd.GetComponent<ShieldJoint>().EnergyPulse ();
 		if (!isGrowing){
 			pulseStartTime = Time.time;
 			SetEnergized (true);
@@ -84,8 +86,14 @@ public class Shield : MonoBehaviour {
 		}
 	}
 
-	public void SetJoint(Transform joint) {
-		shieldJoint = joint;
+	public void SetEndJoint(Transform joint) {
+		Debug.Log ("SetEndJoint");
+		shieldJointEnd = joint;
+		joint.gameObject.GetComponent<ShieldJoint>().SetShieldBack (this);
+	}
+
+	public void SetStartJoint(Transform joint) {
+		shieldJointStart = joint;
 	}
 
 	public void SetShieldIndex(int i) {
@@ -103,14 +111,11 @@ public class Shield : MonoBehaviour {
 	}
 
 	void Growing() {
-		float distCovered = (Time.time - growStartTime) * 1;
-		float fracJourney = distCovered / growLength;
-		shieldWall.localScale = Vector3.Lerp (growScaleStart, growScaleEnd, fracJourney);
-		shieldJoint.localScale = new Vector3 (shieldWall.localScale.z*1.2f, 1f, shieldWall.localScale.z*1.2f);
-		transform.GetComponent<BoxCollider> ().size = new Vector3(shieldWall.localScale.y*2, 1f, shieldWall.localScale.z);
+		float distCovered = (Time.time - growStartTime) * 0.1f;
+		float fracJourney = distCovered / growDistance;
 		
-		shieldWall.position = Vector3.Lerp (anchorPostition,transform.position,fracJourney);
-		shieldJoint.position = Vector3.Lerp(anchorPostition,nextAnchorPostition,fracJourney);
+		//shieldWall.position = Vector3.Lerp (anchorPostition,transform.position,fracJourney);
+		shieldJointEnd.GetComponent<ShieldJoint>().SetBasePosition(Vector3.Lerp(anchorPostition,nextAnchorPostition,fracJourney));
 
 		if (fracJourney>=1){
 			isGrowing = false;
@@ -118,11 +123,24 @@ public class Shield : MonoBehaviour {
 		}
 	}
 
-	public void SetDesitnationTransform(float length, Vector3 position) {
-		growScaleEnd = new Vector3 (1f, length, 0.3f+(shieldIndex*0.03f)); 
-		growLength = Vector3.Distance(growScaleEnd, growScaleStart);
+	void AttachToJoints() {
+
+		transform.position = (shieldJointEnd.position + shieldJointStart.position)/2;
+		float scaleFactor = Vector3.Distance (shieldJointEnd.position, shieldJointStart.position)/2;
+		shieldWall.localScale = new Vector3 (0.3f+(shieldIndex*0.03f), scaleFactor, 0.3f+(shieldIndex*0.03f)); 
+		transform.LookAt (shieldJointEnd);
+		transform.Rotate(0, 90, 0);
+		updateCollider ();
+	}
+
+	void updateCollider(){
+		transform.GetComponent<BoxCollider> ().size = new Vector3(shieldWall.localScale.y, shieldWall.localScale.x, shieldWall.localScale.z);
+	}
+
+	public void SetEndJointPosition(Vector3 position) {
+		growDistance = Vector3.Distance(position, shieldJointStart.position);
 		anchorPostition = position;
-		NewShieldCost = Mathf.RoundToInt(NewShieldCostsPerUnit * length);
+		NewShieldCost = Mathf.RoundToInt(NewShieldCostsPerUnit * growDistance);
 	}
 
 	public int GetNextShieldCosts(){
@@ -133,6 +151,10 @@ public class Shield : MonoBehaviour {
 		growStartTime = Time.time;
 		nextAnchorPostition = transform.parent.GetComponent<ShieldManager> ().GetJointPosition (shieldIndex+1);
 		isGrowing = true;
+	}
+
+	public void StopGrowing() {
+		isGrowing = false;
 	}
 
 	bool CanBuildNewShield(){
@@ -155,15 +177,18 @@ public class Shield : MonoBehaviour {
 			Growing();
 		}
 
+		AttachToJoints();
+
+
 		if (CanBuildNewShield()) {
 			if (_colorEnergizedJoint!=colorEnergizedBuild){
 				_colorEnergizedJoint = colorEnergizedBuild;
-				shieldJoint.gameObject.renderer.material.SetColor("_RimColor", _colorEnergizedJoint);
+				shieldJointEnd.gameObject.renderer.material.SetColor("_RimColor", _colorEnergizedJoint);
 			}
 		} else {
 			if (_colorEnergizedJoint!=colorEnergized){
 				_colorEnergizedJoint = colorEnergized;
-				shieldJoint.gameObject.renderer.material.SetColor("_RimColor", _colorEnergizedJoint);
+				shieldJointEnd.gameObject.renderer.material.SetColor("_RimColor", _colorEnergizedJoint);
 			}
 		}
 
@@ -195,9 +220,9 @@ public class Shield : MonoBehaviour {
 			Color currentColor;
 			//Debug.Log("damage effect = " + damageEffect);
 
-				shieldJoint.gameObject.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
+				shieldJointEnd.gameObject.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
 				currentColor = ((1-damageEffect)*_colorEnergizedJoint)+(damageEffect*colorDamage);
-				shieldJoint.gameObject.renderer.material.SetColor("_RimColor", currentColor);
+				shieldJointEnd.gameObject.renderer.material.SetColor("_RimColor", currentColor);
 
 				shieldMesh.gameObject.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
 				currentColor = ((1-damageEffect)*colorEnergized)+(damageEffect*colorDamage);
@@ -207,7 +232,7 @@ public class Shield : MonoBehaviour {
 	}
 
 	void enableBuildArea() {
-		float buildAreaScale = 0.7f * Vector3.Distance (Vector3.zero, shieldJoint.position);
+		float buildAreaScale = 0.7f * Vector3.Distance (Vector3.zero, shieldJointEnd.position);
 		buildArea.localScale = new Vector3 (shieldMesh.localScale.y*2.9f,  buildAreaScale,1);
 		buildArea.position += buildArea.TransformDirection (buildArea.forward) * 0.1f * buildAreaScale;
 		buildArea.gameObject.SetActive (true);
