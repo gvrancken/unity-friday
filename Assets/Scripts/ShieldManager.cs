@@ -31,7 +31,7 @@ public class ShieldManager : MonoBehaviour {
 	[Range(0f,15f)]
 	public float shieldLengthFactor = 0.2f;
 
-	public Color colorEnergized = new Color (0.3f, 0.3f, 1f, 1f);	 
+	public Color colorEnergized = new Color (0.05f, 0.3f, 1f, 1f);	 
 	public Color colorEmpty = new Color (0.4f, 0.4f, 0.4f, 0.8f);	
 	public Color colorDamage = new Color (1.0f, 0, 0, 1);
 	
@@ -43,7 +43,7 @@ public class ShieldManager : MonoBehaviour {
 	private int lastShieldID = 0;
 	private int firstBrokenPos = 0;
 	private float pulseState = 0;
-	private Color defaultColor = new Color(0.8f, 0.8f, 1, 1);
+	private Color defaultColor = new Color(0.05f, 0.3f, 1, 1);
 	private Color damageColor = new Color(1, 0, 0, 1);
 	private float damageEffect = 0;
 	private GameObject _hudManager;
@@ -69,7 +69,7 @@ public class ShieldManager : MonoBehaviour {
 		InvokeRepeating ("CorePulse", .01f, 1f);
 
 		//Set core material
-		core.gameObject.renderer.material.SetColor("_ColorTint", new Color(1,1,1,1));
+		core.gameObject.renderer.material.SetColor("_ColorTint", defaultColor);
 		core.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
 
 		//Get HUDManager
@@ -289,14 +289,14 @@ public class ShieldManager : MonoBehaviour {
 			//Pulse the central crystal
 			pulseState = Mathf.Sin (Time.time*5);
 			pulseState = 1f + pulseState / 5;
-			core.renderer.material.SetFloat("_RimPower", pulseState);
+			//core.renderer.material.SetFloat("_RimPower", pulseState);
 
 
 			if (damageEffect > 0) {
 				damageEffect -= 0.1f * Time.deltaTime;
 				Color currentColor = ((1-damageEffect)*defaultColor)+(damageEffect*damageColor);
-				core.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(0));
-				core.renderer.material.SetColor("_RimColor", currentColor);
+				core.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(5));
+				core.renderer.material.SetColor("_RimColor", Color.white);
 			}
 		}
 

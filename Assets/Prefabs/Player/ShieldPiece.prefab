@@ -45,6 +45,7 @@ GameObject:
   - 4: {fileID: 400004}
   - 33: {fileID: 3300002}
   - 23: {fileID: 2300002}
+  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: Cylinder
   m_TagString: Untagged
@@ -77,7 +78,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.0639801, y: -.555060506, z: -1.52415276}
+  m_LocalPosition: {x: -1.74086618, y: -1.05506086, z: -1.34675121}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400004}
@@ -91,7 +92,7 @@ Transform:
   m_GameObject: {fileID: 100002}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -.0800835267, y: -0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: .321577996}
+  m_LocalScale: {x: 1, y: 1, z: .600000024}
   m_Children: []
   m_Father: {fileID: 400004}
 --- !u!4 &400004
@@ -150,7 +151,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: 4186b423d4b363d4da1d60793a361ab4, type: 2}
+  - {fileID: 2100000, guid: bcf740ec25b4c4db5b5a5e68d749a324, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
@@ -263,6 +264,20 @@ MonoBehaviour:
   energySpawnOnDeath: 0
   energyNode: {fileID: 0}
   SpawnRange: .5
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e4e639d3cdb9f43f8b4bf99f3de1a7ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scale: .200000003
+  speed: .600000024
+  recalculateNormals: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

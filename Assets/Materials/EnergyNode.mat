@@ -7,7 +7,7 @@ Material:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_Name: EnergyNode
-  m_Shader: {fileID: 4800000, guid: 9f7bd7f0011e09045a9cebd22e3c5813, type: 3}
+  m_Shader: {fileID: 4800000, guid: 6fe3d2cbf4ba041e8abada12d426c1c1, type: 3}
   m_ShaderKeywords: []
   m_CustomRenderQueue: -1
   m_SavedProperties:
@@ -27,16 +27,50 @@ Material:
           m_Texture: {fileID: 0}
           m_Scale: {x: 1, y: 1}
           m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Texture
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
+      data:
+        first:
+          name: _Cube
+        second:
+          m_Texture: {fileID: 0}
+          m_Scale: {x: 1, y: 1}
+          m_Offset: {x: 0, y: 0}
     m_Floats:
       data:
         first:
           name: _EmPower
         second: 1
+      data:
+        first:
+          name: _Inside
+        second: 1.39285719
+      data:
+        first:
+          name: _Rim
+        second: 1.09285712
+      data:
+        first:
+          name: _Speed
+        second: 3.39285707
+      data:
+        first:
+          name: _Tile
+        second: 3.23214293
+      data:
+        first:
+          name: _Strength
+        second: 1.05357146
     m_Colors:
       data:
         first:
           name: _Color
-        second: {r: 1, g: 1, b: 1, a: 1}
+        second: {r: 0, g: .172413826, b: 1, a: 1}
       data:
         first:
           name: _ColorTint

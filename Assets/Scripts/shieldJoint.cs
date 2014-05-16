@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using TreeEditor;
 
 public class ShieldJoint : MonoBehaviour {
 
@@ -16,7 +15,6 @@ public class ShieldJoint : MonoBehaviour {
 	void Start(){
 		_seed = Mathf.RoundToInt(Random.value * 9999);
 		_basePosition = transform.position;
-		//_baseScale = transform.localScale.x;
 		_pulseScale = _baseScale * 1.3f;
 	}
 
@@ -32,8 +30,8 @@ public class ShieldJoint : MonoBehaviour {
 	}
 
 	void Update(){
-		float noiseX = Mathf.PerlinNoise (Time.time, Time.time)*_noiseScale;
-		float noiseZ = Mathf.PerlinNoise (Time.time+_seed, Time.time+_seed)*_noiseScale;
+		float noiseX = Mathf.PerlinNoise (Time.time, Time.time)*_noiseScale*(_targetScale-_baseScale);
+		float noiseZ = Mathf.PerlinNoise (Time.time+_seed, Time.time+_seed)*_noiseScale*(_targetScale-_baseScale);
 		transform.position = _basePosition + new Vector3 (noiseX, 0, noiseZ);
 		_targetScale -= 0.005f;
 		_targetScale = Mathf.Max (_targetScale, _baseScale);

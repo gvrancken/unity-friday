@@ -112,8 +112,8 @@ public class Shield : MonoBehaviour {
 
 	void Growing() {
 		float distCovered = (Time.time - growStartTime) * 0.1f;
-		float fracJourney = distCovered / growDistance;
-		
+		float fracJourney = distCovered * 2f;	
+
 		//shieldWall.position = Vector3.Lerp (anchorPostition,transform.position,fracJourney);
 		shieldJointEnd.GetComponent<ShieldJoint>().SetBasePosition(Vector3.Lerp(anchorPostition,nextAnchorPostition,fracJourney));
 
@@ -195,7 +195,7 @@ public class Shield : MonoBehaviour {
 		//update healthbar
 		float hp = GetComponent<DamageController> ().GetHitPoints ();
 		float scale = hp / 40;
-		healthBar.localScale = new Vector3 (1, scale, 0.3f); 
+		healthBar.localScale = new Vector3 (1, scale, 0.6f); 
 		
 
 		float timeSincePulse = Time.time - pulseStartTime;
