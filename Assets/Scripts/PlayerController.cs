@@ -25,7 +25,7 @@ public class PlayerController : MonoBehaviour {
 		float hP = GetComponent<DamageController> ().GetHitPoints();
 		_coreTargetScale = new Vector3(hP / 100f,hP / 100f,hP / 100f);
 		_corePulseScale -= 0.005f;
-		Mathf.Max (_corePulseScale, 0f);
+		_corePulseScale = Mathf.Max (_corePulseScale, 0f);
 		_coreTargetScale += new Vector3(_corePulseScale,_corePulseScale,_corePulseScale);
 		transform.localScale = Vector3.Lerp(transform.localScale, _coreTargetScale, 0.3f);
 

@@ -127,8 +127,8 @@ public class ShieldManager : MonoBehaviour {
 
 	//Create all shieds
 	void InitializeShields() {
-		newJoint = createJoint(-1);
-		newJoint.transform.parent = core;
+		//newJoint = createJoint(-1);
+		//newJoint.transform.parent = core;
 		for (int i = 0; i <= startCount; i++) {
 			if (CreateNewShield(i)) {
 				firstBrokenPos = i+1;
@@ -140,10 +140,19 @@ public class ShieldManager : MonoBehaviour {
 		if (shieldArray [i] == null) {
 			GameObject newShield = createShield (i);
 			newJoint = createJoint (i);
-			newJoint.transform.parent = newShield.transform;
+			//newJoint.transform.parent = newShield.transform;
 			shieldArray [i] = newShield;
 			jointArray [i] = newJoint;
-			newShield.GetComponent<Shield> ().SetJoint (newJoint.transform);
+			Transform startJoint;
+			if (i==0) {
+				//Player core is 'first' joint
+				startJoint = core;
+			} else {
+				startJoint = jointArray[i-1].transform;
+			}
+			newShield.GetComponent<Shield> ().SetStartJoint (startJoint);
+			newShield.GetComponent<Shield> ().SetEndJoint (newJoint.transform);
+			newShield.GetComponent<Shield>().SetEndJointPosition(shieldJoints[i]);
 			newShield.gameObject.GetComponent<Shield> ().StartGrowing ();
 			newShield.GetComponent<Shield> ().SetEnergized (false);
 			newShield.name = "Shield" + i;
@@ -207,7 +216,7 @@ public class ShieldManager : MonoBehaviour {
 		instance.transform.Rotate(0, 90, 0);
 		float scaleFactor = Vector3.Distance (shieldJoints [i], shieldJoints [i+1])/2;
 		instance.gameObject.GetComponent<Shield>().SetShieldIndex(i);
-		instance.gameObject.GetComponent<Shield>().SetDesitnationTransform(scaleFactor, shieldJoints[i]);
+
 
 
 		instance.parent = transform;
@@ -217,8 +226,15 @@ public class ShieldManager : MonoBehaviour {
 	//Generates a shield at the given position
 	public GameObject createJoint(int i) {
 		//Take position inbetween 2 shieldJoints
-		Vector3 jointPosition = shieldJoints [i+1];
+		Vector3 jointPosition;
+		if (i == 0) {
+			jointPosition = core.position;
+		} else {
+			jointPosition = jointArray[i-1].transform.position;
+		}
 		Transform newJoint = (Transform)Instantiate(shieldJoint, jointPosition, transform.rotation);
+		newJoint.GetComponent<ShieldJoint> ().SetShieldJointIndex (i);
+		newJoint.GetComponent<ShieldJoint> ().SetBaseScale(1.1f*(0.4f+(i*0.03f)));
 		newJoint.name = "ShieldJoint" + i;
 
 		//Create pathPoint
