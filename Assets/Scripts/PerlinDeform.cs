@@ -11,13 +11,13 @@ public class PerlinDeform : MonoBehaviour {
 	public float scale = 0.3f;
 	public float speed = 0.3f;
 	public bool recalculateNormals = false;
-	
+
 	private Vector3[] baseVertices;
-	
 	private Perlin noise = new Perlin ();
 
 	// Use this for initialization
 	void Start () {
+		noise.SetSeed(Random.Range(0,2000));
 	}
 	
 	// Update is called once per frame
