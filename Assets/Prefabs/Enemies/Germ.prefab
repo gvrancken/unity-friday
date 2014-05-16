@@ -16,7 +16,7 @@ GameObject:
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400004}
   m_Layer: 0
-  m_Name: Bubble
+  m_Name: Germ
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -45,7 +45,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: bcf740ec25b4c4db5b5a5e68d749a324, type: 2}
+  - {fileID: 2100000, guid: 9ec7aa63b371d4b49a9d7e9ab091e352, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
