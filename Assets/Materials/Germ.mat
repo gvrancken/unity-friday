@@ -42,7 +42,7 @@ Material:
       data:
         first:
           name: _Rim
-        second: 1.89285719
+        second: 1.39285719
       data:
         first:
           name: _Speed
@@ -54,7 +54,7 @@ Material:
       data:
         first:
           name: _Strength
-        second: .607142806
+        second: .785714209
     m_Colors:
       data:
         first:
