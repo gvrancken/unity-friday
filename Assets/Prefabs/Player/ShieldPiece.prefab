@@ -64,7 +64,7 @@ GameObject:
   - 33: {fileID: 3300004}
   - 64: {fileID: 6400000}
   - 23: {fileID: 2300004}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: BuildArea
   m_TagString: Buildable
   m_Icon: {fileID: 0}
@@ -151,7 +151,7 @@ Renderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: bcf740ec25b4c4db5b5a5e68d749a324, type: 2}
+  - {fileID: 2100000, guid: 4186b423d4b363d4da1d60793a361ab4, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0

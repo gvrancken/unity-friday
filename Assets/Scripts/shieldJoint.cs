@@ -19,13 +19,11 @@ public class ShieldJoint : MonoBehaviour {
 	}
 
 	public void SetShieldBack(Shield shield){
-		print ("set shieldback " + shield.name);
 		shieldBack = shield;
 	}
 
 	public void SetBaseScale(float scale){
 		_baseScale = scale;
-		print("Set base scale: " + _baseScale);
 
 	}
 
@@ -36,7 +34,6 @@ public class ShieldJoint : MonoBehaviour {
 		_targetScale -= 0.005f;
 		_targetScale = Mathf.Max (_targetScale, _baseScale);
 		transform.localScale = Vector3.Lerp (transform.localScale, new Vector3(_targetScale,_targetScale,_targetScale), 0.3f);
-		print("base scale: " + _baseScale);
 	}
 
 	public void OnClick() {

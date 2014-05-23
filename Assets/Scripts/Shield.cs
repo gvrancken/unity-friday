@@ -11,7 +11,7 @@ public class Shield : MonoBehaviour {
 	public Color colorEnergizedBuild = new Color (0.3f, 0.8f, 0.6f, 1f);
 	public Color colorEmpty = new Color (0.4f, 0.4f, 0.4f, 0.8f);	
 	public Color colorDamage = new Color (1.0f, 0, 0, 1);
-	public int NewShieldCostsPerUnit = 2;
+	public int NewShieldCostsPerUnit = 1;
 
 
 	private int NewShieldCost;
@@ -87,7 +87,6 @@ public class Shield : MonoBehaviour {
 	}
 
 	public void SetEndJoint(Transform joint) {
-		Debug.Log ("SetEndJoint");
 		shieldJointEnd = joint;
 		joint.gameObject.GetComponent<ShieldJoint>().SetShieldBack (this);
 	}
@@ -183,12 +182,12 @@ public class Shield : MonoBehaviour {
 		if (CanBuildNewShield()) {
 			if (_colorEnergizedJoint!=colorEnergizedBuild){
 				_colorEnergizedJoint = colorEnergizedBuild;
-				shieldJointEnd.gameObject.renderer.material.SetColor("_RimColor", _colorEnergizedJoint);
+				shieldJointEnd.gameObject.renderer.material.SetColor("_ColorTint", _colorEnergizedJoint);
 			}
 		} else {
 			if (_colorEnergizedJoint!=colorEnergized){
 				_colorEnergizedJoint = colorEnergized;
-				shieldJointEnd.gameObject.renderer.material.SetColor("_RimColor", _colorEnergizedJoint);
+				shieldJointEnd.gameObject.renderer.material.SetColor("_ColorTint", _colorEnergizedJoint);
 			}
 		}
 

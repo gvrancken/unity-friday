@@ -31,6 +31,8 @@ public class ShieldManager : MonoBehaviour {
 	[Range(0f,15f)]
 	public float shieldLengthFactor = 0.2f;
 
+	public Color coreColorDefault = new Color(0.05f, 0.3f, 1, 1);
+	public Color coreColorDamage = new Color(1, 0, 0, 1);
 	public Color colorEnergized = new Color (0.05f, 0.3f, 1f, 1f);	 
 	public Color colorEmpty = new Color (0.4f, 0.4f, 0.4f, 0.8f);	
 	public Color colorDamage = new Color (1.0f, 0, 0, 1);
@@ -43,12 +45,10 @@ public class ShieldManager : MonoBehaviour {
 	private int lastShieldID = 0;
 	private int firstBrokenPos = 0;
 	private float pulseState = 0;
-	private Color defaultColor = new Color(0.05f, 0.3f, 1, 1);
-	private Color damageColor = new Color(1, 0, 0, 1);
+
 	private float damageEffect = 0;
 	private GameObject _hudManager;
 	private GameObject newJoint;
-	private List<Vector3> EntrancePath = new List<Vector3>();
 	private float playerRadius;
 	private float outOfViewRadius;
 	private int _energy;
@@ -69,8 +69,8 @@ public class ShieldManager : MonoBehaviour {
 		InvokeRepeating ("CorePulse", .01f, 1f);
 
 		//Set core material
-		core.gameObject.renderer.material.SetColor("_ColorTint", defaultColor);
-		core.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
+		core.gameObject.renderer.material.SetColor("_ColorTint", coreColorDefault);
+		//core.gameObject.renderer.material.SetColor("_RimColor", colorEnergized);
 
 		//Get HUDManager
 		GameObject[] x = GameObject.FindGameObjectsWithTag("HUDManager");
@@ -241,21 +241,36 @@ public class ShieldManager : MonoBehaviour {
 		if (i >= 10) {
 			int y = i-10;
 			if (y < 0) {y=0;}
-			Vector3 pointPosition = newJoint.position/(1.6f-(y*0.008f));
+			Vector3 pointPosition = shieldJoints[i+1]/(1.6f-(y*0.008f));
 			GameObject newPathPoint = new GameObject();
 			newPathPoint.name = "PathPoints" + i;
 			newPathPoint.transform.position = pointPosition;
 			newPathPoint.tag = "PathPoint";
 			newPathPoint.transform.parent = path;
 			newPathPoint.transform.LookAt(core);
-			pathPointArray[i] = newPathPoint;
+			pathPointArray[i-10] = newPathPoint;
 //			print ("PathPoint " + i + " created: " + pathPointArray[i].name);
 		}
 		return newJoint.gameObject;
 	}
 
-	public List<Vector3> getEntrancePathArray() {
-		return EntrancePath;
+	public int getSpiralPathMax() {
+		return pathPointArray.Length-1;
+	}
+	
+	public Vector3 getSpiralPathPosition(int index) {
+
+		return pathPointArray[index].transform.position;
+
+	}
+
+	public Vector3 getEntrancePathPosition(int index){
+		if ((index >= 1) && (index<=5)) {
+			//print("Ask for position " + index + ", " + entrancePath.FindChild("EntrancePathPoint" + index).position);
+			return entrancePath.FindChild("EntrancePathPoint" + index).position;
+		} else {
+			return Vector3.zero;
+		}
 	}
 
 	void updateLevel(){
@@ -294,7 +309,7 @@ public class ShieldManager : MonoBehaviour {
 
 			if (damageEffect > 0) {
 				damageEffect -= 0.1f * Time.deltaTime;
-				Color currentColor = ((1-damageEffect)*defaultColor)+(damageEffect*damageColor);
+				Color currentColor = ((1-damageEffect)*coreColorDefault)+(damageEffect*coreColorDamage);
 				core.renderer.material.SetFloat ("_RimPower", ((1-damageEffect)*pulseState)+(5));
 				core.renderer.material.SetColor("_RimColor", Color.white);
 			}

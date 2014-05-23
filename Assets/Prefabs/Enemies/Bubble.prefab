@@ -90,8 +90,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   MaxHitPoints: 1
   dieTime: .00999999978
-  energySpawnOnDeath: 0
-  energyNode: {fileID: 0}
+  energySpawnOnDeath: 5
+  energyNode: {fileID: 400000, guid: 47aeef9f55d236a4ba6b24b74c3151ec, type: 2}
   SpawnRange: .5
 --- !u!114 &11400002
 MonoBehaviour:
@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   damagePoints: 10
-  moveSpeed: 0
+  moveSpeed: 2
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -10,6 +10,7 @@ public class ConstructionGhost : MonoBehaviour {
 	private bool _constructionEnabled;
 	private GameObject _player;
 	private ShieldManager _shieldManager;
+	private bool _lineRenderEnabled;
 
 	// Use this for initialization
 	void Start () {
@@ -19,7 +20,7 @@ public class ConstructionGhost : MonoBehaviour {
 	}
 
 	void Update(){
-		if (_constructionBuildableEnabled) {
+		if (_lineRenderEnabled) {
 			Vector3 _v = _shieldManager.isInProximityOfShield(transform.position);
 			transform.GetComponent<LineRenderer>().SetPosition(0, transform.position);
 			transform.GetComponent<LineRenderer>().SetPosition(1, _v);
@@ -38,7 +39,7 @@ public class ConstructionGhost : MonoBehaviour {
 		if (_constructionBuildableEnabled != enabled){
 			_constructionBuildableEnabled = enabled;
 			updateConstructionEnabled();
-			transform.GetComponent<LineRenderer>().enabled = enabled;
+
 		}
 
 	}
@@ -52,10 +53,15 @@ public class ConstructionGhost : MonoBehaviour {
 	}
 
 	void updateConstructionEnabled(){
+
 		_constructionEnabled = _constructionBuildableEnabled && _constructionCostsEnabled;
 		if (_selectedConstructionType>=0){
 			updateGhostColor();
 		}
+
+			_lineRenderEnabled = _constructionEnabled && (_selectedConstructionType>=0);
+		transform.GetComponent<LineRenderer> ().enabled = _lineRenderEnabled;
+	
 	}
 
 	void updateGhostColor(){
@@ -77,6 +83,7 @@ public class ConstructionGhost : MonoBehaviour {
 		updateGhostColor ();
 		if (_selectedConstructionType!=ConstructionType.Empty){
 			constructionTypeList [(int)_selectedConstructionType].gameObject.SetActive (true);
+			
 		}
 	}
 

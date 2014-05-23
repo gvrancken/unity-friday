@@ -47,6 +47,7 @@ public class MeshTentacles : MonoBehaviour {
 				
 				GameObject tentacle = tentacles[i];
 				tentacle.transform.position = transform.position + vertex;
+
 			}
 		}
 
