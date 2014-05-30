@@ -241,12 +241,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9290f8813249a45b0a3d9d8f8cdb777e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  turnSpeed: 4
+  turnSpeed: 10
   shootSpeed: 1
   damagePoints: 1
   rotationSpeed: 1
   accuracyAngle: 5
-  bullet: {fileID: 100000, guid: cc9858c65466b446d86c8d5270ef43b4, type: 2}
+  bullet: {fileID: 100000, guid: 2d524e28218628f49a501aa31185a714, type: 2}
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1

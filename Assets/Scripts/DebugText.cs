@@ -17,7 +17,7 @@ public class DebugText : MonoBehaviour {
 			_position += new Vector2 (1, 1);
 			string debugText = GUI.TextArea (new Rect(_position.x,Screen.height-_position.y, 180, 20) , _debugText);
 		}
-		GUI.
+
 	}
 
 	public void setDebugText(string text){

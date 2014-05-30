@@ -45,6 +45,10 @@ public class Shield : MonoBehaviour {
 		shieldWall = t;
 
 	}
+
+	void onDie(){
+		shieldJointEnd.GetComponent<DamageController> ().Die ();
+	}
 	
 	void OnCollisionEnter (Collision col) {	
 		DamageController dc = col.gameObject.GetComponent<DamageController>();

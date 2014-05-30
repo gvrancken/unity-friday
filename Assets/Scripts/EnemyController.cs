@@ -4,6 +4,7 @@ using System.Collections;
 public class EnemyController : MonoBehaviour {
 
 	public float damagePoints = 10;
+	public bool pathFindToCrystal = false;
 
 	// Perhaps more players will join the arena.
 	// This enemy will choose at random which player to attack.
@@ -13,6 +14,7 @@ public class EnemyController : MonoBehaviour {
 	private ShieldManager sm;
 	public float moveSpeed = 5f;
 	private DebugText _dt;
+	private int _lastSpiralPointChosen = -1;
 
 	void Start () {
 		// Fill _players array with all object with Player tag
@@ -20,10 +22,19 @@ public class EnemyController : MonoBehaviour {
 		// Choose a player from _players array to attack
 		_chosenPlayer = _players[Random.Range(0, _players.Length-1)];
 		sm = _chosenPlayer.GetComponent<ShieldManager>();
-		InvokeRepeating ("PathFinderUpdate", .01f, 0.5f);
 		endPosition = sm.getEntrancePathPosition(1);
 		transform.position = new Vector3 (transform.position.x, 0, transform.position.z);
 		_dt = GetComponent<DebugText> ();
+		startAIFunctions (0.3f);
+	}
+
+	void startAIFunctions(float startDelay){
+		if (pathFindToCrystal)
+			InvokeRepeating ("PathFinderUpdate", startDelay, 2f);
+		else
+			endPosition = Vector3.zero;
+			
+				
 	}
 
 	void Update () {
@@ -32,8 +43,8 @@ public class EnemyController : MonoBehaviour {
 
 
 		//pathfinder debug
-		transform.GetComponent<LineRenderer>().SetPosition(0, transform.position);
-		transform.GetComponent<LineRenderer>().SetPosition(1, endPosition);
+//		transform.GetComponent<LineRenderer>().SetPosition(0, transform.position);
+//		transform.GetComponent<LineRenderer>().SetPosition(1, endPosition);
 	}
 	
 	void PathFinderUpdate(){
@@ -46,16 +57,19 @@ public class EnemyController : MonoBehaviour {
 			endPosition = Vector3.zero;
 		}
 
-		if (!foundPosition) {
+		if (_lastSpiralPointChosen != -1 && !foundPosition && sm.getSpiralPathMax()>=10) {
 			//check if path can be reached
-			for (int i=0; i<sm.getSpiralPathMax(); i++){
-				print (i);
+			int startCheckingPoint = 10;
+			if (_lastSpiralPointChosen >=11)
+				startCheckingPoint = _lastSpiralPointChosen-1;
+			for (int i=startCheckingPoint; i<sm.getSpiralPathMax(); i++){
 				Vector3 endPositionCheck = sm.getSpiralPathPosition(i);
 				if (endPositionCheck!=null){
 					if (CanSeePoint(endPositionCheck)){
 						endPosition = endPositionCheck;
 						foundPosition = true;
-						_dt.setDebugText ("spiral: " + i + " " + endPosition);
+						_dt.setDebugText ("spiral: " + i);
+						_lastSpiralPointChosen = i;
 						break;
 					}
 				}
@@ -64,13 +78,16 @@ public class EnemyController : MonoBehaviour {
 
 		if (!foundPosition) {
 			//try to reach entrance path
+			_lastSpiralPointChosen = -1;
 			for (int i=1; i<=5;i++){
 				Vector3 endPositionCheck = sm.getEntrancePathPosition(i);
 				if (endPositionCheck!=null){
 					if (CanSeePoint(endPositionCheck)){
 						endPosition = endPositionCheck;
 						foundPosition = true;
-						_dt.setDebugText ("entrance: " + i + " " + endPosition);
+						_dt.setDebugText ("entrance: " + i);
+						if (i==1)
+							_lastSpiralPointChosen = sm.getSpiralPathMax();
 						break;
 					}
 				}
@@ -80,6 +97,7 @@ public class EnemyController : MonoBehaviour {
 
 		if (!foundPosition) {
 			_dt.setDebugText ("pathfind: error");
+			_lastSpiralPointChosen = 1;
 		}
 	}
 

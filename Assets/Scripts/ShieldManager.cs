@@ -65,7 +65,6 @@ public class ShieldManager : MonoBehaviour {
 		initializeSchieldJoints ();
 		totalShields = startCount;
 		InitializeShields();
-		UpdateEntrancePoints ();
 		InvokeRepeating ("CorePulse", .01f, 1f);
 
 		//Set core material
@@ -79,38 +78,27 @@ public class ShieldManager : MonoBehaviour {
 	}
 
 
-	void OnDrawGizmosSelected() {
-		//Debug code to render the vector-list used to create the shields.
-//		for (int i = 0; i<=max; i++) {
-//				Gizmos.color = Color.white;
-//				Gizmos.DrawWireSphere (shieldJoints[i], 1);
-//		}
-		Gizmos.color = Color.red;
-		//Gizmos.DrawWireSphere(core.position, playerRadius);
 
-
-		//Only draw entrancePosition
-		//Gizmos.color = Color.red;
-		//foreach (Transform child in entrancePath) {
-		//	Gizmos.DrawWireSphere(child.position, 0.1f);
-		//}
-
-
-	}
-
+	/* updates the 5 entrance points for pathfindig around the spiral
+	 * the 5 points have a fixed position but get a new position, rotation & scale
+	 * every time a new shield is added to the spiral.*/
 	void UpdateEntrancePoints() {
-
 		if (pathPointArray [lastShieldID] != null) {
+
+			//reposition to the last spiralPathPoint
 			entrancePath.position = pathPointArray [lastShieldID].transform.position;
 			entrancePath.LookAt (core);
 			entrancePath.Rotate(new Vector3(0,90,0));
+
+			//Scale according to the playerRadius
 			float scale = (playerRadius/7f);
 			entrancePath.localScale = new Vector3(scale,scale,scale);
 		}
-
-
 	}
 
+
+	/* Vector calculation: rotate a vector with a specified angle
+	 * Should be moved to a seperate vector-calculation class */
 	private Vector3 RotateY(Vector3 v, float angle )
 		
 	{
@@ -125,10 +113,8 @@ public class ShieldManager : MonoBehaviour {
 		return v;
 	}
 
-	//Create all shieds
+	/* Create all shieds on game-start according to the public startCount */
 	void InitializeShields() {
-		//newJoint = createJoint(-1);
-		//newJoint.transform.parent = core;
 		for (int i = 0; i <= startCount; i++) {
 			if (CreateNewShield(i)) {
 				firstBrokenPos = i+1;
@@ -136,13 +122,15 @@ public class ShieldManager : MonoBehaviour {
 		}
 	}
 
+	/* Create a new shield */
 	public bool CreateNewShield(int i) {
 		if (shieldArray [i] == null) {
 			GameObject newShield = createShield (i);
 			newJoint = createJoint (i);
-			//newJoint.transform.parent = newShield.transform;
+			createSpiralPathPoint(i);
 			shieldArray [i] = newShield;
 			jointArray [i] = newJoint;
+
 			Transform startJoint;
 			if (i==0) {
 				//Player core is 'first' joint
@@ -159,7 +147,7 @@ public class ShieldManager : MonoBehaviour {
 			totalShields++;
 			if (i > lastShieldID) {
 				lastShieldID = i;
-				playerRadius = Vector3.Distance (core.position, newJoint.transform.position)*1.01f;
+				playerRadius = Vector3.Distance (core.position, shieldJoints[i])*1.01f;
 				outOfViewRadius = playerRadius*2;
 				_levelManager.GetComponent<LevelManager>().setSpawnSphereRadius(playerRadius+5);
 				Camera.main.GetComponent<CameraController>().setMaxViewSize(playerRadius*1.5f);
@@ -173,6 +161,8 @@ public class ShieldManager : MonoBehaviour {
 
 	}
 
+	/* Returns a bool based on whether the given shieldID already contains a shield or not
+	 * When a shield is destroyed, a new shield can be build */ 
 	public bool NewShieldPossible(int i){
 		if (shieldArray [i] == null) {
 			return true;
@@ -181,7 +171,8 @@ public class ShieldManager : MonoBehaviour {
 		}
 	}
 
-	//Initialize all position for the shields.
+	/* Runs once at the start of the game to create al vectors for the spiral shape.
+	 * These vectors are used to create the new shields. */
 	void initializeSchieldJoints() {
 		for (int i = 0; i<shieldJoints.Length; i++) {
 			float localAlpha = alpha;
@@ -202,12 +193,12 @@ public class ShieldManager : MonoBehaviour {
 			shieldJoints[0] = new Vector3(0,0,0);
 		}
 	}
-
+	/* returns the vector3 position of spiral joint position of the given index */
 	public Vector3 GetJointPosition(int jointIndex) {
 		return shieldJoints [jointIndex];
 	}
 
-	//Generates a shield at the given position
+	/* Generates and returns the shield object at the given id position. */
 	public GameObject createShield(int i) {
 		//Take position inbetween 2 shieldJoints
 		Vector3 shieldPosition = (shieldJoints [i] + shieldJoints [i + 1])/2;
@@ -217,13 +208,11 @@ public class ShieldManager : MonoBehaviour {
 		float scaleFactor = Vector3.Distance (shieldJoints [i], shieldJoints [i+1])/2;
 		instance.gameObject.GetComponent<Shield>().SetShieldIndex(i);
 
-
-
 		instance.parent = transform;
 		return instance.gameObject;
 	}
 
-	//Generates a shield at the given position
+	/* Generates and returns the joint object at the given id position. */
 	public GameObject createJoint(int i) {
 		//Take position inbetween 2 shieldJoints
 		Vector3 jointPosition;
@@ -236,31 +225,37 @@ public class ShieldManager : MonoBehaviour {
 		newJoint.GetComponent<ShieldJoint> ().SetShieldJointIndex (i);
 		newJoint.GetComponent<ShieldJoint> ().SetBaseScale(1.1f*(0.4f+(i*0.03f)));
 		newJoint.name = "ShieldJoint" + i;
-
-		//Create pathPoint
-		if (i >= 10) {
-			int y = i-10;
-			if (y < 0) {y=0;}
-			Vector3 pointPosition = shieldJoints[i+1]/(1.6f-(y*0.008f));
-			GameObject newPathPoint = new GameObject();
-			newPathPoint.name = "PathPoints" + i;
-			newPathPoint.transform.position = pointPosition;
-			newPathPoint.tag = "PathPoint";
-			newPathPoint.transform.parent = path;
-			newPathPoint.transform.LookAt(core);
-			pathPointArray[i-10] = newPathPoint;
-//			print ("PathPoint " + i + " created: " + pathPointArray[i].name);
-		}
 		return newJoint.gameObject;
 	}
 
+	/* Generates and returns the spiral pathfinding point next to the shieldjoint with the given Index */
+	public GameObject createSpiralPathPoint(int i) {
+		Vector3 pointPosition = shieldJoints[i+1]/(1.6f-(i*0.008f));
+		GameObject newPathPoint = new GameObject();
+		newPathPoint.name = "PathPoints" + i;
+		newPathPoint.transform.position = pointPosition;
+		newPathPoint.tag = "PathPoint";
+		newPathPoint.transform.parent = path;
+		newPathPoint.transform.LookAt(core);
+		pathPointArray[i] = newPathPoint;
+		return newPathPoint;
+	}
+
 	public int getSpiralPathMax() {
-		return pathPointArray.Length-1;
+		if (lastShieldID>=1) {
+			return lastShieldID-1;
+		} else {
+			return -1;
+		}
 	}
 	
 	public Vector3 getSpiralPathPosition(int index) {
 
-		return pathPointArray[index].transform.position;
+		if (pathPointArray[index].transform!=null){
+			return pathPointArray[index].transform.position;
+		} else {
+			return entrancePath.FindChild("EntrancePathPoint1").position;
+		}
 
 	}
 
@@ -348,13 +343,15 @@ public class ShieldManager : MonoBehaviour {
 		float closestDistance=0;
 
 		for (int i=0; i<totalShields-1; i++){
-			float d = Vector3.Distance (shieldArray[i].transform.position, p);
-			if (closestDistance==0) {
-				closestDistance=d;
-				closestShieldIndex = i;
-			} else if (d < closestDistance){
-				closestDistance = d;
-				closestShieldIndex = i;
+			if (shieldArray[i].transform!=null){
+				float d = Vector3.Distance (shieldArray[i].transform.position, p);
+				if (closestDistance==0) {
+					closestDistance=d;
+					closestShieldIndex = i;
+				} else if (d < closestDistance){
+					closestDistance = d;
+					closestShieldIndex = i;
+				}
 			}
 		}
 
@@ -373,6 +370,10 @@ public class ShieldManager : MonoBehaviour {
 		Vector2 pointOnShield = pointOnSegmentClosestBy (p2, v2, w2);
 		return new Vector3(pointOnShield.x, 0, pointOnShield.y);
 
+	}
+
+	public Transform GetShieldJoint(int index){
+		return jointArray [index].transform;
 	}
 
 	float sqr(float x) {

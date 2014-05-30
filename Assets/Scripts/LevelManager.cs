@@ -81,7 +81,7 @@ public class LevelManager : MonoBehaviour
 
 				for (int i=0; i<numEnemies; i++) {
 						if (enemyList.Count > 0) {
-								pc.unitQueue.Enqueue (enemyList [0]);
+								pc.unitQueue.Enqueue (enemyList [Mathf.RoundToInt(Random.Range (0,1.5f))]);
 						}
 				}
 				

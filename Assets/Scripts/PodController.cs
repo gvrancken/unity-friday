@@ -13,7 +13,7 @@ public class PodController : MonoBehaviour
 		private float timeSinceLanded = 0f;
 		private float timeSinceLastUnload = 0f;
 		private float podSize;
-		private float unitUnloadDelay = 0.05f;
+		private float unitUnloadDelay = 0.1f;
 
 		// Use this for initialization
 		void Start ()

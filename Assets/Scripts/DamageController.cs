@@ -28,14 +28,18 @@ public class DamageController : MonoBehaviour {
 		}
 		
 		if (_isDead == false && _hitpoints <= 0) {
-			_isDead = true;
-			SpawnEnergy();
-			Destroy  (gameObject, dieTime);
-			if (gameObject.name == "Core") {
-				gameObject.GetComponent<PlayerController>().Die();
-			}
+			Die();
 		}
 
+	}
+
+	public void Die(){
+		_isDead = true;
+		SpawnEnergy();
+		Destroy  (gameObject, dieTime);
+		if (gameObject.name == "Core") {
+			gameObject.GetComponent<PlayerController>().Die();
+		}
 	}
 
 	public void Heal(float healingPoints) {
