@@ -38,6 +38,7 @@ public class LevelManager : MonoBehaviour
 				//Difficulty Knobs
 				//Knob Variable			Max Condition					Max		Calculation
 				numEnemies = 			(numEnemies > 100) ? 			100 : 	level * 4;
+		print ("numEnemies: " + numEnemies);
 				enemyWaveDelay =		Mathf.RoundToInt(10f + (0.4f * numEnemies));
 				enemyWaveMax = 			(enemyWaveMax > 100) ? 			100 : 	3 * level;
 		}
@@ -81,7 +82,7 @@ public class LevelManager : MonoBehaviour
 
 				for (int i=0; i<numEnemies; i++) {
 						if (enemyList.Count > 0) {
-								pc.unitQueue.Enqueue (enemyList [Mathf.RoundToInt(Random.Range (0,1.5f))]);
+								pc.unitQueue.Enqueue (enemyList [Mathf.RoundToInt(Random.Range (0,enemyList.Count-0.5f))]);
 						}
 				}
 				

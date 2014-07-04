@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public class HUDManager : MonoBehaviour {
 
-	public GUIText textLevel;
-	public GUIText textEnergy;
-	public GUIText textWave;
+	public TextMesh textLevel;
+	public TextMesh textEnergy;
+	public TextMesh textWave;
 	public Transform ConstructionGhost;
 	public GUISkin ConstructionPanelSkin;
 

@@ -31,6 +31,7 @@ public class Shield : MonoBehaviour {
 	private int shieldIndex;
 	private float pulseStartTime;
 	private bool puslePassedThrough;
+	private SphereCollider jointCollider;
 
 
 
@@ -93,6 +94,7 @@ public class Shield : MonoBehaviour {
 	public void SetEndJoint(Transform joint) {
 		shieldJointEnd = joint;
 		joint.gameObject.GetComponent<ShieldJoint>().SetShieldBack (this);
+
 	}
 
 	public void SetStartJoint(Transform joint) {
@@ -125,6 +127,7 @@ public class Shield : MonoBehaviour {
 			enableBuildArea();
 		}
 	}
+
 
 	void AttachToJoints() {
 

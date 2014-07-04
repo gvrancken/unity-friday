@@ -26,6 +26,8 @@ public class DamageController : MonoBehaviour {
 		if (gameObject.name == "Core") {
 			gameObject.GetComponent<PlayerController>().GetDamage();
 		}
+		if (gameObject.GetComponent<DebugText> ()!=null)
+			gameObject.GetComponent<DebugText> ().setDebugText ("HP: " + _hitpoints);
 		
 		if (_isDead == false && _hitpoints <= 0) {
 			Die();
@@ -35,7 +37,8 @@ public class DamageController : MonoBehaviour {
 
 	public void Die(){
 		_isDead = true;
-		SpawnEnergy();
+		if (energyNode!=null)
+			SpawnEnergy();
 		Destroy  (gameObject, dieTime);
 		if (gameObject.name == "Core") {
 			gameObject.GetComponent<PlayerController>().Die();
@@ -48,6 +51,8 @@ public class DamageController : MonoBehaviour {
 		} else {
 			_hitpoints = MaxHitPoints;
 		}
+		if (gameObject.GetComponent<DebugText> ()!=null)
+			gameObject.GetComponent<DebugText> ().setDebugText ("HP: " + _hitpoints);
 	}
 
 	public float GetHitPoints() {

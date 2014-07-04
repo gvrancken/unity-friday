@@ -34,6 +34,10 @@ public class ShieldJoint : MonoBehaviour {
 		_targetScale -= 0.005f;
 		_targetScale = Mathf.Max (_targetScale, _baseScale);
 		transform.localScale = Vector3.Lerp (transform.localScale, new Vector3(_targetScale,_targetScale,_targetScale), 0.3f);
+
+		if (shieldBack==null){
+			Destroy(gameObject);
+		}
 	}
 
 	public void OnClick() {
